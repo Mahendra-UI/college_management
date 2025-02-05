@@ -1,0 +1,84 @@
+<section class="m-2 mt-3 p-3 bg-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="fw-bold">Total Students List</h5>
+            </div>
+            <div class="col-md-6">
+                <div class="text-end">
+                    <a routerLink="/student/home">
+                        <i class="bi bi-house fs-3"></i>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div class="col-md-12">
+                <div class="hstack justify-content-between pb-2">
+                    <div class="fw-bold">
+                        No.of Students : <strong><span class="badge text-bg-success fs-6">2</span></strong>
+                    </div>
+                    <div class="text-end">
+                        <input type="text" class="form-control" placeholder="Search text here" [(ngModel)]="searchText">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table-bordered table w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Full Name</th>
+                                <th>Mobile No.</th>
+                                <th>Email ID</th>
+                                <th>Course</th>
+                                <th>Course Year</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mahendra</td>
+                                <td>1234567890</td>
+                                <td>mahendra&#64;gmail.com</td>
+                                <td>EEE</td>
+                                <td>First Year</td>
+                                <!-- <i class="bi bi-dot fs-5"></i> -->
+                                <td><span class="badge badge-soft-success d-inline-flex align-items-center">Active</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Siva</td>
+                                <td>1234967890</td>
+                                <td>siva&#64;gmail.com</td>
+                                <td>ECE</td>
+                                <td>Fourth Year</td>
+                                <td><span class="badge badge-soft-danger d-inline-flex align-items-center">Inactive</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

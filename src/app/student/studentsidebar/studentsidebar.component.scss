@@ -22,7 +22,8 @@
   .sidebar .nav {
     position: relative;
     width: 100%;
-    height: calc(100vh - 250px);
+    height: calc(100vh - 150px);
+    // height: calc(100vh - 250px);
     overflow: auto;
     overflow-x: hidden;
   }

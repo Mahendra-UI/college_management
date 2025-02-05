@@ -19,9 +19,15 @@
                     </a>
                 </li> -->
                 <li routerLinkActive="active-link">
-                    <a routerLinkActive="active">
+                    <a routerLink="/student/home" routerLinkActive="active">
                         <img src="dashboard.png"/>
                         <label class="menu-label">Dashboard</label>
+                    </a>
+                </li>
+                <li routerLinkActive="active-link">
+                    <a routerLink='/student/feeinfo' routerLinkActive="active">
+                        <img src="manage.png"/>
+                        <label class="menu-label">Fee Infomation</label>
                     </a>
                 </li>
                 <li routerLinkActive="active-link">
@@ -48,6 +54,19 @@
                         data-bs-parent="#accordionExample">
                             <!-- <li><a routerLink="/managestudents">Add Strudent</a></li> -->
                             <li><a routerLink="/student/firstyearmarks">First Year</a></li>
+                    </ul>
+                </li>
+                <li routerLinkActive="active-link">
+                    <a class="sidebar-sub-toggle collapsed" id="othersroutes" data-bs-toggle="collapse"
+                        href="#othersActivity" role="button" aria-expanded="false" aria-controls="othersActivity">
+                        <img src="manage.png" />
+                        <label>Others</label>
+                        <span class="sidebar-collapse-icon bi-chevron-down"></span>
+                    </a>
+                    <ul class="accordion-collapse collapse" id="othersActivity" aria-labelledby="othersroutes"
+                        data-bs-parent="#accordionExample">
+                            <!-- <li><a routerLink="/managestudents">Add Strudent</a></li> -->
+                            <li><a routerLink="/student/totalstudents">Total Students List</a></li>
                     </ul>
                 </li>
                 <li routerLinkActive="active-link">

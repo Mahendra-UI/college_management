@@ -23,6 +23,22 @@ export const studentRoutes: Routes = [
         loadComponent: () => import('./firstyearmarks/firstyearmarks.component').then((m) => m.FirstyearmarksComponent),
       },
       {
+        path: 'feeledger',
+        loadComponent: () => import('./feeledger/feeledger.component').then((m) => m.FeeledgerComponent),
+      },
+      {
+        path: 'feestatus',
+        loadComponent: () => import('./feestatus/feestatus.component').then((m) => m.FeestatusComponent),
+      },
+      {
+        path: 'feeinfo',
+        loadComponent: () => import('./feeinfo/feeinfo.component').then((m) => m.FeeinfoComponent),
+      },
+      {
+        path: 'totalstudents',
+        loadComponent: () => import('./allstudents/allstudents.component').then((m) => m.AllstudentsComponent),
+      },
+      {
         path: '**', // Handle unmatched routes within student module
         redirectTo: '/login',
         pathMatch: 'full',

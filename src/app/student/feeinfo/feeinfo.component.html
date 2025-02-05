@@ -1,0 +1,100 @@
+<section>
+    <div class="container">
+        <div class="row">
+            <ul class="nav nav-tabs d-none d-lg-flex" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="feeledger-tab" data-bs-toggle="tab" data-bs-target="#feeledger-tab-pane" type="button" role="tab" aria-controls="feeledger-tab-pane" aria-selected="true">Fee Ledger</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="feestatus-tab" data-bs-toggle="tab" data-bs-target="#feestatus-tab-pane" type="button" role="tab" aria-controls="feestatus-tab-pane" aria-selected="false">Fee Status</button>
+                </li>
+              </ul>
+              <div class="tab-content accordion" id="myTabContent">
+                <div class="tab-pane fade show active accordion-item" id="feeledger-tab-pane" role="tabpanel" aria-labelledby="feeledger-tab" tabindex="0">
+              
+                  <h2 class="accordion-header d-lg-none" id="feeledgerHeading">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#feeledgerCollapse" aria-expanded="true" aria-controls="feeledgerCollapse">Fee Ledger</button>
+                  </h2>
+                  <div id="feeledgerCollapse" class="accordion-collapse collapse show  d-lg-block" aria-labelledby="feeledgerHeading" data-bs-parent="#myTabContent">
+                    <div class="accordion-body">
+                        Fee Ledger Content
+                    </div>
+                  </div>
+              
+                </div>
+                <div class="tab-pane fade accordion-item" id="feestatus-tab-pane" role="tabpanel" aria-labelledby="feestatus-tab" tabindex="0">
+                  <h2 class="accordion-header d-lg-none" id="feestatusHeading">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#feestatusCollapse" aria-expanded="false" aria-controls="feestatusCollapse">
+                        Fee Status
+                    </button>
+                  </h2>
+                  <div id="feestatusCollapse" class="accordion-collapse collapse d-lg-block" aria-labelledby="feestatusHeading" data-bs-parent="#myTabContent">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered w-100 common_table">
+                                        <thead>
+                                            <tr>
+                                                <th>S.No</th>
+                                                <th>Student ID</th>
+                                                <th>Student Name</th>
+                                                <th>Course Name</th>
+                                                <th>Course Year</th>
+                                                <th>Semester</th>
+                                                <th>Total Fee</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>101</td>
+                                                <td>Karthik</td>
+                                                <td>EEE</td>
+                                                <td>First Year</td>
+                                                <td>2nd Semester</td>
+                                                <td>70000</td>
+                                                <td><span class="badge badge-soft-success d-inline-flex align-items-center">Paid</span></td>
+                                                <td>
+                                                    <div class="hstack gap-1">
+                                                        <a class="btn btn-success btn-sm">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>101</td>
+                                                <td>Karthik</td>
+                                                <td>EEE</td>
+                                                <td>First Year</td>
+                                                <td>1st Semester</td>
+                                                <td>70000</td>
+                                                <td><span class="badge badge-soft-danger d-inline-flex align-items-center">Not Paid</span></td>
+                                                <td>
+                                                    <div class="hstack gap-1">
+                                                        <a class="btn btn-success btn-sm">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                        <a class="btn btn-primary btn-sm">
+                                                            Pay
+                                                            <!-- <i class="bi bi-currency-rupee"></i> -->
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</section>

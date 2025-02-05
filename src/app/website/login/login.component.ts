@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import AOS from 'aos';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   loginForm! : FormGroup;
 
@@ -43,6 +44,18 @@ onSubmit() {
   }
 }
 
+  ngAfterViewInit(): void {
+    console.log("Initializing AOS..."); // Debugging
+    AOS.init({
+      duration: 1000, // Duration of animations in ms
+      once: true, // Animation happens only once
+    });
+
+    setTimeout(() => {
+      console.log("Refreshing AOS...");
+      AOS.refresh();
+    }, 500); // Ensure reinitialization after view rendering
+  }
   // onSubmit() {
   //     if(this.loginForm.valid) {
   //       if(this.selectedValue === 'Student') {

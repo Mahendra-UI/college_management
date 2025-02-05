@@ -7,7 +7,7 @@
 html,
 body {
     font-family: 'Nunito', sans-serif;
-    background-color: #F7FBFF;
+    background-color: #E5FAF2;
 }
 
 h1,
@@ -27,6 +27,14 @@ th {
     font-family: 'Nunito', sans-serif;
 }
 
+.badge.badge-soft-success {
+  background: rgba(26, 190, 23, 0.1);
+  color: #1ABE17;
+}
+.badge.badge-soft-danger {
+  background: rgba(232, 38, 70, 0.1);
+  color: #E82646;
+}
 
 .menuUl {
         .menuActive {
@@ -96,9 +104,10 @@ th {
 .btn-close i {
     color: #fff;
 }
-.badge {
-    font-size: 14px;
+table tr td {
+  vertical-align: middle;
 }
+
 
 
 // left panel css starts
