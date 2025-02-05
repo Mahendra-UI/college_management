@@ -1,0 +1,10 @@
+@media (max-width: 992.98px) {
+    :host::ng-deep .left-panel.active .sidebar {
+        margin-left: -100%;
+   }
+}
+@media (max-width: 992.98px) {
+    :host::ng-deep .left-panel .sidebar {
+        margin-left: 0;
+   }
+}

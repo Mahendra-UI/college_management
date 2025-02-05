@@ -1,0 +1,54 @@
+<section>
+    <div class="container" [formGroup]="commonForm">
+        <div class="row">
+            <div class="col-md-3" *ngIf="formFields.includes('firstName')">
+                <div class="form-group">
+                    <label for="" class="form-label">First Name</label>
+                    <input type="text" class="form-control" formControlName="firstName">
+                    <div class="text-danger" *ngIf="getFormCtrl('firstName')?.invalid && getFormCtrl('firstName')?.touched">
+                        <div>First Name is Required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="formFields.includes('lastName')">
+                <div class="form-group">
+                    <label for="" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" formControlName="lastName">
+                    <div class="text-danger" *ngIf="getFormCtrl('lastName')?.invalid && getFormCtrl('lastName')?.touched">
+                        <div>Last Name is Required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="formFields.includes('middleName')">
+                <div class="form-group">
+                    <label for="" class="form-label">Middle Name</label>
+                    <input type="text" class="form-control" formControlName="middleName">
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="formFields.includes('emailId')">
+                <div class="form-group">
+                    <label for="" class="form-label">Email ID</label>
+                    <input type="email" class="form-control" formControlName="emailId">
+                    <div class="text-danger" *ngIf="getFormCtrl('emailId')?.invalid && getFormCtrl('emailId')?.touched">
+                        <div *ngIf="getFormCtrl('emailId')?.errors?.['required']">Email ID is Required</div>
+                        <div *ngIf="getFormCtrl('emailId')?.errors?.['pattern']">Email ID is pattern wrong</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="formFields.includes('mobileNumber')">
+                <div class="form-group">
+                    <label for="" class="form-label">Mobile Number</label>
+                    <input type="text" class="form-control" formControlName="mobileNumber">
+                    <div class="text-danger" *ngIf="getFormCtrl('mobileNumber')?.invalid && getFormCtrl('mobileNumber')?.touched">
+                        <div>Mobile Number is Required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button class="btn btn-success btn-sm" [disabled]="commonForm.invalid" (click)="onSubmit()">{{formSubmitText}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

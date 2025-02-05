@@ -1,0 +1,150 @@
+<section class="p-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="fw-bold">Hostel Students Management</h5>
+            </div>
+            <div class="col-md-12">
+                <div class="text-end pb-2">
+                    <a class="btn addButton btn-success btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#studentModal">Add Student</a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table-bordered table w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Name</th>
+                                <th>Email ID</th>
+                                <th>Mobile No.</th>
+                                <th>Hostel</th>
+                                <th>Block</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mahendra</td>
+                                <td>mahendra&#64;gmail.com</td>
+                                <td>1234567890</td>
+                                <td>Old Hostel</td>
+                                <td>I - Block</td>
+                                <td><span class="badge text-bg-success">Active</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <!-- <a class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </a> -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Siva</td>
+                                <td>siva&#64;gmail.com</td>
+                                <td>1234967890</td>
+                                <td>Old Hostel</td>
+                                <td>I - Block</td>
+                                <td><span class="badge text-bg-danger">Inactive</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <!-- <a class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </a> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade common_modal_popup" id="studentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="studentModalLabel">Student Form</h1>
+                <div class="modal-header" style="padding: 0px;border: none;">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container" [formGroup]="studentForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Hostel Type <span class="mandatory">*</span></label>
+                                <select class="form-select" formControlName="hostelType">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="Old Hostel">Old Hostel</option>
+                                    <option value="New Hostel">New Hostel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Student Name <span class="mandatory">*</span></label>
+                                <select class="form-select" formControlName="hostelType">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="Mahendra">Mahendra</option>
+                                    <option value="Siva">Siva</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Block <span class="mandatory">*</span></label>
+                                <select class="form-select" formControlName="blockType">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="I">I</option>
+                                    <option value="J">J</option>
+                                    <option value="D">D</option>
+                                    <option value="E">E</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Status</label>
+                                <select class="form-select" formControlName="statusSelect">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-success btn-sm" [disabled]="studentForm.invalid" (click)="onSubmit()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

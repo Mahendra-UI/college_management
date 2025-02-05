@@ -1,0 +1,76 @@
+<!-- #E5FAF2 -->
+<!-- #14c88c -->
+
+<!-- #E8EDFA -->
+<!-- #2682f9 -->
+
+<!-- <section class="pt-5">
+    <div class="container" [formGroup]="loginForm">
+        <div class="row m-auto align-items-center">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="" class="form-label">Select Type <span class="mandatory">*</span></label>
+                    <select class="form-select" formControlName="userType" (change)="userChange($event)">
+                        <option value="" selected disabled>--Select--</option>
+                        <option value="1">Student</option>
+                        <option value="2">Admin</option>
+                    </select>
+                    <div class="text-danger" *ngIf="loginFormCtrl('userType')?.invalid && loginFormCtrl('userType')?.touched">Type is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label">User Name <span class="mandatory">*</span></label>
+                    <input type="text" class="form-control" formControlName="userName">
+                    <div class="text-danger" *ngIf="loginFormCtrl('userName')?.invalid && loginFormCtrl('userName')?.touched">User Name is required</div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="form-label">Password <span class="mandatory">*</span></label>
+                    <input type="password" class="form-control" formControlName="enterPassword">
+                    <div class="text-danger" *ngIf="loginFormCtrl('enterPassword')?.invalid && loginFormCtrl('enterPassword')?.touched">Password is required</div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-md" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</section> -->
+
+<!-- <section style="background-color: #E5FAF2;"> -->
+  <section>
+<!-- <section style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8QDxAPEBARDxAQEBENDw8SFhYQDxAOFRIWFxURFRMYHCkgGBolGxUVITEhJSkrLi4uGB8zODMwOCotLisBCgoKDg0OGxAQGi4lHyUtKy0tLS0tKystLS0rKystLSstLS8uLS0tLy0tLy0tKy0tLSstLS0rNy0vLS0tLS0rLf/AABEIAJEBXAMBEQACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAQUCAwQGB//EAEEQAAEDAQMFDAkEAQQDAAAAAAABAhEDBAUSBiExodEVFjJBUVJTYXFykaITFCIzQ4GxssEjQoLCkjRi0uEHF3P/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAQIDBAUG/8QANBEBAAECBAMGAwgCAwAAAAAAAAECAxETFFEEEjEhMkFhkaFxsdEFIjNCgcHh8FJiI6Lx/9oADAMBAAIRAxEAPwC8q0XszPa5i/7kVv1Pl6qZp6xg86YmOrWVQAAAAAAAAAAAAAAAAAACUavIE4JSm7mr4Ec0bp5Z2b6d313cGlUXsaql4oqnpE+kpy6tnRTuK1u0UXJ2w36qaxw16elM/L5pyq9m3e7aU4SMZ3ntT8ltJe8Yw+Mx9U5NRuGvHaLMn81cupBpp8aqfX+DK84Slz0/3WqmndY934J09PjXHpMpy43ZJdVm47Uq9lFyfVSci143P+s/Uy6d/Zml22PjrVl7GIn1LZNj/KfQ5KNz1CxdJaPBgyrG9Xsnko8z1Kxc60+FPaRl2N6vZHLR5o9TsXLafCntGXY/29jlo8z1Oxctp8Ke0Zdj/b2OWjzT6lYudafCntGXY3q9jlo80pYLF0loT5MJyuH3q9k8lHmzS7LCvx6ydrdiE5HD/wCc+n8HJRuncSyLwbZHeZtgnTWZ6XPb/wAMundKZMNdwLXSf1RH0cpMcDE925E/34mTtLF+SNpTQ6k75uRftIn7Ou+Ex/f0Mipy1cm7Y34WLuuav5kyq4K/H5fkrNmvZyVbstDOFRqp14VVPFEgyqs3KetM+is0VR4ORc2Zcy8nGZKAAAAA+hU8oLO7M7E3vNlNUnvRxlqerui7SladgrcVBVXqRjl+ijk4W54R8pPuTs1Vcl7K7Qjmd10prkpV9nWZ6TMfr9cSbVE+Diq5Ht/bU+Sov1n8HPV9mVflr9YVyKXHVySqpoVrux0LrQwq+z+IjphKuRDlqZOV0+G/5K130MZ4XiY60fL6q5Dnfc1RNLKqfwXYZTRejrRPpKMlqddyppxJ2oZzNUdYMpj6mnO1FcxGV5nqac4ZqcqN0pYUXjVewmK5npBlQ2tuty6G1F7Gqv4LRFyelM+kpyobmXHUXRSq/NFT6oaRZvz0on0Tkw3sybrL8Jfm5qfk0jg+Jn8vy+qcmHRTyVqLpSmna5y/RDWPs7iJ6zEf34JyYdVPJLnPanY1XfVTWPsuvxr9v5WyodLMlqCZ3Od8ka1PoprH2XR+aqfZOXSh1ju+nwnI5eTErl8GkzwvB0de39Z/Y+5DU+8bEzgWfH1q1I8VldRHNwtPdtxP6R+6s3KfCGp2UD093Sp007J+kDVzHcpiP7+iM2fBzVb5tDviKnU1ETXEmc8VdnxVm5U5alqqu4VR69rlVPqZTcrnrM+quMtJRCQIAAAAAAAAAAAAABnTqObwXOb3VVPoTFUx0kxddK9rQ3RVcveh31NqeJux+ZaK6o8XbRykqpw2Md2S1fybU8dXHWIleLsuxt+WaokVaap3mo9u3Ubau1X2Vx+62ZTPVKXdd1fgtpyvExfRu/xRU+hORwtzpEfp2HJbqctoyOorwKj2dSw9v4XWZVfZtE92Zj3VmxHgrLTkjaG8BzKidqsd4Lm1nNX9nXY7sxPt/fVnNirwVlS5rU1YWhUnqTEnikoc88Nej8ss5t1bLCxWb0jomERJVeM2t0c84NaYxWG5LOc7VsOjT07r8kM6d3o3g1Kje6uH6E02eXpMwRRh4uylUqt+M9ycjkauuJNqaq4/NPsvGMeLrZb3caIvZmNovT4rcza23t40VNZaL0HM2JbKfLHyUtm0pxhmloZzk8YLc9O5iySo3lTxQnGEpxJyoMYDGnKgxgQtZvOb4oRzRuYsFtVNP3J8s5GZTujGGt1uZxSpWbtJzNTrwXianzWSs3toRzOStWqu+K5qcjUamtUkxqqrn82HorOO7hq2DHw6lR3eWfqYVWebrMypNGPiw3JZznathGnp3MuBbpZznatg01O5lwbks5ztWwaenc5INyWc52rYNPTuckG5LOc7VsGnp3OSDclnOdq2DT07nJBuUznO1bBp6dzkg3JZznatg09O5yQbks5ztWwaenc5INyWc52rYNPTuckG5LOc7VsGnp3OSDclnOdq2DT07nJBuSznO1bBp6dzkg3JZznatg09O5yQbks5ztWwaenc5INyWc52rYNPTuckG5LOc7VsGnp3OSDclnOdq2DT07nJBuSznO1bBp6dzkg3JZznatg09O5yQbks5ztWwaenc5INyWc52rYNPTuckG5LOc7VsGnp3MuBboZznatg01O5lw6aFF9Pg1qqJySjk8FSDSmmqnpVKYiY8XVWvR9NuJUSoiQi/tdn4+TUa1cRVRGM9q01TEIZlHRVM7XovJCL+RHG2/GJM2FLc3Dd3fyhxcP3pZUdVudbUAkkQQAAAAAAAAAAAAAAMkQkFAxIAAAAAAJJEEAAAAAAAAAAAAAEkiUQCFEiCBy3p7p38fuQyv8AclWvoojhYrC5uG7u/lDo4fvSvR1W51tQABJIggAAAAAAAAAAABKEiQMSAAAAAAAAAEgQAAAAAAAAAAAAyJBVAxIADlvT3Tv4/chlf7kq19FEcLFYXNw3d38odHD96V6Oq3OtqAAAEkiCAAAAAAAAAAZEiAIIAAAAAAAAAAAEgQAAAAAAAAEoSJAhQIIAABy3p7p38fuQyv8AclWvoojhYrG5eG7u/lDo4fvSvR1W8HW1IAQAgBACCQggIAQAgBACAEAZIhIIgGMEBACAEAIAQAgBACAEAIAQAgkIICAEAIAQAgCYJEwAgDGCAgBACAOS9fcu7W/chlf7kq19FEcLFY3Jw3d38odHDd6V7fVcwdjUgBACAEAIAAIAQAgBACAJRCUioEIICAEAIAQAgBACAEAIAQAgBAABACAEAIAQARAJRCUoCCCAgBACAEAcl6+5d2t+5DK/3JVr6KA4GKyuLhu7v5Q6eG70tLfVdQdjUgBACAEAIAQAgBACAEAIAmAIgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBAEoAgCIAQAgBACAEAcd7p+i7tb9yGN/uSpX0efOBitLh4b+5+UOnhu9LS31XcHY1IAQAgBACAEAIAQBOEnAwQrRgYEEBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBAE4ScDBCtGAheX5kCGKi50VFTlRZQnAZQQEAIAQAgBAHFfCfou7W/chlf/DlWvo86eewWuT/AA39z8odPC96WlvqvYO1sQAgBACAEAIAQARCYEwMARBAhUICAEAIAQAgBACAEAIAQAgBACAEAIAQAgBAEohIjCMAqNVWrhVEdGZVSURewmMPFEqa+Lqq2mitGpUbgcrZRjVaqwsokzozG1quimrGIUqpqmMMXJcOTq2RX+hqZqiJixIrm+yq50SUz51NL1ymuPvQrRRNPSVu+jaVRUSrTRVRURfRrmWMy8Iwxt7T6r4VbqzJulbvQTWrsqOWpURFVquVGtdhjFmnO1y6OMvcm1zdkK0RXh2ytPRWjpKf+C/8imNvafVbCrdtoMqoq43sckftarYXlmVK1TTh2QtET4trFRUlFRU5Uzp4mcTExjC00zTOEwyglDhvlP0H9rfuQx4j8OVK+682eewW2TvvH9z+yHVwvelpb6r+DtbEAIAQAgBACAEAEQkTBIQBEFQgBACAEAIAQAgBACAEAIAQAgBACAEAIAQBKITAQAVANdVswnWTT2EoayHfImZxpR4thRKuyfe11nRWuRyekr50VFT3z14upU8TS5GFXp8laeixgzWU2UNqfTWkxtKpVSpiRUZGZUw6UVUnhZkSVzLyHDxti7diIons8XbwdVumZmrq5rkt7W2hLIqObVWktdWKn7UVElVTMi50zaYVM2dDLg7F61cnm7s+bbjKrdynmie16KD03mOG+0/Qf2t+5DHiPw5Ur7rzB5zBb5N+8f3P7IdXC96Wtrq9DB3NiAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACCQggaq6ZkzKudNGkvR1RLGintdcZ80Jp4iauiIY2v0sK1jGuRWqkucrYVZTRhUURR+afb+UVc3hCmyUum0WKzpQclN/6jnq9HqkIqNTRh6jW7Vbrnmxn0/lS3TXTGGHv/D0KQug5m80zHVptTGqiK7DmVFbizpjRZbHXOgiYXt1RE4SizMbnVImZciaUVdKxxSI3Wuz28sFttdOizHVdgbiayYVfacsIkIk6VJZREz0cl7VWPsznMc17VwKjmqjkX2040MeJiYtz+nzZ3O680ea51xkz7x/c/sh1cJ3p+DW11eig72xACAEAIAQBMAIAiAEAIAQBMARACAEAIAQAgBACAEAIAQAgBACAJgBBIKhAiAEAIA4bVbkbXp0MLsb2rUR0ewiNnMq+OrlJpmMcPJpNqcrM88PbF0UnKrp6s3EulOstVGEMoYVrdTY5WuVUVImGvXSk6USC1NiuqMYj3hSq7TTOEyyoWunUVUaqqqJKy1zc3aqIRXZrojGqE0XKap7FA+9qlmtTmVk/ShcOFM6tXO1+dc68S/M66OEortc1vr5/Jhc4uuLmFzp5fN47K6+Vq17PUfiwsqueym2XKxiMVJhOOXJK9Z227VNmmI9XJVcquzM+jlua9V9dfWpucxy0mQrkVFdhcuJFRdKe0heaaLmNM9Fca6MKvF62338tZ1NzG4Vs6Y1R04fWqiOa1UVFztbTSuvarDyquH5LvLM9nV6tm9E2+eI7ccPRqvC8fWKDUwubWfXpo2q1cK+hRcb3OwYUXM2IVFRFqNOfi45Lc49rSa6aomrlw7Pj80HiOJc5L+8f3P7IdfCd6fg1tdXpIO9uQAgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgDXXaiok6JTq1lqfJEoYiYsyz7OfPPGJxwPFT3sv6zc79KZm8FczeF1f9nocP8Ah/3zcV/vou+o6jixNc6NKuqU5bMQiy7NoF6mLkRhPtJamaJ7f2WdSzU67GrVpIulUR0Krc/EqLx9pxc1dqqYpl1TTTcj70PmuUV+rd19PeymjqTbNTs60m+xFN2F6q1YzOxJPXo6zttY3LfbPa5q8KK+yHE/Kh9vvW73NZ6JlKsymxqric5Hvb6RXLozoiZuKC008lur4IieauHrbwuS20X13UqFlttnrVXVloZ7LaGS1rcLKiLEYWNReWNB52ZXE49XpRTammKejXd1mV1GvXdRq0MGGz06dZEbURzqjX1npGlqxRai8lLrObi6pqomZ8vmzvUxTRy0/FrPLca6yW96/wD+f9kOvg+9Pwa2ur0sHoNyAEAIAmAIgBACAEAIAQAgBACAEAIAQAgBACAEAIAQAgBACAJgCIAQAgBACAEAc1qrsiMTFXFGHEiZ/HMWpiVZa6NdiOzvbo4Subnzp1k1R2EdVber09MyHOhVSMOdrszeF1Hdw8f8f983He/EY2qn7VVMFFVerMKOdDqmfSqYvCC1M9kdslUds9kOt14OT9JrIqaEVVYqRPCw4kVUMJsYzzTPZ/fJpnYfdiO18d/8hKvr9RXK5VwU5VyK1V9mJjkzHXRERGEMKpnHtYZF0Ivay010ttCovaxHL/Upen/jmV7cffiH3uDy3crsoP8ATP7Wfehz8T+HP6fNS53XkTzHMu8lfev7n9kOvg+9Pwa2ur0x6DoAAAlAEhAAAAAAAAAAAAAAAAAAAAAAACQAEAAAAAOa8m1lo1EoKiVsK+jV3BR/FMoJ8k04Y9vR80tOQVvqVH1XpQV9R7qj1xxL3KqqsI3lUtF69EYYrza4WZxwn3+rV/67tnNo/wCa/wDEnPv7mTwv+M+/1XVnuS+qbGU2PoIym1tNqS1Ya1IRJwciEZ17cyuF2n3+qa1y3097ajn0Fc2IWWpoWUzYOUmL96IwiSbXCzOMxPv9WTrovpXpU9JQxokT7OjswEZ17DlxMrhcccJ9/q8Bl1Z7Ultw2pWOrOpU1lkYVYquRuhE5FO/hZmbeNW7g4qKMzCjpgyyds1qdeytoqxLTTq2lcSxgR6I9r10RGdYzcZF6ZyOzrhH7Js8mf29MZ/d9HbQv+UmrZ4nPwNH+B5n33p42Npegyh/0z+1n3oZ8T+HP6fNxXO68geW5nbdVu9BUxRiRUwuTQsTMp4G1m7l1YrUVcsrnfJT6N/l2nVrKdpa50G+Sn0b/LtGsp2kzYZb4afMf18HNrJ1dOyc2EOyjpp8N/l2kaumPCUZsI3yU+jf5do1lO0mdBvkp9G/y7RrKdpM6DfJT6N/l2jWU7SZ0G+Sn0b/AC7RrKdpM6DfJT6N/l2jWU7SZ0G+Sn0b/LtGsp2kzoN8lPo3+XaNZTtJnQb5KfRv8u0aynaTOg3yU+jf5do1lO0mdBvkp9G/y7RrKdpM6DfJT6N/l2jWU7SZ0G+Sn0b/AC7RrKdpM6DfJT6N/l2jWU7SZsG+Sn0b/LtGsp2kzoN8lPo3+XaNZTtJnQb5KfRv8u0aynaTOg3yU+jf5do1lO0mdBvkp9G/y7RrKdpM6DfJT6N/l2jWU7SZ0JTKOmvw3+XaNXTtKc2E74afMfq2k6unYzYY75KfRv8ALtI1lO0ozY2N8lPo3+XaNZTtJnQb5KfRv8u0aynaTOg3yU+jf5do1lO0mdBvkp9G/wAu0aynaTOg3yU+jf5do1lO0mdBvkp9G/y7RrKdpM6DfJT6N/l2jWU7SZ0G+Sn0b/LtGsp2kzoN8lPo3+XaNZTtJnQb5KfRv8u0aynaTOg3yU+jf5do1lO0mdBvkp9G/wAu0aynaTOh80yqtaW+9qTqVKq1KXoqNXG2PZp1XOc9OqHKiTpzcp32+MposzMouW8cK8TJy3Nsl9V6lanVX0r67aWFs56tVHNev+3DKSmiepRc4ymuzGEf2Ci3hjcxfS98lPo3+XacGsp2lOdDiva+krU/RtYrUVUVyuicyyiIidZje4nnp5YhWu5jGCmOVkAAM6WkmnqmCnp+SiOqEO4uwDEgAAAAAAAAAAAAAAS4CAAAAAAzZoUmOkpG6F+Q8EMXaVEiCAAAAAAAAAAAAADPiHiITQQMSQAAf//Z');background-repeat: no-repeat;background-size: cover;background-position: center;"> -->
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="row mx-auto my-auto bg-white p-3 rounded-3 shadow w-30" [formGroup]="loginForm">
+      <img src="IIT_Bhubaneswar_Logo.png" alt="image" class="img-fluid mb-3">
+      <!-- <div class="col-md-12 bg-white p-3 rounded-3 shadow" [formGroup]="loginForm"> -->
+        <!-- <h2 class="text-center mb-4">Login</h2> -->
+        <form>
+          <div class="form-group mb-3">
+            <label for="userType" class="form-label">Select Type <span class="mandatory">*</span></label>
+            <select class="form-select" id="userType" formControlName="userType" (change)="userChange($event)">
+              <option value="" selected disabled>--Select--</option>
+              <option value="1">Student</option>
+              <option value="2">Admin</option>
+            </select>
+            <div class="text-danger" *ngIf="loginFormCtrl('userType')?.invalid && loginFormCtrl('userType')?.touched">Type is required</div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="userName" class="form-label">User Name <span class="mandatory">*</span></label>
+            <input type="text" class="form-control" id="userName" formControlName="userName">
+            <div class="text-danger" *ngIf="loginFormCtrl('userName')?.invalid && loginFormCtrl('userName')?.touched">User Name is required</div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="enterPassword" class="form-label">Password <span class="mandatory">*</span></label>
+            <input type="password" class="form-control" id="enterPassword" formControlName="enterPassword">
+            <div class="text-danger" *ngIf="loginFormCtrl('enterPassword')?.invalid && loginFormCtrl('enterPassword')?.touched">Password is required</div>
+          </div>
+          <div class="form-group mb-3">
+            <button class="btn btn-success btn-md fs-5 w-100" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
+          </div>
+        </form>
+      </div>
+    <!-- </div> -->
+  </div>
+  
+  </section>

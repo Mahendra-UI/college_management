@@ -1,0 +1,161 @@
+<section class="p-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="fw-bold">Students Management</h5>
+            </div>
+            <div class="col-md-12">
+                <div class="text-end pb-2">
+                    <a class="btn addButton btn-success btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#studentModal">Add Student</a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table-bordered table w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Full Name</th>
+                                <th>Mobile No.</th>
+                                <th>Email ID</th>
+                                <th>Course</th>
+                                <th>Course Year</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mahendra</td>
+                                <td>1234567890</td>
+                                <td>mahendra&#64;gmail.com</td>
+                                <td>EEE</td>
+                                <td>First Year</td>
+                                <td><span class="badge text-bg-success">Active</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <!-- <a class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </a> -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Siva</td>
+                                <td>1234967890</td>
+                                <td>siva&#64;gmail.com</td>
+                                <td>ECE</td>
+                                <td>Fourth Year</td>
+                                <td><span class="badge text-bg-danger">Inactive</span></td>
+                                <td>
+                                    <div class="hstack gap-1">
+                                        <a class="btn btn-success btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-sm">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <!-- <a class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </a> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade common_modal_popup" id="studentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="studentModalLabel">Student Form</h1>
+                <div class="modal-header" style="padding: 0px;border: none;">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container" [formGroup]="studentForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Full Name <span class="mandatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="fullName" placeholder="Enter Full Name">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Mobile No. <span class="mandatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="moblieNo" placeholder="Enter Mobile No.">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Email ID <span class="mandatory">*</span></label>
+                                <input type="text" class="form-control" formControlName="emailID" placeholder="Enter Email ID">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Course <span class="mandatory">*</span></label>
+                                <select class="form-select" formControlName="courseType">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="ECE">ECE</option>
+                                    <option value="CSE">CSE</option>
+                                    <option value="EEE">EEE</option>
+                                    <option value="IT">IT</option>
+                                    <option value="Mechanical">Mechanical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Course Year <span class="mandatory">*</span></label>
+                                <select class="form-select" formControlName="courseType">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="First Year">First Year</option>
+                                    <option value="Second Year">Second Year</option>
+                                    <option value="Third Year">Third Year</option>
+                                    <option value="Fourth Year">Fourth Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="" class="form-label">Status</label>
+                                <select class="form-select" formControlName="statusSelect">
+                                    <option value="" disabled selected>--Select--</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-success btn-sm" [disabled]="studentForm.invalid" (click)="onSubmit()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

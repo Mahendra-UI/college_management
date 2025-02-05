@@ -1,0 +1,80 @@
+.btn:first-child:active {
+    border-color: none !important;
+}
+.btn.show {
+    border: none !important;
+}
+.dropdown-menu {
+    left: -161%;
+}
+.logo_section {
+    display: flex;
+    /* justify-content: center; */
+}
+
+.logo_section h3 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #fff;
+}
+
+.logo_section h5 {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #fff;
+}
+
+.logo_section a:nth-child(1) img {
+    /* max-width: 60%; */
+    margin: auto;
+}
+
+.logo_section a:nth-child(2) img {
+    /* max-width: 80%; */
+    margin: auto;
+}
+
+.nav-bg {
+    background: #fff
+        /* background-image: linear-gradient(to left, #009833, #0076C8); */
+}
+
+.header-menu {
+    /* width: 54%; */
+}
+
+.profileDD .dropdown button .profilePic {
+    border-radius: 100%;
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.header {
+    background: #0F2C7A;
+    // background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%) !important;
+}
+
+.nav {
+    background: #0F2C7A;
+    // background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%) !important;
+}
+
+.fixed-top {
+    background: #0F2C7A;
+    // background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%) !important;
+}
+
+.header-menu {
+    /* background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%) !important; */
+}
+@media screen and (max-width: 500px) {
+    .dropdown-menu {
+        position: absolute;
+    }
+}

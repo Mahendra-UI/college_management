@@ -1,0 +1,11 @@
+
+<div class="position-relative left-panel"  *ngIf="show" [class.active]="!menuVisible" >
+    <app-studentsidebar></app-studentsidebar>
+</div>
+    
+
+ <div  [class.active]="menuVisible" [ngClass]="{'content-panel': show}">
+<app-studentheader (toggle)="toggleMenu()"></app-studentheader>
+<router-outlet />
+<!-- <app-studentfooter></app-studentfooter> -->
+</div>
