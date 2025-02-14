@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build --configuration production"
+  publish = "dist/college-management/browser"
+
+[build.processing]
+  skip_processing = true
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
