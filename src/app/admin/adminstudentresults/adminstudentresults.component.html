@@ -1,0 +1,219 @@
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Manage Student Results</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/admin/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-end">
+                    <button class="btn btn-success common_add_record_btn" data-bs-toggle="modal" data-bs-target="#addStudentMarksModal">
+                        + Add New Result
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Student ID</th>
+                                <th>Full Name</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Subject</th>
+                                <!-- <th>Subject Code</th> -->
+                                <th>Total Credits</th>
+                                <th>Earned Credits</th>
+                                <th>Result Status</th>
+                                <!-- <th>Created At</th>
+                                <th>Updated At</th> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let result of studentResults; let i = index;">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ result.username }}</td>
+                                <td>{{ result.full_name }}</td>
+                                <td>{{ result.course_name }}</td>
+                                <td>{{ result.semester_name }}</td>
+                                <td>{{ result.subject_name }}</td>
+                                <!-- <td>{{ result.subject_code }}</td> -->
+                                <td>{{ result.total_credits }}</td>
+                                <td>{{ result.earned_credits }}</td>
+                                <td><span class="badge badge-soft-{{ result.result_status === 'Pass' ? 'success' : 'danger' }}">{{ result.result_status }}</span></td>
+                                <!-- <td>{{ result.created_at | date:'short' }}</td>
+                                <td>{{ result.updated_at | date:'short' }}</td> -->
+                                <td>
+
+                                    <div class="hstack gap-2">
+                                        <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewStudentMarksModal" (click)="viewStudentResult(result.result_id)">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addStudentMarksModal" (click)="editStudentResult(result.result_id)">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <!-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#addStudentMarksModal" (click)="editStudentResult(result.result_id)">Edit</button>
+                                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#viewStudentMarksModal" (click)="viewStudentResult(result.result_id)">View</button> -->
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="studentResults.length === 0">
+                                <td colspan="10" class="text-center">No Records Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add/Edit Subject Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="addStudentMarksModal" tabindex="-1" aria-labelledby="addStudentMarksModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentMarksModalLabel">
+                    {{ isEditing ? 'Edit Student Marks' : 'Add New Student Marks' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="studentResultsForm">
+                    <div class="row">
+                        <!-- Select Course -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Select Course</label>
+                                <select formControlName="courseId" (change)="onCourseChange($event)" class="form-select">
+                                    <option value="" selected disabled>--Select Course--</option>
+                                    <option *ngFor="let course of courses" [value]="course.course_id">{{ course.course_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <!-- Select Student with ng-select -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Select Student Name</label>
+                                <ng-select 
+                                    formControlName="full_name"
+                                    [items]="students"
+                                    bindLabel="full_name"
+                                    bindValue="full_name"
+                                    placeholder="Search Student"
+                                    [searchable]="true"
+                                    (change)="onStudentChange($event)">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <!-- Student Username (Read-Only) -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Student Username</label>
+                                <input type="text" class="form-control" formControlName="username" readonly>
+                            </div>
+                        </div>
+            
+                        <!-- Select Semester -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Select Semester</label>
+                                <select formControlName="semesterId" (change)="onSemesterChange($event)" class="form-select">
+                                    <option value="" selected disabled>--Select Semester--</option>
+                                    <option *ngFor="let sem of semesters" [value]="sem.semester_id">{{ sem.semester_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <!-- Select Subject -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Select Subject</label>
+                                <select formControlName="subjectId" (change)="onSubjectChange($event)" class="form-select">
+                                    <option value="" selected disabled>--Select Subject--</option>
+                                    <option *ngFor="let subject of subjects" [value]="subject.subject_id">{{ subject.subject_name }}</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <!-- Enter Credits (No Auto-fill for new records) -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Credits</label>
+                                <input type="number" class="form-control" formControlName="studentCredits">
+                            </div>
+                        </div>
+            
+                        <!-- Select Result Status -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Result Status</label>
+                                <select formControlName="resultStatus" class="form-select">
+                                    <option value="" selected disabled>--Select Result--</option>
+                                    <option value="Pass">Pass</option>
+                                    <option value="Fail">Fail</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <!-- Submit Button -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-success" (click)="onSubmit()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- View Student Result Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="viewStudentMarksModal" tabindex="-1" aria-labelledby="viewStudentMarksModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewStudentMarksModalLabel">Student Result Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="selectedStudentResult">
+                    <p><strong>Student ID:</strong> {{ selectedStudentResult.username }}</p>
+                    <p><strong>Full Name:</strong> {{ selectedStudentResult.full_name }}</p>
+                    <p><strong>Course:</strong> {{ selectedStudentResult.course_name }}</p>
+                    <p><strong>Semester:</strong> {{ selectedStudentResult.semester_name }}</p>
+                    <p><strong>Subject:</strong> {{ selectedStudentResult.subject_name }}</p>
+                    <p><strong>Total Credits:</strong> {{ selectedStudentResult.total_credits }}</p>
+                    <p><strong>Earned Credits:</strong> {{ selectedStudentResult.earned_credits }}</p>
+                    <p><strong>Result Status:</strong> {{ selectedStudentResult.result_status }}</p>
+                    <!-- <p><strong>Created At:</strong> {{ selectedStudentResult.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+                    <p><strong>Updated At:</strong> {{ selectedStudentResult.updated_at | date:'dd/MM/yyyy HH:mm' }}</p> -->
+                </div>
+                <div *ngIf="!selectedStudentResult">
+                    <p class="text-danger">⚠ No data available.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,9 @@
 .navbar .navbar-brand {
   margin-left: 0;
 }
+.sidebar li a label {
+  cursor: pointer;
+}
 .sidebar {
   width: 248px;
   // background-color: #00003f;
@@ -102,14 +105,26 @@
 .sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a {
   color: #fff;
   position: relative;
-  border-left: 3px solid #03A9F5;
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
+  background-color: #394253;
   /* background: #03A9F5; */
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > label {
+  color: orange;
+}
+.sidebar .nav-content > ul li.acttive-link > a {
+  background-color: #394253;
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > i {
+  color: orange;
 }
 .sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active > a {
   color: #fff;
   position: relative;
   /* background: #03A9F5; */
-  border-left: 3px solid #03A9F5;
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
 }
 
 .sidebar .nav-content > ul li ul li:hover > a, .sidebar .nav-content > ul li ul li.active-link > a {
@@ -148,7 +163,8 @@
   padding-right: 10px;
 }
 .sidebar .nav-content > ul > li.active > a .sidebar .nav-content > ul > li > ul {
-  background: #394253;
+  // background: #394253;
+  background: orange;
 }
 .sidebar .nav-content > ul > li > ul > li > a {
   padding-left: 3.2rem;

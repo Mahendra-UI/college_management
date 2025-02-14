@@ -14,7 +14,12 @@ import { routes } from './app/app.routes'; // Import the defined routes
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './app/auth.interceptor';
+import { provideToastr } from 'ngx-toastr';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { importProvidersFrom } from '@angular/core';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ChartModule } from 'primeng/chart';
 
 // Bootstrap the Angular application
 bootstrapApplication(AppComponent, {
@@ -22,10 +27,14 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes), // Provide the router with the defined routes
     // provideHttpClient(), // Provide HTTP client for API calls
     provideHttpClient(
-      withInterceptors([authInterceptor]) // Use the correct interceptor reference
+      // withInterceptors([authInterceptor]) // Use the correct interceptor reference
     ),
     provideAnimations(),
-  ],
+    provideToastr(), // ✅ Register Toastr globally
+    importProvidersFrom(NgxSpinnerModule.forRoot(), ChartModule),
+    NgxPaginationModule,
+    NgxSpinnerService // ✅ Add NgxSpinner Provider
+  ]
 })
   .catch((err) => console.error(err));
 

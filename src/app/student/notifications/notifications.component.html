@@ -1,0 +1,58 @@
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Notifications</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/student/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <!-- ✅ Notifications Table -->
+                    <table class="table table-bordered w-100 mt-4 common_table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <!-- <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Actions</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let notification of notifications">
+                                <td>{{ notification.title }}</td>
+                                <td>{{ notification.title_description }}</td>
+                                <!-- <td>{{ notification.created_at | date:'short' }}</td>
+                                <td>{{ notification.updated_at | date:'short' }}</td>
+                                <td>
+                                    <button class="btn btn-info" (click)="viewNotification(notification.notification_id)">View</button>
+                                </td> -->
+                            </tr>
+                            <tr *ngIf="notifications.length === 0">
+                                <td colspan="2" class="text-center">No Records Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- ✅ View Notification Details -->
+                    <div class="mt-4 p-3 border rounded" *ngIf="selectedNotification">
+                        <h4>Notification Details</h4>
+                        <p><strong>Title:</strong> {{ selectedNotification.title }}</p>
+                        <p><strong>Description:</strong> {{ selectedNotification.title_description }}</p>
+                        <!-- <p><strong>Created At:</strong> {{ selectedNotification.created_at | date:'short' }}</p>
+                        <p><strong>Updated At:</strong> {{ selectedNotification.updated_at | date:'short' }}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

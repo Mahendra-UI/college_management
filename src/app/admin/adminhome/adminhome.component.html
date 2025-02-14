@@ -1,1 +1,103 @@
-<p>adminhome works!</p>
+<section class="common_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main_heading">
+            <h5>Admin Dashboard</h5>
+        </div>
+        <hr>
+      </div>
+      </div>
+      <div class="row" data-aos="fade-down" data-aos-delay="200">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{studentsList.length}}</h3>
+  
+              <p>Total Students</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-bag"></i>
+            </div>
+            <a routerLink="/admin/manageStudents" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{subjectsList.length}}
+                <!-- <sup style="font-size: 20px">%</sup> -->
+            </h3>
+  
+              <p>Subjects</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+            <a routerLink="/admin/subjectsManage" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{notificationsList.length}}</h3>
+  
+              <p>Notifications</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-person-add"></i>
+            </div>
+            <a routerLink="/admin/managenotifications" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{studentResultsList.length}}</h3>
+  
+              <p>Results</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-pie-chart"></i>
+            </div>
+            <a routerLink="/admin/adminstudentresults" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <div class="row d-none">
+        <div class="col-md-12">
+          <div class="chart-container" style="width: 100%; height: 400px;">
+            <h5 class="text-center">Subjects per Semester per Course (Stacked Bar Chart)</h5>
+            <p-chart type="bar" [data]="subjectsBarChartData" [options]="barChartOptions"></p-chart>
+          </div>
+        </div>
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+          <div class="chart-container" style="width: 100%; height: 400px;">
+            <h5 class="text-center">Students per Course (Pie Chart)</h5>
+            <p-chart type="pie" [data]="pieChartData" [options]="pieChartOptions"></p-chart>
+          </div>
+        </div>
+      
+        <!-- Subjects Stacked Bar Chart -->
+      </div>
+      
+      <!-- ✅ New Students Stacked Bar Chart -->
+      <div class="row d-none">
+        <div class="col-md-12">
+          <div class="chart-container" style="width: 100%; height: 400px;">
+            <h5 class="text-center">Students per Semester per Course (Stacked Bar Chart)</h5>
+            <p-chart type="bar" [data]="studentsBarChartData" [options]="barChartOptions"></p-chart>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </section>

@@ -1,0 +1,180 @@
+
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Subjects Management</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/admin/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-end">
+                    <!-- ✅ Add Subject Button -->
+                    <button class="btn btn-success common_add_record_btn" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+                        + Add Subject
+                    </button>
+                </div>
+                <div class="table-responsive">
+          <table class="table table-bordered w-100 common_table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Subject Name</th>
+                <!-- <th>Subject Code</th> -->
+                <th>Credits</th>
+                <th>Course</th>
+                <th>Semester</th>
+                <!-- <th>Created At</th>
+                <th>Updated At</th> -->
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subject of subjectsList, let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ subject.subject_name }}</td>
+                  <!-- <td>{{ subject.subject_code }}</td> -->
+                  <td>{{ subject.subject_credits }}</td>
+                  <td>{{ subject.course_name }}</td>
+                  <td>{{ subject.semester_name }}</td>
+                  <!-- <td>{{ subject.created_at | date:'short' }}</td>
+                  <td>{{ subject.updated_at | date:'short' }}</td> -->
+                  <td>
+                    <div class="hstack gap-2">
+                        <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#subjectDetailsModal" (click)="getSubjectDetails(subject.subject_id)">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">Edit</button> -->
+                        <!-- <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#subjectDetailsModal" (click)="getSubjectDetails(subject.subject_id)">
+                            View
+                          </button> -->
+                          <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">Edit</button> -->
+                    </div>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+          
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ✅ Bootstrap 5 Modal for Adding Subjects -->
+<!-- Add/Edit Subject Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSubjectModalLabel">
+                    {{ editingSubjectId ? 'Edit Subject' : 'Add New Subject' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="subjectForm">
+                    <!-- Course -->
+                    <div class="form-group">
+                        <label class="form-label">Course:</label>
+                        <select class="form-select" formControlName="courseId" (change)="onCourseChange($event)">
+                            <option value="" disabled>Select Course</option>
+                            <option *ngFor="let course of coursesList" [value]="course.course_id">{{ course.course_name }}</option>
+                        </select>
+                        <div *ngIf="getSubjectFormCtrl('courseId')?.invalid && getSubjectFormCtrl('courseId')?.touched" class="error">
+                            Course is required
+                        </div>
+                    </div>
+
+                    <!-- Semester Dropdown -->
+                    <div class="form-group">
+                        <label class="form-label">Semester:</label>
+                        <select class="form-select" formControlName="semesterId" (change)="onSemesterChange($event)">
+                            <option value="" disabled>Select Semester</option>
+                            <option *ngFor="let semester of semestersList" [value]="semester.semester_id">
+                                {{ semester.semester_name }}
+                            </option>
+                        </select>
+                        <div *ngIf="getSubjectFormCtrl('semesterId')?.invalid && getSubjectFormCtrl('semesterId')?.touched" class="error">
+                            Semester is required
+                        </div>
+                    </div>
+
+
+                    <!-- Subject Name -->
+                    <div class="form-group">
+                        <label class="form-label">Subject Name:</label>
+                        <input type="text" class="form-control" formControlName="subjectName" />
+                        <div *ngIf="getSubjectFormCtrl('subjectName')?.invalid && getSubjectFormCtrl('subjectName')?.touched" class="error">
+                            <span *ngIf="getSubjectFormCtrl('subjectName')?.errors?.['required']">Credits are required</span>
+                            <span *ngIf="getSubjectFormCtrl('subjectName')?.errors?.['minlength']">min are required</span>
+                            <span *ngIf="getSubjectFormCtrl('subjectName')?.errors?.['maxlength']">max are required</span>
+                        </div>
+                    </div>
+                    <!-- Subject Credits -->
+                    <div class="form-group">
+                        <label class="form-label">Subject Credits:</label>
+                        <input type="number" class="form-control" formControlName="subjectCredits" min="1" max="10" />
+                        <div *ngIf="getSubjectFormCtrl('subjectCredits')?.invalid && getSubjectFormCtrl('subjectCredits')?.touched" class="error">
+                            <span *ngIf="getSubjectFormCtrl('subjectCredits')?.errors?.['required']">Credits are required</span>
+                            <span *ngIf="getSubjectFormCtrl('subjectCredits')?.errors?.['min']">min are required</span>
+                            <span *ngIf="getSubjectFormCtrl('subjectCredits')?.errors?.['max']">max are required</span>
+                        </div>
+                    </div>
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="submit" class="btn btn-success" 
+                        (click)="onSubmit()" 
+                        [disabled]="subjectForm.invalid || (!subjectForm.dirty && !editingSubjectId)">
+                        {{ editingSubjectId ? 'Update Subject' : 'Add Subject' }}
+                    </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+
+<!-- Student Details Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="subjectDetailsModal" tabindex="-1" aria-labelledby="subjectDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="subjectDetailsModalLabel">Subject Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="subjectDetails">
+            <p><strong>Subject ID:</strong> {{ subjectDetails.subject_id }}</p>
+            <p><strong>Subject Name:</strong> {{ subjectDetails.subject_name }}</p>
+            <p><strong>Subject Credits:</strong> {{ subjectDetails.subject_credits }}</p>
+            <p><strong>Course Name:</strong> {{ subjectDetails.course_name }}</p>
+            <p><strong>Semester Name:</strong> {{ subjectDetails.semester_name }}</p>
+            <p><strong>Created At:</strong> {{ subjectDetails.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Updated At:</strong> {{ subjectDetails.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+        <div class="modal-body" *ngIf="!subjectDetails">
+            <p>Loading subject details...</p>
+        </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

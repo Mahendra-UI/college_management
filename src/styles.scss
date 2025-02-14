@@ -3,7 +3,39 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
+@import 'ngx-toastr/toastr';
 
+.navbar-text {
+  color: #fff;
+}
+.main_heading h5 {
+  font-weight: 700;
+}
+.form-group {
+  margin-bottom: 14px;
+}
+.main_heading {
+  // border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+.common_home_icon {
+  text-align: right;
+}
+.common_home_icon i {
+  color: #00843F;
+  font-size: 26px;
+  cursor: pointer;
+}
+.common_section {
+  padding: 6px;
+  background-color: #fff;
+  margin: 16px;
+  margin-top: 16px;
+}
+.common_add_record_btn {
+  margin-bottom: 6px;
+}
 html,
 body {
     font-family: 'Nunito', sans-serif;
@@ -26,6 +58,45 @@ td,
 th {
     font-family: 'Nunito', sans-serif;
 }
+.error {
+  color: red;
+  font-size: 13px;
+}
+
+.ng-select.ng-select-single .ng-select-container{
+  height: 36px;
+  line-height: 16px;
+}
+//  .ng-select.ng-select-searchable .ng-select-container .ng-value-container .ng-input {
+//     opacity: 0 !important;
+//  }
+//  .ng-select .ng-has-value .ng-placeholder {
+//     display: block;
+//  }
+
+/* Initially show the placeholder text */
+// .ng-select .ng-placeholder 
+
+
+/* Initially show the placeholder text */
+.ng-select .ng-placeholder {
+ display: block;
+ font-size: 14px;
+}
+
+/* Hide the placeholder when there's a value selected */
+.ng-select.ng-select-single .ng-has-value:not(.ng-open) .ng-placeholder {
+ display: none;
+}
+
+/* Display the selected value */
+.ng-select.ng-select-single .ng-value-container .ng-value .ng-value-label {
+ display: block;
+}
+.ngSelect_Class {
+ font-size: 5px !important;
+}
+
 
 .badge.badge-soft-success {
   background: rgba(26, 190, 23, 0.1);
@@ -57,14 +128,16 @@ th {
   font-weight: 500;
 }
 .common_modal_popup .modal-header {
-    background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%);
+    background: #ecbb61;
+    // background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%);
     color: #fff;
 }
 .common_modal_popup .modal-header .modal-title {
     margin: 0;
 }
 .common_modal_popup .btn-close {
-    background: #193567;
+    // background: #193567;
+    background: #0F2C7A;
     opacity: 1;
     line-height: 1em;
     position: absolute;
@@ -232,32 +305,6 @@ table tr td {
   }
   .btn-group .btn {
     border-radius: 0.25rem !important;
-  }
-  .section-mt {
-    margin-top: 28px !important;
-  }
-  .section-mt .card-body {
-    padding: 30px !important;
-  }
-  .section-mt .card-body .card-title {
-      font-family: "Nunito", serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: #11519B;
-    border-bottom: 2px solid #09C65A;
-    padding-bottom: 15px;
-  }
-  .section-mt .card-body .form-label {
-    font-size: 14px;
-    font-weight: 400;
-    color: #333333;
-    color: #1B1B1B !important;
-  }
-  .section-mt .card-body .form-control, .section-mt .card-body .form-select {
-    border-color: #efefef;
-  }
-  .section-mt .card-body select option:first-child {
-    color: #B2B2B2 !important;
   }
   .content {
     font-size: 14px;
@@ -1322,123 +1369,7 @@ table tr td {
     background-color: #00A24E;
     transform: translateY(-50%) rotate(-135deg);
   }
-  .slot-container .slot-blocking .card-title {
-    font-size: 0.9rem !important;
-    font-weight: 600 !important;
-  }
-  .slot-container .slot-blocking p, .slot-container .slot-blocking label {
-    font-size: 0.9rem;
-  }
-  .slot-container .slot-blocking .section p {
-    font-size: 0.9rem;
-  }
-  .slot-container .slot-blocking section.amenities-list ul li {
-    white-space: nowrap;
-    font-size: 0.85rem;
-  }
-  .slot-container .slot-blocking .slot-booking .form-group, .slot-container .slot-blocking .slot-booking .form-control {
-    font-size: 0.9rem;
-  }
-  .slot-container .slot-blocking .court-badge .badge {
-    font-size: 0.9rem;
-  }
-  .slot-container .cart-checkout .card-header {
-    color: #00A24E;
-      font-family: "Nunito", serif;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 24px;
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
-  }
-  .slot-container .cart-checkout .empty-cart {
-    padding: 18% 15% 10% 15%;
-    width: 91%;
-    margin-left: 3%;
-    margin-right: 3%;
-    text-align: center;
-  }
-  .slot-container .cart-checkout .empty-cart .card-text {
-    padding-top: 10%;
-      font-family: "Nunito", serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 22px;
-    color: #54585A;
-  }
-  .slot-container .cart-checkout .full-cart .card-title {
-    color: #193567;
-      font-family: "Nunito", serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    border-bottom: 1px solid #EBEFF4;
-    border-top: 1px solid #EBEFF4;
-  }
-  .slot-container .cart-checkout .full-cart .game-scheduled p {
-    display: inline-block;
-      font-family: "Nunito", serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
-    color: #333333;
-    margin-bottom: 2%;
-  }
-  .slot-container .cart-checkout .full-cart .game-scheduled p img {
-    margin-right: 5px;
-  }
-  .slot-container .cart-checkout .full-cart .selected-court-list {
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-  }
-  .slot-container .cart-checkout .full-cart .selected-court-list li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
-  }
-  .slot-container .cart-checkout .full-cart .selected-court-list li p, .slot-container .cart-checkout .full-cart .selected-court-list li span {
-      font-family: "Nunito", serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
-    color: #333333;
-    margin-bottom: 0;
-  }
-  .slot-container .cart-checkout .full-cart .selected-court-list button {
-      font-family: "Nunito", serif;
-    font-size: 8px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #333333;
-    padding-top: 0;
-    padding-bottom: 0;
-    background: rgba(255, 248, 248, 0.5);
-    border: 1px solid rgba(255, 0, 0, 0.35);
-    border-radius: 2px;
-  }
-  .slot-container .cart-checkout .checkout-btn {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    margin-top: 10%;
-  }
-  .slot-container .cart-checkout .checkout-btn b, .slot-container .cart-checkout .checkout-btn button {
-      font-family: "Nunito", serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    color: white;
-  }
-  .slot-container .cart-checkout .checkout-btn button {
-    padding: 0;
-    float: right;
-  }
-  .slot-container .cart-checkout .checkout-btn button:focus {
-    border-color: transparent;
-    box-shadow: unset;
-  }
+
   .cart-btns button {
     border-radius: 3px;
     height: 47px;
@@ -4529,6 +4460,7 @@ table tr td {
   }
   .form-label {
     font-size: 16px;
+    font-weight: 600;
   }
   .breadcrumb-item {
     cursor: pointer;

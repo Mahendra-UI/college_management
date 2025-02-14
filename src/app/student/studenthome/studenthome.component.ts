@@ -2,6 +2,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import AOS from 'aos';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 
@@ -14,10 +15,14 @@ import AOS from 'aos';
   styleUrl: './studenthome.component.scss',
 })
 export class StudenthomeComponent implements OnInit, AfterViewInit {
-  constructor() {
+  constructor(private spinner: NgxSpinnerService) {
 
   }
   ngOnInit(): void {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide(); // ✅ Hide Spinner after timeout
+    }, 500); // Hide after 1.5s
     // AOS.init();
   }
   ngAfterViewInit(): void {

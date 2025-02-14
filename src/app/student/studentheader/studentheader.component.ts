@@ -11,22 +11,37 @@ import { Subscription } from 'rxjs';
 })
 export class StudentheaderComponent implements OnInit {
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
-  //@Input() headerLogin!:boolean;
-  profilePic: any;
-  subscription!: Subscription;
-  registerInfo!: boolean;
-  innerWidth: any;
-  emploginData: any;
-  constructor(private route:ActivatedRoute,
-    private router:Router) {
-   }
-  encrypted:any;
+
+  fullName: string | null = null;
+  course_name: string | null = null;
+  username: string | null = null;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit(): void {
+    console.log("🔄 Fetching stored values from sessionStorage...");
+    
+    console.log("sessionStorage fullName:", sessionStorage.getItem('fullName'));
+    console.log("sessionStorage username:", sessionStorage.getItem('username'));
+    console.log("sessionStorage course_name:", sessionStorage.getItem('course_name'));
+
+    this.fullName = sessionStorage.getItem('fullName');
+    this.username = sessionStorage.getItem('username');
+    this.course_name = sessionStorage.getItem('course_name');
+
+    if (!this.course_name) {
+        console.warn("🚨 Warning: course_name is missing in sessionStorage!");
+    } else {
+        console.log("✅ Course Name Loaded:", this.course_name);
     }
-  signOut(){
+}
+
+signOut() {
+    sessionStorage.clear(); // ✅ Clear sessionStorage instead of localStorage
     this.router.navigate(['/login']);
-  }
-  menuToggle(){
+}
+
+  menuToggle() {
     this.toggle.emit();
   }
 }

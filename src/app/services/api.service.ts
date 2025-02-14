@@ -1,0 +1,221 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+  private baseUrl = 'http://localhost:3000/api';
+
+  constructor(private http: HttpClient) {}
+
+
+  login(userType: string, username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/login`, { userType, username, password });
+  }
+
+
+  getStudents(p_type: number = 0): Observable<any> {
+    return this.http.get<any[]>(`${this.baseUrl}/getstudents?p_type=${p_type}`);
+  }
+  
+
+  
+// ✅ Get all semesters
+getSemesters(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getsemesters`);
+}
+
+
+// ✅ Get subjects by Course ID
+getSubjectsByCourse(courseId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getsubjects/${courseId}`);
+}
+
+// ✅ Add Subject
+addSubject(subjectData: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/addsubject`, subjectData);
+}
+
+getSubjects(courseId: number, semesterId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/getsubjects/${courseId}/${semesterId}`);
+}
+/** ✅ Get Subject by ID */
+getSubjectById(subjectId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getsubject/${subjectId}`);
+}
+
+// ✅ Update Subject (Pass Subject ID and Update Data)
+updateSubject(subjectId: number, subjectData: any): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/updatesubject/${subjectId}`, subjectData);
+}
+
+
+getSubjectsByUsername(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${encodeURIComponent(username)}`);
+}
+
+  
+  getSubjectsByCourseAndSemester(courseId: number, semesterId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/getsubjects/${courseId}/${semesterId}`);
+  }
+    // ✅ Fetch Subjects by Username and Course ID
+    getSubjectsByUsernameAndCourse(username: string, courseId: number): Observable<any> {
+      return this.http.get(`${this.baseUrl}/getsubjects/user/${username}/${courseId}`);
+    }
+
+
+    getStudentResultsBySemester(username: string, semesterId: number): Observable<any> {
+      return this.http.get(`${this.baseUrl}/getStudentResults/${username}/${semesterId}`);
+    }
+    
+
+// ✅ Fetch all students
+// getStudents(): Observable<any> {
+//   return this.http.get<any>(`${this.apiUrl}/getstudents`);
+// }
+
+// ✅ Fetch student by username
+getStudentByUsername(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentsbyusername/${username}`);
+}
+
+// ✅ Check for duplicate Mobile No & Email
+// checkDuplicateStudent(mobile_no: string | null, email_id: string | null): Observable<any> {
+//   return this.http.post(`${this.baseUrl}/checkduplicate`, { mobile_no, email_id });
+// }
+/**
+   * ✅ Check if Mobile Number or Email ID already exists
+   * @param mobileNo (optional)
+   * @param emailID (optional)
+   * @param studentId (optional) - To exclude the current student when updating
+   */
+checkDuplicateStudent(mobileNo: string | null, emailID: string | null, studentId?: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/checkduplicate`, {
+    params: { 
+      mobile_no: mobileNo || '', 
+      email_id: emailID || '', 
+      student_id: studentId ? studentId.toString() : ''
+    }
+  });
+}
+
+
+
+
+/**
+   * ✅ Get Student by ID
+   * @param studentId The ID of the student
+   */
+getStudentById(studentId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentsbyid/${studentId}`);
+}
+
+/**
+ * ✅ Handle API Errors
+ */
+// private handleError(error: HttpErrorResponse) {
+//   console.error('❌ API Error:', error);
+//   return throwError(() => new Error(error.message || 'Server Error'));
+// }
+
+
+/**
+ * Fetch all courses
+ */
+getCourses(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getcourses`);
+}
+
+
+saveStudent(studentData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/savestudents`, studentData);
+}
+
+updateStudent(studentData: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/updatestudent`, studentData);
+}
+
+// Results
+
+
+// ✅ Submit student result
+submitStudentResult(data: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/addstudentresult`, data);
+}
+
+// ✅ Get subjects based on username & semester
+getSubjectsByUsernameAndSemester(username: string, semesterId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${semesterId}`);
+}
+
+
+// ✅ Fetch Subjects by Username, Course, and Semester
+
+getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
+  if (!username || !courseId || !semesterId) {
+    console.error("❌ Error: Invalid API call due to missing parameters", { username, courseId, semesterId });
+    return throwError(() => new Error("Invalid API call - missing parameters"));
+  }
+  
+  return this.http.get(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
+}
+
+getStudentResultById(resultId: number) {
+  return this.http.get<any>(`${this.baseUrl}/getstudentresult/${resultId}`);
+}
+
+
+// getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
+//   return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
+// }
+
+getStudentResults(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentresults`);
+}
+
+updateStudentResult(data: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/updatestudentresult`, data);
+}
+
+
+
+getStudentsByCourse(courseId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentsbycourse/${courseId}`);
+}
+
+
+// getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
+//   return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
+// }
+
+
+
+// Notifications API
+
+
+// ✅ Get All Notifications
+getNotifications(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getnotifications`);
+}
+
+// ✅ Get Notification by ID
+getNotificationById(notificationId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getnotification/${notificationId}`);
+}
+
+
+
+// ✅ Add Notification
+addNotification(notification: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/addnotification`, notification);
+}
+
+// ✅ Update Notification
+updateNotification(notificationId: number, notification: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/updatenotification/${notificationId}`, notification);
+}
+
+
+}

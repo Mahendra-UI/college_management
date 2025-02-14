@@ -1,162 +1,346 @@
-<section class="p-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="fw-bold">Students Management</h5>
-            </div>
-            <div class="col-md-12">
-                <div class="text-end pb-2">
-                    <a class="btn addButton btn-success btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#studentModal">Add Student</a>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table-bordered table w-100 common_table">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Full Name</th>
-                                <th>Mobile No.</th>
-                                <th>Email ID</th>
-                                <th>Course</th>
-                                <th>Course Year</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mahendra</td>
-                                <td>1234567890</td>
-                                <td>mahendra&#64;gmail.com</td>
-                                <td>EEE</td>
-                                <td>First Year</td>
-                                <!-- <i class="bi bi-dot fs-5"></i> -->
-                                <td><span class="badge badge-soft-success d-inline-flex align-items-center">Active</span></td>
-                                <td>
-                                    <div class="hstack gap-1">
-                                        <a class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <!-- <a class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i>
-                                        </a> -->
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Siva</td>
-                                <td>1234967890</td>
-                                <td>siva&#64;gmail.com</td>
-                                <td>ECE</td>
-                                <td>Fourth Year</td>
-                                <td><span class="badge badge-soft-danger d-inline-flex align-items-center">Inactive</span></td>
-                                <td>
-                                    <div class="hstack gap-1">
-                                        <a class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        <!-- <a class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i>
-                                        </a> -->
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<section class="common_section">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <div class="main_heading">
+                <h5>Manage Students</h5>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="common_home_icon">
+                  <i class="bi bi-house-door" routerLink="/admin/home"></i>
+              </div>
+          </div>
+          <hr>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-5">
+          <div>
+            <p class="mb-0"><strong>Total Students:</strong> <span class="badge text-bg-success fs-6">{{ studentsList.length }}</span></p>
+          </div>
         </div>
+        <div class="col-md-7">
+          <div class="hstack gap-2 justify-content-end align-items-end pb-2">
+            <div>
+              <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search students..." (input)="filterStudents()">
+            </div>
+            <div>
+            <a class="btn addButton btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal" (click)="resetForm()">
+              <i class="bi bi-plus-circle"></i> Add New Student
+            </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 d-none">
+          <div class="text-end pb-2">
+            <a class="btn addButton btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal" (click)="resetForm()">
+              +  Add New Student
+            </a>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <!-- Search Input -->
+          <div class="mb-3 d-none">
+            <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search students..." (input)="filterStudents()">
+            <p><strong>Total Students:</strong> {{ studentsList.length }}</p>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-bordered table w-100 common_table">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Full Name</th>
+                  <th>Mobile No.</th>
+                  <th>Email ID</th>
+                  <th>Username</th>
+                  <th>Roll No.</th>
+                  <th>Course</th>
+                  <th>Course Year</th>
+                  <!-- <th>Address</th> -->
+                  <th>Status</th>
+                  <!-- <th>Created At</th> -->
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- <tr *ngFor="let student of studentsList; let i = index">
+                  <td>{{ i + 1 }}</td> -->
+                <tr *ngFor="let student of filteredStudents |paginate: { itemsPerPage: itemsPerPage, currentPage: p,id: 'first' }; let i = index">
+                  <td>{{(p - 1) * itemsPerPage + i + 1}}</td>
+                  <td>{{ student.full_name }}</td>
+                  <td>{{ student.mobile_no }}</td>
+                  <td>{{ student.email_id }}</td>
+                  <td>{{ student.username }}</td>
+                  <td>{{student.roll_number}}</td>
+                  <td>{{ student.course_name }}</td>
+                  <td>{{ student.course_year }}</td>
+                  <td>
+                      <span class="badge badge-soft-{{ student.student_status === 'Active' ? 'success' : 'danger' }}">{{ student.student_status }}</span>
+                  </td>
+                  <td>
+                    <div class="hstack gap-2">
+                      <a class="btn btn-success btn-sm"id="viewDetailsBtn" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentDetailsModal">
+                          <i class="bi bi-eye"></i>
+                      </a>
+                      <!-- ✅ Edit Student Details -->
+                      <a class="btn btn-primary btn-sm"
+                      (click)="openEditStudentModal(student.username)">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <!-- <a class="btn btn-primary btn-sm" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentModal">
+                          <i class="bi bi-pencil"></i>
+                      </a> -->
+                  </div>
+                  </td>
+                </tr>
+                <tr *ngIf="filteredStudents.length === 0">
+                  <td class="text-center" colspan="10">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls id="first" (pageChange)="onPageChange($event)">
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
+  
+  <div class="modal fade common_modal_popup" id="studentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="studentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentModalLabel">Student Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('studentModal', 'openStudentFormBtn')">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form [formGroup]="studentForm">
+            <div class="row">
+            
+              <!-- Full Name -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Full Name <span class="mandatory">*</span></label>
+                  <input type="text" class="form-control" formControlName="fullName" placeholder="Enter Full Name">
+                  <div class="error" *ngIf="studentForm.get('fullName')?.touched && studentForm.get('fullName')?.invalid">
+                    Full Name is required (min 3, max 50 characters).
+                  </div>
+                </div>
+              </div>
+
+              <!-- Father Name -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Father's Name <span class="mandatory">*</span></label>
+                  <input type="text" class="form-control" formControlName="fatherName" placeholder="Enter Father's Name">
+                  <div class="error" *ngIf="studentForm.get('fatherName')?.touched && studentForm.get('fatherName')?.invalid">
+                    Father Name is required (min 3, max 50 characters).
+                  </div>
+                </div>
+              </div>
+
+              <!-- Gender Dropdown -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Gender <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="studentGender">
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                  <div class="error" *ngIf="studentForm.get('studentGender')?.touched && studentForm.get('studentGender')?.invalid">
+                    Please select a gender.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Date of Birth <span class="mandatory">*</span></label>
+                  <input type="date" class="form-control" formControlName="studentDateOfBirth">
+                  <div class="error" *ngIf="studentForm.get('studentDateOfBirth')?.touched && studentForm.get('studentDateOfBirth')?.invalid">
+                    Date of Birth is required.
+                  </div>
+                </div>
+              </div>
+                <!-- Mobile Number -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Mobile No. <span class="mandatory">*</span></label>
+                  <input type="text" class="form-control" minlength="10" maxlength="10"
+                        formControlName="mobileNo" placeholder="Enter Mobile No." 
+                        (blur)="onMobileBlur()">
+                        
+                  <!-- ✅ Form Validation Error -->
+                  <div class="error" *ngIf="studentForm.get('mobileNo')?.touched && studentForm.get('mobileNo')?.invalid">
+                    Mobile number must be exactly 10 digits.
+                  </div>
+
+                  <!-- ✅ Duplicate Entry Error -->
+                  <div class="error" *ngIf="studentForm.get('mobileNo')?.hasError('duplicate')">
+                    ❌ Mobile number already exists. Please use another.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email ID -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Email ID <span class="mandatory">*</span></label>
+                  <input type="email" class="form-control" formControlName="emailID"
+                        placeholder="Enter Email ID" (blur)="onEmailBlur()">
+
+                  <!-- ✅ Form Validation Error -->
+                  <div class="error" *ngIf="studentForm.get('emailID')?.touched && studentForm.get('emailID')?.invalid">
+                    Please enter a valid email address.
+                  </div>
+
+                  <!-- ✅ Duplicate Entry Error -->
+                  <div class="error" *ngIf="studentForm.get('emailID')?.hasError('duplicate')">
+                    ❌ Email ID already exists. Please use another.
+                  </div>
+                </div>
+              </div>
+
+              <!-- !-- Course Name (Using Course ID) -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Course Name <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="courseId" [attr.disabled]="studentId ? true : null">
+                    <option value="" disabled selected>Select Course</option>
+                    <option *ngFor="let course of coursesList" [value]="course.course_id">
+                      {{ course.course_name }}
+                    </option>
+                  </select>
+                  <div class="error" *ngIf="studentForm.get('courseId')?.touched && studentForm.get('courseId')?.invalid">
+                    Course Name is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Course Year -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Course Year <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="courseYear">
+                    <option value="" disabled selected>Select Year</option>
+                    <option value="First Year">First Year</option>
+                    <option value="Second Year">Second Year</option>
+                    <option value="Third Year">Third Year</option>
+                    <option value="Fourth Year">Fourth Year</option>
+                  </select>
+                  <div class="error" *ngIf="studentForm.get('courseYear')?.touched && studentForm.get('courseYear')?.invalid">
+                    Course Year is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Enrollment Year -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Enrollment Year <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="year">
+                    <option value="" disabled>Select Year</option>
+                    <option *ngFor="let year of yearsList" [value]="year" [selected]="year === studentForm.get('year')?.value">
+                      {{ year }}
+                    </option>
+                  </select>
+                  <div class="error" *ngIf="studentForm.get('year')?.touched && studentForm.get('year')?.invalid">
+                    Please select a valid enrollment year.
+                  </div>
+                </div>
+              </div>
 
 
-<div class="modal fade common_modal_popup" id="studentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="studentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="studentModalLabel">Student Form</h1>
-                <div class="modal-header" style="padding: 0px;border: none;">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <!-- <i class="fa fa-times" aria-hidden="true"></i> -->
-                        <i class="bi bi-x"></i>
-                    </button>
+              <!-- Student Address -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Address <span class="mandatory">*</span></label>
+                  <input type="text" class="form-control" formControlName="studentAddress" placeholder="Enter Address">
+                  <div class="error" *ngIf="studentForm.get('studentAddress')?.touched && studentForm.get('studentAddress')?.invalid">
+                    Student Address is Requierd
+                  </div>
                 </div>
-            </div>
-            <div class="modal-body">
-                <div class="container" [formGroup]="studentForm">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Full Name <span class="mandatory">*</span></label>
-                                <input type="text" class="form-control" formControlName="fullName" placeholder="Enter Full Name">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Mobile No. <span class="mandatory">*</span></label>
-                                <input type="text" class="form-control" formControlName="moblieNo" placeholder="Enter Mobile No.">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Email ID <span class="mandatory">*</span></label>
-                                <input type="text" class="form-control" formControlName="emailID" placeholder="Enter Email ID">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Course <span class="mandatory">*</span></label>
-                                <select class="form-select" formControlName="courseType">
-                                    <option value="" disabled selected>--Select--</option>
-                                    <option value="ECE">ECE</option>
-                                    <option value="CSE">CSE</option>
-                                    <option value="EEE">EEE</option>
-                                    <option value="IT">IT</option>
-                                    <option value="Mechanical">Mechanical</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Course Year <span class="mandatory">*</span></label>
-                                <select class="form-select" formControlName="courseType">
-                                    <option value="" disabled selected>--Select--</option>
-                                    <option value="First Year">First Year</option>
-                                    <option value="Second Year">Second Year</option>
-                                    <option value="Third Year">Third Year</option>
-                                    <option value="Fourth Year">Fourth Year</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="" class="form-label">Status</label>
-                                <select class="form-select" formControlName="statusSelect">
-                                    <option value="" disabled selected>--Select--</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <button class="btn btn-success btn-sm" [disabled]="studentForm.invalid" (click)="onSubmit()">Submit</button>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+
+              <!-- Student Status -->
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">Status <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="studentStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                  <div class="error" *ngIf="studentForm.get('studentStatus')?.touched && studentForm.get('studentStatus')?.invalid">
+                    Status is Requierd
+                  </div>
                 </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-md-3">
+                <div class="form-group pt-1">
+                  <!-- ✅ Update Submit Button -->
+                  <button type="button" class="btn btn-success mt-4 w-100"
+                  [disabled]="studentForm.invalid || (studentId !== 0 && !studentForm.dirty)"
+                  (click)="onSubmit()">
+                  Submit
+                </button>
+                
+
+<!-- <button type="button" class="btn btn-success mt-4 w-100" 
+[disabled]="studentForm.invalid || !studentForm.dirty" 
+(click)="onSubmit()">
+Submit
+</button> -->
+
+                  <!-- <button type="button" class="btn btn-success btn-sm w-100" [disabled]="studentForm.invalid" (click)="onSubmit()">Submit</button> -->
+                </div>
+              </div>
+
             </div>
+          </form>            
         </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- Student Details Modal -->
+<div class="modal fade common_modal_popup" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="studentDetails">
+        <p><strong>Username:</strong> {{ studentDetails.username }}</p>
+        <p><strong>Name:</strong> {{ studentDetails.full_name }}</p>
+        <p><strong>Father Name:</strong> {{ studentDetails.father_name }}</p>
+        <p><strong>Gender:</strong> {{ studentDetails.student_gender }}</p>
+        <p><strong>Date of Birth:</strong> {{ studentDetails.student_date_of_birth }}</p>
+        <p><strong>Mobile:</strong> {{ studentDetails.mobile_no }}</p>
+        <p><strong>Email:</strong> {{ studentDetails.email_id }}</p>
+        <p><strong>Roll Number:</strong> {{ studentDetails.roll_number }}</p>
+        <p><strong>Course:</strong> {{ studentDetails.course_name }}</p>
+        <p><strong>Course Year:</strong> {{ studentDetails.course_year }}</p>
+        <p><strong>Enrollment Year:</strong> {{ studentDetails.enrollment_year }}</p>
+        <p><strong>Address:</strong> {{ studentDetails.student_address }}</p>
+        <p><strong>Status:</strong> {{ studentDetails.student_status }}</p>
+        <!-- <p><strong>Created At:</strong> {{ studentDetails.created_at | date:'dd/MM/yyyy HH:mm' }}</p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -39,6 +39,23 @@ export const studentRoutes: Routes = [
         loadComponent: () => import('./allstudents/allstudents.component').then((m) => m.AllstudentsComponent),
       },
       {
+        path: 'studentsubjects',
+        loadComponent: () => import('./studentsubjects/studentsubjects.component').then((m) => m.StudentsubjectsComponent),
+      },
+      {
+        path: 'studentresults',
+        loadComponent: () => import('./studentresults/studentresults.component').then((m) => m.StudentresultsComponent),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () => import('./notifications/notifications.component').then((m) => m.NotificationsComponent),
+      },
+      {
+        path: 'myprofile',
+        loadComponent: () => import('./studentprofile/studentprofile.component').then((m) => m.StudentprofileComponent),
+      },
+      
+      {
         path: '**', // Handle unmatched routes within student module
         redirectTo: '/login',
         pathMatch: 'full',

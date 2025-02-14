@@ -1,0 +1,56 @@
+<section class="common_section">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Student Subjects</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="common_home_icon">
+              <i class="bi bi-house-door" routerLink="/admin/home"></i>
+          </div>
+      </div>
+      <hr>
+    </div>
+      <!-- {{username}} -->
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-bordered w-100 common_table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Semester Name</th>
+                <th>Subject Name</th>
+                <!-- <th>Subject Code</th> -->
+                <th>Credits</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let subject of subjectsList, let i = index;">
+                <td>{{ i+1 }}</td>
+                <td>{{ subject.course_name }}</td> 
+                <td>{{subject.semester_name }}</td>
+                <td>{{ subject.subject_name }}</td>
+                <!-- <td>{{ subject.subject_code }}</td> -->
+                <td>{{ subject.subject_credits }}</td>
+              </tr>
+              <tr *ngIf="subjectsList.length == 0">
+                <td colspan="5" class="text-center">No Record Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+      <!-- <ng-template #noData>
+        <p>No subjects found for the selected course.</p>
+      </ng-template> -->
+    </div>
+    
+</section>

@@ -24,61 +24,75 @@
                 <div class="table-responsive">
                     <table class="table-bordered table w-100 common_table">
                         <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Full Name</th>
-                                <th>Mobile No.</th>
-                                <th>Email ID</th>
-                                <th>Course</th>
-                                <th>Course Year</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                          <tr>
+                            <th>S.No</th>
+                            <th>Full Name</th>
+                            <th>Mobile No.</th>
+                            <th>Email ID</th>
+                            <th>Username</th>
+                            <th>Course</th>
+                            <th>Course Year</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>CGPA</th>
+                            <th>Pass Status</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                          </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mahendra</td>
-                                <td>1234567890</td>
-                                <td>mahendra&#64;gmail.com</td>
-                                <td>EEE</td>
-                                <td>First Year</td>
-                                <!-- <i class="bi bi-dot fs-5"></i> -->
-                                <td><span class="badge badge-soft-success d-inline-flex align-items-center">Active</span></td>
-                                <td>
-                                    <div class="hstack gap-1">
-                                        <a class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Siva</td>
-                                <td>1234967890</td>
-                                <td>siva&#64;gmail.com</td>
-                                <td>ECE</td>
-                                <td>Fourth Year</td>
-                                <td><span class="badge badge-soft-danger d-inline-flex align-items-center">Inactive</span></td>
-                                <td>
-                                    <div class="hstack gap-1">
-                                        <a class="btn btn-outline-success btn-sm">
-                                            <i class="bi bi-eye"></i>
-                                        </a>
-                                        <a class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                          <tr *ngFor="let student of studentsList; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ student.full_name }}</td>
+                            <td>{{ student.mobile_no }}</td>
+                            <td>{{ student.email_id }}</td>
+                            <td>{{ student.username }}</td>
+                            <td>{{ student.course_name }}</td>
+                            <td>{{ student.course_year }}</td>
+                            <td>{{ student.student_address }}</td>
+                            <td><span class="badge badge-soft-success">{{ student.student_status }}</span></td>
+                            <td>{{ student.student_semester_cgpa }}</td>
+                            <td><span class="badge badge-soft-{{ student.student_pass_status === 'Pass' ? 'success' : 'danger' }}">{{ student.student_pass_status }}</span></td>
+                            <td>{{ student.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                            <td>
+                              <div class="hstack gap-1">
+                                <button 
+                                  class="btn btn-outline-success btn-sm" 
+                                  (click)="getStudentDetails(student.username)" 
+                                  data-bs-toggle="modal" 
+                                  data-bs-target="#studentDetailsModal">
+                                  <i class="bi bi-eye"></i>
+                                </button>
+                                <a class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
+                              </div>
+                            </td>
+                          </tr>
                         </tbody>
-                    </table>
+                      </table>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+  
+<!-- Bootstrap 5 Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="studentDetails">
+          <p><strong>Username:</strong> {{ studentDetails.username }}</p>
+          <p><strong>Name:</strong> {{ studentDetails.full_name }}</p>
+          <p><strong>Mobile:</strong> {{ studentDetails.mobile_no }}</p>
+          <p><strong>Email:</strong> {{ studentDetails.email_id }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

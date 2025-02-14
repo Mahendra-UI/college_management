@@ -1,0 +1,40 @@
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>My Profile</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/student/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div *ngIf="studentDetails && studentDetails.full_name; else noData">
+                    <p><strong>Username:</strong> {{ studentDetails.username }}</p>
+                    <p><strong>Name:</strong> {{ studentDetails.full_name }}</p>
+                    <p><strong>Father Name:</strong> {{ studentDetails.father_name }}</p>
+                    <p><strong>Gender:</strong> {{ studentDetails.student_gender }}</p>
+                    <p><strong>Date of Birth:</strong> {{ studentDetails.student_date_of_birth }}</p>
+                    <p><strong>Mobile:</strong> {{ studentDetails.mobile_no }}</p>
+                    <p><strong>Email:</strong> {{ studentDetails.email_id }}</p>
+                    <p><strong>Roll Number:</strong> {{ studentDetails.roll_number }}</p>
+                    <p><strong>Course:</strong> {{ studentDetails.course_name }}</p>
+                    <p><strong>Course Year:</strong> {{ studentDetails.course_year }}</p>
+                    <p><strong>Enrollment Year:</strong> {{ studentDetails.enrollment_year }}</p>
+                    <p><strong>Address:</strong> {{ studentDetails.student_address }}</p>
+                    <p><strong>Status:</strong> {{ studentDetails.student_status }}</p>
+                </div>
+                <ng-template #noData>
+                    <p class="text-danger">⚠ No student data available.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>
+<br><br>

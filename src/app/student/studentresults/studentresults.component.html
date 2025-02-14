@@ -1,0 +1,88 @@
+<section class="common_section">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <div class="main_heading">
+                <h5>Student Academic Results</h5>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="common_home_icon">
+                  <i class="bi bi-house-door" routerLink="/student/home"></i>
+              </div>
+          </div>
+          <hr>
+      </div>      
+        <!-- Semester Selection -->
+        <div class="row align-items-end">
+          <div class="col-md-9">
+            <h5><strong>Username:</strong> {{ username }}</h5>
+            <h5>
+              <strong>Course:</strong> {{ courseName || 'N/A' }} |
+              <strong>Semester:</strong> {{ semesterName || 'N/A' }}
+            </h5>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="semester" class="form-label">Select Semester:</label>
+              <select [(ngModel)]="selectedSemester" (change)="onSemesterChange()" class="form-select">
+                <option *ngFor="let sem of semesters" [value]="sem.semester_id">
+                  {{ sem.semester_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Results Table -->
+         <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+                      <!-- Student Results Table -->
+        <!-- <table class="table table-bordered w-100 common_table" *ngIf="resultsList.length > 0; else noData"> -->
+        <table class="table table-bordered w-100 common_table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <!-- <th>Course Name</th> -->
+              <th>Semester</th>
+              <th>Subject Name</th>
+              <!-- <th>Subject Code</th> -->
+              <th>Total Credits</th>
+              <th>Credits Earned</th>
+              <th>Result Status</th>
+              <!-- <th>Created At</th>
+              <th>Last Updated</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of resultsList; let i = index;">
+              <td>{{ i+1 }}</td>
+              <!-- <td>{{ result.course_name }}</td> -->
+              <td>{{ result.semester_name }}</td>
+              <td>{{ result.subject_name }}</td>
+              <!-- <td>{{ result.subject_code }}</td> -->
+              <td>{{ result.total_credits }}</td>
+              <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
+                {{ result.result_status === 'Pass' ? result.total_credits : 0 }}
+              </td>
+              <!-- <td>{{ result.result_status }}</td> -->
+
+              <td><span class="badge badge-soft-{{ result.result_status === 'Pass' ? 'success' : 'danger' }}">{{ result.result_status }}</span></td>
+              <!-- <td>{{ result.created_at | date:'short' }}</td>
+              <td>{{ result.updated_at | date:'short' }}</td> -->
+            </tr>
+            <tr *ngIf="resultsList.length == 0">
+              <td colspan="7" class="text-center">No Results Found</td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <!-- <ng-template #noData>
+          <p><strong>No results found for the selected semester.</strong></p>
+        </ng-template> -->
+            </div>
+          </div>
+         </div>
+    </div>
+</section>
