@@ -166,6 +166,23 @@ getStudentResultById(resultId: number) {
   return this.http.get<any>(`${this.baseUrl}/getstudentresult/${resultId}`);
 }
 
+getStudentMarksByUsername(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentresultbyusername/${username}`);
+}
+
+deleteStudentResult(resultId: number): Observable<any> {
+  return this.http.delete<any>(`${this.baseUrl}/deletestudentresult/${resultId}`);
+}
+
+deleteNotification(notificationId: number): Observable<any> {
+  return this.http.delete<any>(`${this.baseUrl}/deletenotification/${notificationId}`);
+}
+
+
+deleteSubject(subjectId: number): Observable<any> {
+  return this.http.delete<any>(`${this.baseUrl}/deletesubject/${subjectId}`);
+}
+
 
 // getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
 //   return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);

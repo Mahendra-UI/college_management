@@ -173,4 +173,34 @@ export class ManagenotificationsComponent implements OnInit {
       title_description: notification.title_description
     });
   }
+
+  deleteNotification(notificationId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this notification!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteNotification(notificationId).subscribe(
+          (response) => {
+            if (response.success) {
+              Swal.fire('Deleted!', 'Notification has been deleted.', 'success');
+              this.notifications = this.notifications.filter((n) => n.notification_id !== notificationId);
+            } else {
+              Swal.fire('Error!', response.message, 'error');
+            }
+          },
+          (error) => {
+            console.error("❌ Error deleting notification:", error);
+            Swal.fire('Error!', 'Failed to delete notification.', 'error');
+          }
+        );
+      }
+    });
+  }
+
 }

@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -41,7 +42,7 @@ export class ManagestudentsComponent implements OnInit {
   yearsList: number[] = []; // Dynamic year list
 
 
-  constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService) {}
+  constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
 // ✅ Populate Year Dropdown (Last 10 Years)
@@ -537,6 +538,62 @@ editStudentold(student: any): void {
       (response) => {
         if (response && response.student) {
           this.studentDetails = response.student;
+          const studentUsername: string = response.student.username;
+  
+          // ✅ Fetch student marks
+          this.apiSer.getStudentMarksByUsername(studentUsername).subscribe(
+            (marksResponse) => {
+              if (marksResponse && marksResponse.success === false) {
+                // If API returns "success: false", set marks to an empty array
+                this.studentDetails.marks = [];
+                this.toastr.info(marksResponse.message, "Info");
+              } else if (marksResponse && marksResponse.results.length > 0) {
+                this.studentDetails.marks = marksResponse.results;
+                this.toastr.success("Student marks loaded successfully!", "Success");
+              } else {
+                this.studentDetails.marks = [];
+                this.toastr.info("No marks available for this student.", "Info");
+              }
+            },
+            (error) => {
+              console.error("❌ Error fetching student marks:", error);
+              this.toastr.error("Failed to load student marks. Please try again.", "Error");
+              this.studentDetails.marks = [];
+            }
+          );
+  
+          // ✅ Disable form fields in View mode
+          this.studentForm.disable();
+  
+          // ✅ Open View Modal
+          setTimeout(() => {
+            const modalElement = document.getElementById("studentDetailsModal");
+            if (modalElement) {
+              modalElement.classList.add("show");
+              modalElement.setAttribute("aria-hidden", "false");
+              modalElement.setAttribute("role", "dialog");
+              modalElement.style.display = "block";
+              document.body.classList.add("modal-open");
+            }
+          }, 200);
+        }
+      },
+      (error) => {
+        console.error("❌ Error fetching student details:", error);
+        this.toastr.error("Failed to load student details. Please try again.", "Error");
+        Swal.fire("❌ Error", "Failed to load student details.", "error");
+      }
+    );
+  }
+  
+ 
+  
+
+  getStudentDetailsexist(username: string): void {
+    this.apiSer.getStudentByUsername(username).subscribe(
+      (response) => {
+        if (response && response.student) {
+          this.studentDetails = response.student;
   
           // ✅ Disable form fields in View mode
           this.studentForm.disable();
@@ -601,7 +658,6 @@ editStudentold(student: any): void {
   }
     
 
-  
 
   closeModal(modalId: string, focusElementId: string) {
     const modalElement = document.getElementById(modalId);

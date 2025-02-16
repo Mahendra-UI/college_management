@@ -246,4 +246,35 @@ onSubmit() {
       }
     );
   }
+
+  deleteSubject(subjectId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this subject!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteSubject(subjectId).subscribe(
+          (response) => {
+            if (response.success) {
+              Swal.fire('Deleted!', 'Subject has been deleted.', 'success');
+              this.subjectsList = this.subjectsList.filter((s) => s.subject_id !== subjectId);
+            } else {
+              Swal.fire('Error!', response.message, 'error');
+            }
+          },
+          (error) => {
+            console.error("❌ Error deleting subject:", error);
+            Swal.fire('Error!', 'Failed to delete subject.', 'error');
+          }
+        );
+      }
+    });
+  }
+
+
 }

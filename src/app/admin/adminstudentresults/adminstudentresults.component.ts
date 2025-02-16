@@ -451,6 +451,34 @@ onSubmitold() {
     );
   }
   
+  deleteStudentResult(resultId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this result!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Confirm!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteStudentResult(resultId).subscribe(
+          (response) => {
+            if (response.success) {
+              Swal.fire('Deleted!', 'Student result has been deleted.', 'success');
+              this.studentResults = this.studentResults.filter((r) => r.result_id !== resultId);
+            } else {
+              Swal.fire('Error!', response.message, 'error');
+            }
+          },
+          (error) => {
+            console.error("❌ Error deleting student result:", error);
+            Swal.fire('Error!', 'Failed to delete student result.', 'error');
+          }
+        );
+      }
+    });
+  }
   
 
   loadSubjects(username: string, courseId: number, semesterId: number) {

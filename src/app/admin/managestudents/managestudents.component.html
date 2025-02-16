@@ -54,7 +54,7 @@
                   <th>Mobile No.</th>
                   <th>Email ID</th>
                   <th>Username</th>
-                  <th>Roll No.</th>
+                  <!-- <th>Roll No.</th> -->
                   <th>Course</th>
                   <th>Course Year</th>
                   <!-- <th>Address</th> -->
@@ -72,7 +72,7 @@
                   <td>{{ student.mobile_no }}</td>
                   <td>{{ student.email_id }}</td>
                   <td>{{ student.username }}</td>
-                  <td>{{student.roll_number}}</td>
+                  <!-- <td>{{student.roll_number}}</td> -->
                   <td>{{ student.course_name }}</td>
                   <td>{{ student.course_year }}</td>
                   <td>
@@ -313,11 +313,11 @@ Submit
 </div>
 
 <!-- Student Details Modal -->
-<div class="modal fade common_modal_popup" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="studentDetailsModalold" tabindex="-1" aria-labelledby="studentDetailsModaloldLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+        <h5 class="modal-title" id="studentDetailsModaloldLabel">Student Details</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <i class="bi bi-x"></i>
         </button>
@@ -337,6 +337,259 @@ Submit
         <p><strong>Address:</strong> {{ studentDetails.student_address }}</p>
         <p><strong>Status:</strong> {{ studentDetails.student_status }}</p>
         <!-- <p><strong>Created At:</strong> {{ studentDetails.created_at | date:'dd/MM/yyyy HH:mm' }}</p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- New -->
+
+
+<!-- Student Details Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="studentDetails">
+
+        <div id="" class="me-auto ms-auto border px-2">
+          <div id="firstPDFPrint">
+              <div class="user-preview">
+                  <div class="row mt-3 user-preview">
+                      <div class="col-md-12 ms-auto me-auto">
+                          <div class="row">
+                              <div class="col-md-12 mx-auto">
+                                  <h4 class="print form-heading">Student Basic Info</h4>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                              Username
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ studentDetails.username }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                              Full Name
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ studentDetails.full_name }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                              Father Name
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ studentDetails.father_name }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Mobile No.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.mobile_no }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                           Email ID
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.email_id }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-none">
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                           Roll Number
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.roll_number }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Course
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.course_name }}
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                              Gender
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ studentDetails.student_gender }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                              Date of Birth
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ studentDetails.student_date_of_birth }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Course Year
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.course_year }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Enrollment Year
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.enrollment_year }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Address
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.student_address }}
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                    <div class="col-md-5 col-12 col-sm-4">
+                                        <div class="previewLabelName">
+                                            Status
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">:</div>
+                                    <div class="col-md-6 col-12 col-sm-7">
+                                        <div class="previewLabelValue">
+                                          {{ studentDetails.student_status }}
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12 mx-auto">
+                              <h4 class="print form-heading">Students Marks</h4>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="table-responsive">
+                              <table class="table table-bordered w-100 common_table">
+                                <thead>
+                                  <tr>
+                                    <th>Subject</th>
+                                    <th>Credits</th>
+                                    <th>Status</th>
+                                    <th>Semester</th>
+                                    <th>Created At</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <ng-container *ngIf="studentDetails.marks && studentDetails.marks.length > 0; else noRecords">
+                                    <tr *ngFor="let mark of studentDetails.marks">
+                                      <td>{{ mark.subject_name }}</td>
+                                      <td>{{ mark.credits }}</td>
+                                      <td>{{ mark.result_status }}</td>
+                                      <td>{{ mark.semester_name }}</td>
+                                      <td>{{ mark.created_at | date: 'dd/MM/yyyy' }}</td>
+                                    </tr>
+                                  </ng-container>
+                              
+                                  <!-- If No Records, Show This -->
+                                  <ng-template #noRecords>
+                                    <tr>
+                                      <td colspan="5" class="text-center">No Records Found</td>
+                                    </tr>
+                                  </ng-template>
+                                </tbody>
+                              </table> 
+                            </div>
+                          </div>
+                          </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
