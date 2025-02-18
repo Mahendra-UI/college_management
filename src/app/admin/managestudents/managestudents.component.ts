@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -42,7 +42,12 @@ export class ManagestudentsComponent implements OnInit {
   yearsList: number[] = []; // Dynamic year list
 
 
-  constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
+  studentUsername: string = '';  // ✅ Define studentUsername
+  courseId: number = 0;          // ✅ Define courseId
+  subjectsList: any[] = []; 
+
+
+  constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService, private toastr: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
 // ✅ Populate Year Dropdown (Last 10 Years)
@@ -533,38 +538,19 @@ editStudentold(student: any): void {
     }, 200);
   }
   
+
   getStudentDetails(username: string): void {
     this.apiSer.getStudentByUsername(username).subscribe(
       (response) => {
         if (response && response.student) {
           this.studentDetails = response.student;
-          const studentUsername: string = response.student.username;
-  
-          // ✅ Fetch student marks
-          this.apiSer.getStudentMarksByUsername(studentUsername).subscribe(
-            (marksResponse) => {
-              if (marksResponse && marksResponse.success === false) {
-                // If API returns "success: false", set marks to an empty array
-                this.studentDetails.marks = [];
-                this.toastr.info(marksResponse.message, "Info");
-              } else if (marksResponse && marksResponse.results.length > 0) {
-                this.studentDetails.marks = marksResponse.results;
-                this.toastr.success("Student marks loaded successfully!", "Success");
-              } else {
-                this.studentDetails.marks = [];
-                this.toastr.info("No marks available for this student.", "Info");
-              }
-            },
-            (error) => {
-              console.error("❌ Error fetching student marks:", error);
-              this.toastr.error("Failed to load student marks. Please try again.", "Error");
-              this.studentDetails.marks = [];
-            }
-          );
-  
-          // ✅ Disable form fields in View mode
-          this.studentForm.disable();
-  
+          this.studentUsername = response.student.username;
+          this.courseId = response.student.course_id;  // Ensure course_id exists in the response
+
+          // ✅ Fetch marks and subjects separately
+          this.getStudentMarks();
+          this.getStudentSubjects();
+
           // ✅ Open View Modal
           setTimeout(() => {
             const modalElement = document.getElementById("studentDetailsModal");
@@ -586,6 +572,47 @@ editStudentold(student: any): void {
     );
   }
   
+  // ✅ Method to fetch student marks
+  getStudentMarks(): void {
+    this.apiSer.getStudentMarksByUsername(this.studentUsername).subscribe(
+      (marksResponse) => {
+        if (marksResponse && marksResponse.success === false) {
+          this.studentDetails.marks = [];
+          this.toastr.info(marksResponse.message, "Info");
+        } else if (marksResponse && marksResponse.results.length > 0) {
+          this.studentDetails.marks = marksResponse.results;
+          this.toastr.success("Student marks loaded successfully!", "Success");
+        } else {
+          this.studentDetails.marks = [];
+          this.toastr.info("No marks available for this student.", "Info");
+        }
+      },
+      (error) => {
+        console.error("❌ Error fetching student marks:", error);
+        this.toastr.error("Failed to load student marks. Please try again.", "Error");
+        this.studentDetails.marks = [];
+      }
+    );
+  }
+
+  // ✅ Method to fetch student subjects
+  getStudentSubjects(): void {
+    this.apiSer.getSubjectsByUsernameAndCourse(this.studentUsername, this.courseId).subscribe({
+      next: (response) => {
+        if (response.success) {
+          setTimeout(() => {
+            this.spinner?.hide(); // ✅ Hide Spinner after timeout
+          }, 500); // Hide after 0.5s
+          this.subjectsList = response.subjects;
+        } else {
+          console.error('No subjects found:', response.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching subjects:', error);
+      }
+    });
+  }
  
   
 
@@ -658,8 +685,63 @@ editStudentold(student: any): void {
   }
     
 
+  navigateToPage() {
+    // Hide modal manually
+    const modal = document.querySelector('.modal.show');
+    if (modal) {
+      (modal as HTMLElement).classList.remove('show');
+      (modal as HTMLElement).setAttribute('aria-hidden', 'true');
+      (modal as HTMLElement).style.display = 'none';
 
-  closeModal(modalId: string, focusElementId: string) {
+      // Remove backdrop
+      document.querySelectorAll('.modal-backdrop').forEach((backdrop) => {
+        backdrop.remove();
+      });
+    }
+
+    // Navigate to another page
+    this.router.navigate(['/admin/adminstudentresults']);
+  }
+
+  navigateAndCloseModal(modalId: string, focusElementId: string, route?: string) {
+    const modalElement = document.getElementById(modalId);
+    const focusElement = document.getElementById(focusElementId);
+
+    if (modalElement) {
+      // ✅ Move focus before hiding modal
+      if (focusElement) {
+        focusElement.focus();
+      }
+
+      // ✅ Hide modal properly
+      modalElement.classList.remove("show");
+      modalElement.setAttribute("aria-hidden", "true");
+      modalElement.removeAttribute("role");
+      modalElement.style.display = "none";
+      document.body.classList.remove("modal-open");
+
+      // ✅ Reset form after closing
+      this.studentForm.reset();
+      this.studentId = 0; // Reset Student ID
+
+      // ✅ Remove backdrop
+      setTimeout(() => {
+        const modalBackdrops = document.getElementsByClassName("modal-backdrop");
+        while (modalBackdrops.length > 0) {
+          modalBackdrops[0].parentNode?.removeChild(modalBackdrops[0]);
+        }
+
+        // ✅ Navigate to the provided route after backdrop removal
+        if (route) {
+          this.router.navigate([route]);
+        }
+      }, 100);
+    }
+  }
+
+
+
+  closeModalold(modalId: string, focusElementId: string) {
     const modalElement = document.getElementById(modalId);
     const focusElement = document.getElementById(focusElementId);
   

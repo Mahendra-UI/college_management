@@ -1,0 +1,714 @@
+// @import 'font-awesome/css/font-awesome.min.css';
+
+/* You can add global styles to this file, and also import other style files */
+
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
+@import 'ngx-toastr/toastr';
+
+.navbar-text {
+  color: #fff;
+}
+.main_heading h5 {
+  font-weight: 700;
+}
+.form-group {
+  margin-bottom: 14px;
+}
+.main_heading {
+  // border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+.common_home_icon {
+  text-align: right;
+}
+.common_home_icon i {
+  color: #00843F;
+  font-size: 26px;
+  cursor: pointer;
+}
+.common_section {
+  padding: 6px;
+  background-color: #fff;
+  margin: 16px;
+  margin-top: 16px;
+}
+.common_add_record_btn {
+  margin-bottom: 6px;
+}
+.form-heading {
+  color: #193567;
+  font-weight: 800;
+  font-size: 20px;
+}
+.previewLabelName {
+  font-weight: 700;
+  font-size: 14px;
+}
+.previewLabelValue {
+  font-weight: 400;
+  font-size: 14px;
+  /* text-transform: capitalize; */
+}
+@media screen and (max-width: 768px) {
+  .modal-body .col-md-1 {
+      display: none;
+  }
+}
+html,
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #E5FAF2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+label, a {
+  font-family: 'Nunito', sans-serif;
+}
+td,
+th {
+    font-family: 'Nunito', sans-serif;
+}
+.error {
+  color: red;
+  font-size: 13px;
+}
+
+.ng-select.ng-select-single .ng-select-container{
+  height: 36px;
+  line-height: 16px;
+}
+//  .ng-select.ng-select-searchable .ng-select-container .ng-value-container .ng-input {
+//     opacity: 0 !important;
+//  }
+//  .ng-select .ng-has-value .ng-placeholder {
+//     display: block;
+//  }
+
+/* Initially show the placeholder text */
+// .ng-select .ng-placeholder 
+
+
+/* Initially show the placeholder text */
+.ng-select .ng-placeholder {
+ display: block;
+ font-size: 14px;
+}
+
+/* Hide the placeholder when there's a value selected */
+.ng-select.ng-select-single .ng-has-value:not(.ng-open) .ng-placeholder {
+ display: none;
+}
+
+/* Display the selected value */
+.ng-select.ng-select-single .ng-value-container .ng-value .ng-value-label {
+ display: block;
+}
+.ngSelect_Class {
+ font-size: 5px !important;
+}
+
+
+.badge.badge-soft-success {
+  background: rgba(26, 190, 23, 0.1);
+  color: #1ABE17;
+}
+.badge.badge-soft-danger {
+  background: rgba(232, 38, 70, 0.1);
+  color: #E82646;
+}
+
+.menuUl {
+        .menuActive {
+    background: #00843F;
+    color: #fff;
+    transition: .5s ease-out;
+        }
+}
+.mandatory {
+  color: red;
+}
+.common_table th {
+  background-color: #ecbb61;
+  // color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+.common_table td {
+  font-size: 14px;
+  font-weight: 500;
+}
+.common_modal_popup .modal-header {
+    background: #ecbb61;
+    // background: linear-gradient(270deg, #018C4B -2.64%, #01787C 100%);
+    color: #fff;
+}
+.common_modal_popup .modal-header .modal-title {
+    margin: 0;
+}
+.common_modal_popup .btn-close {
+    // background: #193567;
+    background: #0F2C7A;
+    opacity: 1;
+    line-height: 1em;
+    position: absolute;
+    right: 24px;
+    top: 24px;
+}
+.common_modal_popup .btn-close i {
+    color: #fff;
+}
+.viewbutton {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.3rem;
+    border-radius: 4px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #fff;
+    background-color: #193567;
+    border-color: #193567;
+}
+.deletebutton {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0.3rem;
+    border-radius: 4px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.btn-close {
+    background: #193567;
+    opacity: 1;
+    line-height: 1em;
+}
+.btn-close i {
+    color: #fff;
+}
+table tr td {
+  vertical-align: middle;
+}
+
+
+
+// left panel css starts
+
+/* You can add global styles to this file, and also import other style files */
+/*Pixel (px) = (Viewport width unit (vw) * Viewport width) / 100*/
+.w-70 {
+    width: 70% !important;
+  }
+  .w-30 {
+    width: 30% !important;
+  }
+  .w-55 {
+    width: 55% !important;
+  }
+  .largeBtnHeight {
+    height: 50px !important;
+  }
+  .bgColor {
+    background-color: #fff;
+  }
+  .fs-12 {
+    font-size: 12px !important;
+  }
+  .fz-10 {
+    font-size: 10px !important;
+  }
+  html, body, .content-panel {
+    height: 100%;
+  }
+  .content-summary {
+    min-height: calc(100% - 187px);
+  }
+  @media (max-width: 767px) {
+    .navbar-expand-lg .navbar-nav .nav-link {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  .header .navbar-light .btn-primary, .card-body .btn-primary {
+    background-color: #09C65A;
+    border-color: #09C65A;
+    font-weight: 500;
+    width: 80px;
+    height: 40px;
+  }
+  /*swal styles */
+  .swal2-icon {
+    transform: scale(0.75);
+  }
+  .swal2-popup {
+    width: 350px !important;
+  }
+  .swal2-html-container {
+    font-weight: 600;
+  }
+  .swal2-styled.swal2-confirm {
+    /* width: 250px; */
+    width: 100px;
+    background: #00a24e !important;
+  }
+  .swal2-deny{
+    width: 100px;
+    /* width: auto; */
+    /* width: 250px; */
+  }
+  .defaultButton {
+    background: #fff;
+    border: 1px solid #fff;
+    color: #A2AEBA;
+      font-family: "Nunito", serif;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .body {
+      font-family: "Nunito", serif;
+    background-color: #F7FBFF;
+    overflow-x: hidden;
+  }
+  .desktopSaapLogo {
+    display: block;
+  }
+  .header .navbar-light .header-menu .btn {
+      font-family: "Nunito", serif;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .header .navbar-light .header-menu .btn:focus {
+    box-shadow: none;
+  }
+  .header .navbar-light .header-menu .btn-secondary {
+    color: black;
+  }
+  .header .navbar-light .btn-secondary {
+    background-color: #F1FAFE;
+    border-color: #F1FAFE;
+    color: #333333;
+  }
+  .header .navbar-light .navbar-light .nav-link {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+  }
+  .header .navbar-brand.saapLogo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header .navbar-brand.saapLogo img {
+    width: 64px;
+  }
+  .header .navbar-brand.saapLogo label {
+    color: #000;
+  }
+  .header .navbar-brand.saapLogo label b {
+    color: #00A24E;
+  }
+  .heading-primary {
+    font-weight: 600;
+    font-size: 32px;
+    margin-top: 50px;
+  }
+  .btn-group .btn {
+    border-radius: 0.25rem !important;
+  }
+  .content {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+  }
+  .heading-2 {
+    font-weight: 700;
+    font-size: 24px;
+  }
+  .footer {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    box-shadow: 1px 1px 4px 2px #ccc;
+    margin-top: 0.9375rem;
+  }
+  .footer ul {
+    list-style: none;
+    padding: 0;
+  }
+  .footer a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    text-decoration: none;
+    display: block;
+  }
+  .footer .social-icons svg {
+    background-color: #EFF3F8;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  ::-webkit-input-placeholder {
+    color: #B2B2B2 !important;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333333;
+    font-weight: 300 !important;
+  }
+  /* The Overlay (background) */
+  .overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    height: 100%;
+    width: 0;
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: black;
+    /* Black fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/opacity */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+  }
+  /* Position the content inside the overlay */
+  .overlay-content {
+    position: relative;
+    top: 25%;
+    /* 25% from the top */
+    width: 100%;
+    /* 100% width */
+    text-align: center;
+    /* Centered text/links */
+    margin-top: 30px;
+    /* 30px top margin to avoid conflict with the close button on smaller screens */
+  }
+  /* The navigation links inside the overlay */
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    /* Display block instead of inline */
+    transition: 0.3s;
+    /* Transition effects on hover (color) */
+  }
+  /* When you mouse over the navigation links, change their color */
+  .overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+  }
+  /* Position the close button (top right corner) */
+  .overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+  }
+
+  .panel-title > a:before {
+    float: right !important;
+    content: "+";
+    padding-right: 5px;
+  }
+  .panel-title > a.collapsed:before {
+    float: right !important;
+    content: "-";
+  }
+  .panel-title > a:hover, .panel-title > a:active, .panel-title > a:focus {
+    text-decoration: none;
+  }
+  .gamesIcons figure {
+    margin-bottom: 0;
+  }
+  .gamesIcons figure a {
+    width: 44px;
+    height: 44px;
+    background-color: white;
+    border: 1px solid #A2AEBA;
+    border-radius: 16px;
+    display: flex;
+    text-align: center;
+    margin: auto;
+    cursor: pointer;
+  }
+  .gamesIcons figure a img {
+    margin: auto;
+  }
+  .gamesIcons figure a.active {
+    background: #00A24E;
+    border: 1px solid #00A24E;
+  }
+  .gamesIcons figure a.active img {
+    filter: contrast(10);
+  }
+  .gamesIcons figure figcaption {
+      font-family: "Nunito", serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .in-out-sports .accordion-item {
+    border: 0;
+  }
+  .in-out-sports .accordion-item .accordion-header > button {
+    background-color: transparent;
+    color: #193567;
+      font-family: "Nunito", serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  .stadiumLocation {
+    background-color: #193567;
+    height: 100%;
+    padding: 5% 20% 5% 3%;
+  }
+  .stadiumLocation h6 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: #fff;
+  }
+  .stadiumLocation p {
+      font-family: "Nunito", serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: white;
+  }
+  .stadiumLocation time {
+    position: relative;
+  }
+  .stadiumLocation time label.timer {
+    color: white;
+    padding-left: 5%;
+      font-family: "Nunito", serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    // background-image: url('./assets/timer.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .stadiumLocation time > .rating {
+    top: 0;
+    right: 0;
+      font-family: "Nunito", serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 26px;
+  }
+  .stadiumLocation .locmap {
+    width: 100%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+  }
+  .stadiumLocation .locmap img {
+    width: 100%;
+  }
+  .stadiumLocation .locmap button {
+      font-family: "Nunito", serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 26px;
+    height: 60px;
+  }
+  .carousel .carousel-indicators button[data-bs-target] {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 100%;
+    opacity: 1;
+  }
+  .carousel .carousel-indicators button[data-bs-target].active {
+    background-color: #FF9415;
+  }
+  /**** Left Panel Layout  *******/
+  .content-panel {
+    margin-left: 248px;
+    transition: all 0.3s;
+  }
+  .content-panel.active {
+    margin-left: 0;
+    transition: all 0.3s;
+  }
+  .left-panel:not(.active) .sidebar {
+    margin-left: -100%;
+    transition: all 0.5s;
+  }
+  /*    Humberger icon
+   --------------------------*/
+  .hamburger {
+    display: inline-block;
+    left: 0px;
+    position: relative;
+    top: 0px;
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+    width: 37px;
+    z-index: 999;
+  }
+  .hamburger .line {
+    // background-color: #A2AEBA;
+    background-color: #fff;
+    display: block;
+    height: 3px;
+    margin: 4px auto;
+    width: 22px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+  }
+  .hamburger:hover {
+    cursor: pointer;
+  }
+  /********************** Scroll bar customization *****************************/
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #999EA1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #4e555c;
+    border: 3px solid transparent;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #5f676e;
+  }
+  /************   Admin-Reports  *************/
+  .header-panel {
+    min-height: 50px;
+    margin: 15px 0 5px;
+  }
+  .header-panel .page-title h1 {
+      font-family: "Nunito", serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #333333;
+    padding: 14px 0;
+    margin: 0;
+  }
+  .header-panel .breadcrumb {
+    margin: 0;
+    padding: 15px;
+    background: transparent;
+    float: left;
+  }
+  .header-panel .breadcrumb .breadcrumb-item {
+      font-family: "Nunito", serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #333333;
+    text-decoration: none;
+  }
+  .header-panel .breadcrumb .breadcrumb-item .bi-chevron-double-right {
+    font-size: 10px;
+  }
+  .header-panel .breadcrumb .breadcrumb-item::before {
+    content: unset !important;
+  }
+  .header-panel .breadcrumb .breadcrumb-item a {
+      font-family: "Nunito", serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #333333;
+    text-decoration: none;
+  }
+  .header-panel .breadcrumb .breadcrumb-item.active {
+    color: #00A24E;
+  }
+
+  ng-select.statusSelect {
+    width: 120px;
+  }
+  ng-select.statusSelect .ng-select-container .ng-value-container .ng-input {
+    top: unset !important;
+    position: relative;
+  }
+
+  .ngx-pagination {
+    padding: 0 !important;
+    text-align: right;
+  }
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .content-panel {
+      margin-left: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .content-panel {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+  /****** Mobile 320px View *********/
+  @media (max-width: 320px) {
+    .sidebar {
+      width: 100% !important;
+    }
+    .hamburger {
+      right: 0 !important;
+      left: unset;
+      top: 0px;
+      z-index: 999999;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    header .navbar {
+      padding: 0;
+    }
+    header .navbar .nav-link {
+      font-size: 12px !important;
+    }
+    header .container {
+      max-width: 100%;
+    }
+    header .navbar-light:not(.navbar.navbar-light) {
+      padding-bottom: 1rem;
+    }
+    .section-mt .card-body {
+      padding: 15px !important;
+    }
+    .mx-4 {
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+    .form-select, .form-control {
+      font-size: 18px;
+    }
+  }
+  .ngx-pagination .current {
+    background: #00a24e !important;
+    padding: 0.375rem 0.75rem !important;
+  }
+  .form-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .breadcrumb-item {
+    cursor: pointer;
+  }
+  

@@ -18,7 +18,8 @@ export class StudentresultsComponent implements OnInit {
   username: string | null = null;
   courseId: number | null = null;
 
-  courseName: string = 'Loading...';
+  // courseName: string = 'Loading...';
+  courseName: string | null = null;
   semesterName: string = 'Loading...';
 
   semesters: any[] = [];
@@ -29,6 +30,10 @@ export class StudentresultsComponent implements OnInit {
   ngOnInit(): void {
     // ✅ Retrieve values from sessionStorage instead of localStorage
     this.username = sessionStorage.getItem('username');
+    this.courseName = sessionStorage.getItem('course_name');
+
+    console.log(this.courseName, "session storage course name");
+    
     this.courseId = Number(sessionStorage.getItem('courseId'));
 
     if (this.username && this.courseId) {

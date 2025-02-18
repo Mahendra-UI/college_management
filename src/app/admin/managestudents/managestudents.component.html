@@ -113,9 +113,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="studentModalLabel">Student Form</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('studentModal', 'openStudentFormBtn')">
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="navigateAndCloseModal('studentModal', 'openStudentFormBtn')">
           <i class="bi bi-x"></i>
-        </button>
+        </button> -->
+
+        <button type="button" class="btn-close" aria-label="Close" 
+        (click)="navigateAndCloseModal('studentModal', 'openStudentFormBtn', '/admin/manageStudents')">
+  <i class="bi bi-x"></i>
+</button>
+
       </div>
       <div class="modal-body">
         <div class="container">
@@ -290,7 +296,9 @@
                   <button type="button" class="btn btn-success mt-4 w-100"
                   [disabled]="studentForm.invalid || (studentId !== 0 && !studentForm.dirty)"
                   (click)="onSubmit()">
-                  Submit
+                  <!-- {{ isSubmitting }}Submit -->
+                  {{ studentId ? 'Update' : 'Submit' }}
+
                 </button>
                 
 
@@ -550,8 +558,20 @@ Submit
                           <div class="row">
                             <div class="col-md-12 mx-auto">
                               <h4 class="print form-heading">Students Marks</h4>
-                          </div>
+                            </div>
                           <div class="col-md-12">
+
+                            <!-- Modal Buttons -->
+                            <div class="text-end pb-2">
+                              <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentresults')">
+                                Edit Student Results
+                              </button>
+                            </div>
+                            <!-- <button class="btn btn-primary" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentfees')">
+                              Go to Student Fees
+                            </button> -->
+                            <!-- <button type="button" class="btn btn-primary" (click)="navigateToPage()">Edit Marks</button> -->
+                            <!-- <a routerLink="/admin/adminstudentresults">Edit Marks</a> -->
                             <div class="table-responsive">
                               <table class="table table-bordered w-100 common_table">
                                 <thead>
@@ -583,6 +603,41 @@ Submit
                                 </tbody>
                               </table> 
                             </div>
+                            <div class="col-md-12 mx-auto">
+                              <h4 class="print form-heading">Student Subjects</h4>
+                            </div>
+                              <div class="table-responsive">
+                                <div class="text-end pb-2">
+                                  <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/subjectsManage')">
+                                    Edit Student Subjects
+                                  </button>
+                                </div>
+                                <table class="table table-bordered w-100 common_table">
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Course Name</th>
+                                      <th>Semester Name</th>
+                                      <th>Subject Name</th>
+                                      <!-- <th>Subject Code</th> -->
+                                      <th>Credits</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let subject of subjectsList, let i = index;">
+                                      <td>{{ i+1 }}</td>
+                                      <td>{{ subject.course_name }}</td> 
+                                      <td>{{subject.semester_name }}</td>
+                                      <td>{{ subject.subject_name }}</td>
+                                      <!-- <td>{{ subject.subject_code }}</td> -->
+                                      <td>{{ subject.subject_credits }}</td>
+                                    </tr>
+                                    <tr *ngIf="subjectsList.length == 0">
+                                      <td colspan="5" class="text-center">No Record Found</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
                           </div>
                           </div>
                       </div>
