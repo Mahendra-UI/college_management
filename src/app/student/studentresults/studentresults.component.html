@@ -44,33 +44,23 @@
           <thead>
             <tr>
               <th>#</th>
-              <!-- <th>Course Name</th> -->
               <th>Semester</th>
               <th>Subject Name</th>
-              <!-- <th>Subject Code</th> -->
               <th>Total Credits</th>
               <th>Credits Earned</th>
               <th>Result Status</th>
-              <!-- <th>Created At</th>
-              <th>Last Updated</th> -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let result of resultsList; let i = index;">
               <td>{{ i+1 }}</td>
-              <!-- <td>{{ result.course_name }}</td> -->
               <td>{{ result.semester_name }}</td>
               <td>{{ result.subject_name }}</td>
-              <!-- <td>{{ result.subject_code }}</td> -->
               <td>{{ result.total_credits }}</td>
               <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
-                {{ result.result_status === 'Pass' ? result.total_credits : 0 }}
+                {{ result.result_status === 'Pass' ? result.earned_credits : 0 }}
               </td>
-              <!-- <td>{{ result.result_status }}</td> -->
-
               <td><span class="badge badge-soft-{{ result.result_status === 'Pass' ? 'success' : 'danger' }}">{{ result.result_status }}</span></td>
-              <!-- <td>{{ result.created_at | date:'short' }}</td>
-              <td>{{ result.updated_at | date:'short' }}</td> -->
             </tr>
             <tr *ngIf="resultsList.length == 0">
               <td colspan="7" class="text-center">No Results Found</td>
