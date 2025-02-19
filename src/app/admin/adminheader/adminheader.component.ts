@@ -18,11 +18,25 @@ export class AdminheaderComponent implements OnInit {
   registerInfo!: boolean;
   innerWidth: any;
   emploginData: any;
+
+
+  fullName: string | null = null;
+  course_name: string | null = null;
+  username: string | null = null;
   constructor(private route:ActivatedRoute,
     private router:Router) {
    }
   encrypted:any;
   ngOnInit(): void {
+    this.fullName = sessionStorage.getItem('fullName');
+    this.username = sessionStorage.getItem('username');
+    this.course_name = sessionStorage.getItem('course_name');
+
+    if (!this.course_name) {
+        console.warn("🚨 Warning: course_name is missing in sessionStorage!");
+    } else {
+        console.log("✅ Course Name Loaded:", this.course_name);
+    }
     }
   signOut(){
     this.router.navigate(['/login']);

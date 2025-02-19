@@ -23,53 +23,53 @@
                     </button>
                 </div>
                 <div class="table-responsive">
-          <table class="table table-bordered w-100 common_table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Subject Name</th>
-                <!-- <th>Subject Code</th> -->
-                <th>Credits</th>
-                <th>Course</th>
-                <th>Semester</th>
-                <!-- <th>Created At</th>
-                <th>Updated At</th> -->
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let subject of subjectsList, let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ subject.subject_name }}</td>
-                  <!-- <td>{{ subject.subject_code }}</td> -->
-                  <td>{{ subject.subject_credits }}</td>
-                  <td>{{ subject.course_name }}</td>
-                  <td>{{ subject.semester_name }}</td>
-                  <!-- <td>{{ subject.created_at | date:'short' }}</td>
-                  <td>{{ subject.updated_at | date:'short' }}</td> -->
-                  <td>
-                    <div class="hstack gap-2">
-                        <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#subjectDetailsModal" (click)="getSubjectDetails(subject.subject_id)">
-                            <i class="bi bi-eye"></i>
-                        </a>
-                        <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a class="btn btn-danger btn-sm" (click)="deleteSubject(subject.subject_id)">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                        <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">Edit</button> -->
-                        <!-- <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#subjectDetailsModal" (click)="getSubjectDetails(subject.subject_id)">
-                            View
-                          </button> -->
-                          <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">Edit</button> -->
+                    <!-- Search and Count Display -->
+                    <div class="d-flex justify-content-between mb-2">
+                      <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterSubjects()" placeholder="Search Subject...">
+                      <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredSubjects.length }} records</span>
                     </div>
-                  </td>
-              </tr>
-            </tbody>
-          </table>
-          
-                </div>
+                  
+                    <table class="table table-bordered w-100 common_table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Subject Name</th>
+                          <th>Credits</th>
+                          <th>Course</th>
+                          <th>Semester</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let subject of filteredSubjects | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'first' }; let i = index">
+                          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                          <td>{{ subject.subject_name }}</td>
+                          <td>{{ subject.subject_credits }}</td>
+                          <td>{{ subject.course_name }}</td>
+                          <td>{{ subject.semester_name }}</td>
+                          <td>
+                            <div class="hstack gap-2">
+                              <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#subjectDetailsModal" (click)="getSubjectDetails(subject.subject_id)">
+                                  <i class="bi bi-eye"></i>
+                              </a>
+                              <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal" (click)="onEdit(subject.subject_id)">
+                                  <i class="bi bi-pencil"></i>
+                              </a>
+                              <a class="btn btn-danger btn-sm" (click)="deleteSubject(subject.subject_id)">
+                                  <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr *ngIf="filteredSubjects.length === 0">
+                          <td colspan="6" class="text-center">No Records Found</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  
+                    <!-- Pagination Controls -->
+                    <pagination-controls id="first" (pageChange)="onPageChange($event)"></pagination-controls>
+                  </div>                  
             </div>
         </div>
     </div>

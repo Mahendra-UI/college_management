@@ -10,3 +10,17 @@ collegemanagement
 
 ALTER TABLE students DROP COLUMN student_semester_cgpa, DROP COLUMN student_pass_status; -->
 
+<!-- 
+
+SELECT last_value FROM students_student_id_seq;
+
+
+ALTER SEQUENCE students_student_id_seq RESTART WITH 1;
+
+
+UPDATE students SET student_id = DEFAULT WHERE student_id = 2;
+
+
+ALTER TABLE students ALTER COLUMN student_id SET DEFAULT nextval('students_student_id_seq'); -->
+
+

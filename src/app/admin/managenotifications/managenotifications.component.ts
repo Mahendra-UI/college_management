@@ -6,15 +6,23 @@ import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-managenotifications',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './managenotifications.component.html',
   styleUrl: './managenotifications.component.scss'
 })
 export class ManagenotificationsComponent implements OnInit {
+
+  filteredNotifications: any[] = []; // Filtered Data for Search
+  searchText: string = ''; 
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+
+
   notificationForm!: FormGroup;
   notifications: any[] = [];
   isEditing: boolean = false;
@@ -47,13 +55,46 @@ export class ManagenotificationsComponent implements OnInit {
           // this.toastr.success('Notifications Loaded Successfully ✅', 'Success');
         }, 400);
         this.notifications = response.notifications;
+        this.filteredNotifications = response.notifications; // Initialize filtered list
       } else {
         this.notifications = [];
         console.warn("⚠ No notifications found.");
       }
     }, error => {
+      this.spinner.hide();
       console.error("❌ Error fetching notifications:", error);
     });
+  }
+
+  /**
+   * Search Function - Filters dynamically across all object properties
+   */
+  filterNotifications(): void {
+    if (!this.searchText) {
+      this.filteredNotifications = this.notifications;
+      return;
+    }
+    
+    const searchTerm = this.searchText.toLowerCase();
+    this.filteredNotifications = this.notifications.filter(notification =>
+      Object.values(notification).some(value =>
+        value && value.toString().toLowerCase().includes(searchTerm)
+      )
+    );
+  }
+
+  /**
+   * Display count of currently visible records
+   */
+  displayedRecordsCount(): number {
+    return Math.min(this.itemsPerPage, this.filteredNotifications.length - (this.currentPage - 1) * this.itemsPerPage);
+  }
+
+  /**
+   * Handle Page Change
+   */
+  onPageChange(event: number) {
+    this.currentPage = event;
   }
 
   // ✅ Fetch Notification by ID (View Notification)

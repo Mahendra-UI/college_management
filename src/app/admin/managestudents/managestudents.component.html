@@ -44,8 +44,13 @@
             <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search students..." (input)="filterStudents()">
             <p><strong>Total Students:</strong> {{ studentsList.length }}</p>
           </div>
-
           <div class="table-responsive">
+            <!-- Search and Count Display -->
+            <div class="d-flex justify-content-between mb-2">
+              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterStudents()" placeholder="Search Student...">
+              <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredStudents.length }} records</span>
+            </div>
+          
             <table class="table-bordered table w-100 common_table">
               <thead>
                 <tr>
@@ -54,54 +59,44 @@
                   <th>Mobile No.</th>
                   <th>Email ID</th>
                   <th>Username</th>
-                  <!-- <th>Roll No.</th> -->
                   <th>Course</th>
                   <th>Course Year</th>
-                  <!-- <th>Address</th> -->
                   <th>Status</th>
-                  <!-- <th>Created At</th> -->
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- <tr *ngFor="let student of studentsList; let i = index">
-                  <td>{{ i + 1 }}</td> -->
-                <tr *ngFor="let student of filteredStudents |paginate: { itemsPerPage: itemsPerPage, currentPage: p,id: 'first' }; let i = index">
-                  <td>{{(p - 1) * itemsPerPage + i + 1}}</td>
+                <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'first' }; let i = index">
+                  <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td>{{ student.full_name }}</td>
                   <td>{{ student.mobile_no }}</td>
                   <td>{{ student.email_id }}</td>
                   <td>{{ student.username }}</td>
-                  <!-- <td>{{student.roll_number}}</td> -->
                   <td>{{ student.course_name }}</td>
                   <td>{{ student.course_year }}</td>
                   <td>
-                      <span class="badge badge-soft-{{ student.student_status === 'Active' ? 'success' : 'danger' }}">{{ student.student_status }}</span>
+                    <span class="badge badge-soft-{{ student.student_status === 'Active' ? 'success' : 'danger' }}">{{ student.student_status }}</span>
                   </td>
                   <td>
                     <div class="hstack gap-2">
-                      <a class="btn btn-success btn-sm"id="viewDetailsBtn" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentDetailsModal">
+                      <a class="btn btn-success btn-sm" id="viewDetailsBtn" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentDetailsModal">
                           <i class="bi bi-eye"></i>
                       </a>
-                      <!-- ✅ Edit Student Details -->
-                      <a class="btn btn-primary btn-sm"
-                      (click)="openEditStudentModal(student.username)">
+                      <a class="btn btn-primary btn-sm" (click)="openEditStudentModal(student.username)">
                         <i class="bi bi-pencil"></i>
                       </a>
-                      <!-- <a class="btn btn-primary btn-sm" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentModal">
-                          <i class="bi bi-pencil"></i>
-                      </a> -->
-                  </div>
+                    </div>
                   </td>
                 </tr>
                 <tr *ngIf="filteredStudents.length === 0">
-                  <td class="text-center" colspan="10">No Records Found</td>
+                  <td class="text-center" colspan="9">No Records Found</td>
                 </tr>
               </tbody>
             </table>
-            <pagination-controls id="first" (pageChange)="onPageChange($event)">
-            </pagination-controls>
-          </div>
+          
+            <!-- Pagination Controls -->
+            <pagination-controls id="first" (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>          
         </div>
       </div>
     </div>

@@ -7,16 +7,25 @@ import { NgSelectModule} from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-adminstudentresults',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgSelectModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgSelectModule, NgxPaginationModule],
   templateUrl: './adminstudentresults.component.html',
   styleUrl: './adminstudentresults.component.scss'
 })
 export class AdminstudentresultsComponent implements OnInit {
+
+
+  filteredStudentResults: any[] = []; // Filtered Data for Search
+  searchText: string = ''; 
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+
+
   studentResultsForm!: FormGroup;
   studentResults: any[] = [];
   students: any[] = [];
@@ -59,6 +68,7 @@ export class AdminstudentresultsComponent implements OnInit {
             this.spinner.hide(); // ✅ Hide Spinner after timeout
           }, 500); // Hide after 1.5s
             this.studentResults = response.results;
+            this.filteredStudentResults = response.results; // Initialize filtered list
             console.log("✅ Student Results Loaded:", this.studentResults);
         } else {
           setTimeout(() => {
@@ -74,6 +84,37 @@ export class AdminstudentresultsComponent implements OnInit {
         console.error("❌ Error Fetching Student Results:", error);
     });
   }
+
+/**
+   * Search Function - Filters dynamically across all object properties
+   */
+filterStudentResults(): void {
+  if (!this.searchText) {
+    this.filteredStudentResults = this.studentResults;
+    return;
+  }
+  
+  const searchTerm = this.searchText.toLowerCase();
+  this.filteredStudentResults = this.studentResults.filter(result =>
+    Object.values(result).some(value =>
+      value && value.toString().toLowerCase().includes(searchTerm)
+    )
+  );
+}
+
+/**
+ * Display count of currently visible records
+ */
+displayedRecordsCount(): number {
+  return Math.min(this.itemsPerPage, this.filteredStudentResults.length - (this.currentPage - 1) * this.itemsPerPage);
+}
+
+/**
+ * Handle Page Change
+ */
+onPageChange(event: number) {
+  this.currentPage = event;
+}
 
   loadStudentsByCourse(courseId: number, callback?: () => void) {
     this.apiService.getStudentsByCourse(courseId).subscribe((response) => {

@@ -1,5 +1,6 @@
 // Define variables
-$primary-color: #0F2C7A;
+// $primary-color: #0F2C7A;
+$primary-color: #07294d;
 $secondary-color: #22252C;
 $hover-bg-color: #394253;
 $highlight-color: orange;
@@ -111,7 +112,30 @@ $line-height-xl: 31px;
     }
   }
 }
-
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a {
+  color: #fff;
+  position: relative;
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
+  background-color: #394253;
+  /* background: #03A9F5; */
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > label {
+  color: orange;
+}
+.sidebar .nav-content > ul li.acttive-link > a {
+  background-color: #394253;
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > i {
+  color: orange;
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active > a {
+  color: #fff;
+  position: relative;
+  /* background: #03A9F5; */
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
+}
 .user-profile {
   p, label, b {
     font-family: $font-primary;

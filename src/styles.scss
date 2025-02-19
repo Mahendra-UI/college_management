@@ -12,7 +12,9 @@ $background-light: #E5FAF2;
 $modal-header-bg: #ecbb61;
 $button-primary-bg: #09C65A;
 $error-color: red;
-$table-header-bg: #ecbb61;
+// $table-header-bg: #ecbb61;
+$table-header-bg: #ff9b46;
+// $table-header-bg: #F7993F;
 $btn-close-bg: #0F2C7A;
 $body-bg: #F7FBFF;
 $text-light: #fff;
@@ -33,7 +35,7 @@ $font-weight-extra-bold: 800;
 
 .main_heading {
   h5 {
-    font-weight: $font-weight-bold;
+    font-weight: 700;
   }
   margin-bottom: 20px;
 }
@@ -49,7 +51,7 @@ $font-weight-extra-bold: 800;
   text-align: right;
 }
 .ngx-pagination .current {
-  background: #00a24e !important;
+  background: #099C67 !important;
   padding: 0.375rem 0.75rem !important;
 }
   /*swal styles */
@@ -79,7 +81,8 @@ $font-weight-extra-bold: 800;
 .common_home_icon {
   text-align: right;
   i {
-    color: $secondary-color;
+    color: #099C67;
+    // color: $secondary-color;
     font-size: 26px;
     cursor: pointer;
   }
@@ -229,6 +232,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
   }
 }
 
+.btn-success {
+  background-color: #099C67 !important;
+}
+
 .left-panel:not(.active) .sidebar {
   margin-left: -100%;
   transition: all 0.5s;
@@ -256,6 +263,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
     cursor: pointer;
   }
 }
+
+
+
+/********************** Scroll bar customization *****************************/
 
 ::-webkit-scrollbar {
   width: 8px;

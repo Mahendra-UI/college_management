@@ -22,45 +22,48 @@
                     </button>
                 </div>
                 <div class="table-responsive">
-                <!-- ✅ Notifications Table -->
-                <table class="table table-bordered w-100 common_table">
-                    <thead>
+                    <!-- Search and Count Display -->
+                    <div class="d-flex justify-content-between mb-2">
+                      <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterNotifications()" placeholder="Search Notification...">
+                      <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredNotifications.length }} records</span>
+                    </div>
+                  
+                    <!-- ✅ Notifications Table -->
+                    <table class="table table-bordered w-100 common_table">
+                      <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <!-- <th>Created At</th>
-                            <th>Updated At</th> -->
-                            <th>Actions</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Actions</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let notification of notifications">
-                            <td>{{ notification.title }}</td>
-                            <td>{{ notification.title_description }}</td>
-                            <!-- <td>{{ notification.created_at | date:'short' }}</td>
-                            <td>{{ notification.updated_at | date:'short' }}</td> -->
-                            <td>
-                                <div class="hstack gap-2">
-                                    <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#viewNotificationModal" (click)="viewNotification(notification.notification_id)" >
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNotificationModal" (click)="editNotification(notification.notification_id)">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a class="btn btn-danger btn-sm" (click)="deleteNotification(notification.notification_id)">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                    <!-- <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addNotificationModal" (click)="editNotification(notification.notification_id)">Edit</button>
-                                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewNotificationModal" (click)="viewNotification(notification.notification_id)">View</button> -->
-                                </div>
-                            </td>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let notification of filteredNotifications | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'first' }; let i = index">
+                          <td>{{ notification.title }}</td>
+                          <td>{{ notification.title_description }}</td>
+                          <td>
+                            <div class="hstack gap-2">
+                              <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewNotificationModal" (click)="viewNotification(notification.notification_id)">
+                                <i class="bi bi-eye"></i>
+                              </a>
+                              <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addNotificationModal" (click)="editNotification(notification.notification_id)">
+                                <i class="bi bi-pencil"></i>
+                              </a>
+                              <a class="btn btn-danger btn-sm" (click)="deleteNotification(notification.notification_id)">
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </td>
                         </tr>
-                        <tr *ngIf="notifications.length == 0">
-                            <td colspan="4" class="text-center">No Record Found</td>
+                        <tr *ngIf="filteredNotifications.length === 0">
+                          <td colspan="3" class="text-center">No Records Found</td>
                         </tr>
-                    </tbody>
-                </table>
-                </div>
+                      </tbody>
+                    </table>
+                  
+                    <!-- Pagination Controls -->
+                    <pagination-controls id="first" (pageChange)="onPageChange($event)"></pagination-controls>
+                  </div>                  
             </div>
         </div>
 

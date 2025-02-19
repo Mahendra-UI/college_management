@@ -19,16 +19,10 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManagestudentsComponent implements OnInit {
 
-  filteredStudents: any[] = []; // Filtered list for search
-  searchText: string = ''; // Search text
+  filteredStudents: any[] = []; // Filtered Data for Search
+  searchText: string = ''; 
   itemsPerPage: number = 50;
-  currentPage!: number;
-  p: number = 1; // Default page number
-  onPageChange(e: number) {
-    if (e) {
-      this.p = e;
-    }
-  }
+  currentPage: number = 1;
 
   isSubmitting: boolean = false; // ✅ FIXED Missing Variable
   isCheckingDuplicate : boolean = false;
@@ -96,18 +90,42 @@ loadStudents(): void {
       this.filteredStudents = data; // Initialize filtered list
     },
     (error) => {
+      this.spinner.hide();
       console.error('Error fetching students', error);
     }
   );
 }
 
-// ✅ Search Function
+/**
+   * Search Function - Filters all object properties dynamically
+   */
 filterStudents(): void {
-  this.filteredStudents = this.studentsList.filter(student => {
-    return Object.values(student).some((value: any) =>
-      value.toString().toLowerCase().includes(this.searchText.toLowerCase())
+  if (!this.searchText) {
+    this.filteredStudents = this.studentsList;
+  }
+  else {
+    const searchTerm = this.searchText.toLowerCase();
+    this.filteredStudents = this.studentsList.filter(student =>
+      Object.values(student).some(value =>
+        value && value.toString().toLowerCase().includes(searchTerm)
+      )
     );
-  });
+  }
+  this.currentPage = 1;
+}
+
+/**
+ * Display count of currently visible records
+ */
+displayedRecordsCount(): number {
+  return Math.min(this.itemsPerPage, this.filteredStudents.length - (this.currentPage - 1) * this.itemsPerPage);
+}
+
+/**
+ * Handle Page Change
+ */
+onPageChange(event: number) {
+  this.currentPage = event;
 }
 
   /**

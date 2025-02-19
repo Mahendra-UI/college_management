@@ -5,15 +5,54 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-subjects-management',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './subjects-management.component.html',
   styleUrl: './subjects-management.component.scss'
 })
 export class SubjectsManagementComponent implements OnInit {
+
+  filteredSubjects: any[] = []; // Filtered Data for Search
+  searchText: string = ''; // Search text
+  itemsPerPage: number = 5; 
+  currentPage: number = 1; 
+
+  /**
+   * Search Function - Filters dynamically across all object properties
+   * ✅ Resets `currentPage` to `1` to fix pagination issue
+   */
+  filterSubjects(): void {
+    if (!this.searchText) {
+      this.filteredSubjects = this.subjectsList;
+    } else {
+      const searchTerm = this.searchText.toLowerCase();
+      this.filteredSubjects = this.subjectsList.filter(subject =>
+        Object.values(subject).some(value =>
+          value && value.toString().toLowerCase().includes(searchTerm)
+        )
+      );
+    }
+    
+    this.currentPage = 1; // ✅ Reset pagination when searching
+  }
+
+  /**
+   * Display count of currently visible records
+   */
+  displayedRecordsCount(): number {
+    return Math.min(this.itemsPerPage, this.filteredSubjects.length - (this.currentPage - 1) * this.itemsPerPage);
+  }
+/**
+ * Handle Page Change
+ */
+onPageChange(event: number) {
+  this.currentPage = event;
+}
+
   subjectForm!: FormGroup;
   subjectsList: any[] = [];
   coursesList: any[] = [];
@@ -74,8 +113,12 @@ export class SubjectsManagementComponent implements OnInit {
         }, 500); // Hide after 1.5s
         console.log("✅ Subjects List:", data.subjects);
         this.subjectsList = data.subjects;
+        this.filteredSubjects = data.subjects; // Initialize filtered list
       },
-      error => console.error("❌ Error fetching subjects:", error)
+      (error) => {
+        this.spinner.hide();
+        console.error("❌ Error fetching subjects:", error)
+      }
     );
   }
 

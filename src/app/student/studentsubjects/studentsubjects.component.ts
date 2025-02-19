@@ -45,11 +45,15 @@ export class StudentsubjectsComponent implements OnInit {
             }, 500); // Hide after 1.5s
             this.subjectsList = response.subjects;
           } else {
+            this.spinner.hide();
             console.error('No subjects found:', response.message);
+            this.spinner.hide();
           }
         },
         error: (error) => {
+          this.spinner.hide();
           console.error('Error fetching subjects:', error);
+          this.spinner.hide();
         }
       });
     }
