@@ -53,9 +53,9 @@
                 <label for="userType" class="form-label">Select Type <span class="mandatory">*</span></label>
                 <select class="form-select" id="userType" formControlName="userType" (change)="userChange($event)">
                   <option value="" selected disabled>--Select--</option>
-                  <option value="1">Admin</option>
-                  <option value="2">Hostel Admin</option> <!-- ✅ Added Hostel Admin -->
-                  <option value="3">Student</option>
+                  <option value="1">Student</option>
+                  <option value="2">Admin</option> <!-- ✅ Added Hostel Admin -->
+                  <option value="3">Hostel Admin</option>
                 </select>
                 <div class="text-danger" *ngIf="loginFormCtrl('userType')?.invalid && loginFormCtrl('userType')?.touched">Type is required</div>
               </div>

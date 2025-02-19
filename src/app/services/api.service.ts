@@ -184,6 +184,18 @@ deleteSubject(subjectId: number): Observable<any> {
 }
 
 
+/**
+   * Change Student Password
+   */
+changePassword(username: string, currentPassword: string, newPassword: string): Observable<any> {
+  return this.http.post(`${this.baseUrl}/change-password`, {
+    username,
+    currentPassword,
+    newPassword
+  });
+}
+
+
 // getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
 //   return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
 // }

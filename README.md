@@ -24,3 +24,36 @@ UPDATE students SET student_id = DEFAULT WHERE student_id = 2;
 ALTER TABLE students ALTER COLUMN student_id SET DEFAULT nextval('students_student_id_seq'); -->
 
 
+
+
+<!-- 
+select * from login l 
+
+
+
+UPDATE login SET password = crypt('Student123', gen_salt('bf')) WHERE username = 'B224002';
+
+
+SELECT username, passwor	d FROM login WHERE username = 'B224002';
+
+SELECT password = crypt('Mahendra123', password) AS is_match
+FROM login WHERE username = 'B224002';
+
+
+SELECT crypt('Mahendra123', password) = password AS is_match
+FROM login 
+WHERE username = 'B224002';
+
+UPDATE login 
+SET password = crypt('Mahendra123', gen_salt('bf')) 
+WHERE username = 'B224002';
+
+UPDATE login 
+SET password = crypt('Student123', gen_salt('bf')) 
+WHERE username = 'B224001'; -->
+
+
+
+
+
+

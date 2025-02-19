@@ -40,11 +40,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   userChange(event: any) {
     const userId = event.target.value;
     if (userId === '1') {
-      this.selectedValue = 'Admin';
-    } else if (userId === '2') {
-      this.selectedValue = 'Hostel Admin';
-    } else if (userId === '3') {
       this.selectedValue = 'Student';
+    } else if (userId === '2') {
+      this.selectedValue = 'Admin';
+    } else if (userId === '3') {
+      this.selectedValue = 'Hostel Admin';
     } else {
       this.selectedValue = '';
     }
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           if (response.success) {
             sessionStorage.setItem('userType', userType);
             sessionStorage.setItem('username', response.username || username);
-            sessionStorage.setItem('fullName', response.full_name || "Admin" || "Hostel Admin");
+            sessionStorage.setItem('fullName', response.full_name || "Admin");
 
             if (response.course_name) {
               sessionStorage.setItem('course_name', response.course_name);
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     } else if (userType === 'Admin') {
       this.router.navigate(['/admin']);
     } else if (userType === 'Hostel Admin') {
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/hostel-admin']);
     }
   }
 
