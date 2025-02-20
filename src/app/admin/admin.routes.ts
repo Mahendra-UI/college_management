@@ -36,6 +36,12 @@ export const adminRoutes: Routes = [
         path: 'managenotifications',
         loadComponent: () => import('./managenotifications/managenotifications.component').then((m) => m.ManagenotificationsComponent),
       },
+
+
+      {
+        path: 'adminfeeledger',
+        loadComponent: () => import('./adminfeeledger/adminfeeledger.component').then((m) => m.AdminfeeledgerComponent),
+      },
       
       {
         path: '**', // Handle unmatched routes within admin module

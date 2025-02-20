@@ -30,7 +30,8 @@ export class StudentprofileComponent implements OnInit {
 
     this.changePasswordForm = this.fb.group({
       currentPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]]
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
     });
 
     this.courseId = Number(sessionStorage.getItem('courseId'));
@@ -44,25 +45,36 @@ export class StudentprofileComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    if (this.changePasswordForm.valid && this.username) {
-      const { currentPassword, newPassword } = this.changePasswordForm.value;
-
-      this.apiSer.changePassword(this.username, currentPassword, newPassword).subscribe(
-        (response) => {
-          Swal.fire('✅ Success', response.message, 'success').then(() => {
-            sessionStorage.clear(); // ✅ Clear session & redirect to login
-            this.router.navigate(['/login']);
-          });
-        },
-        (error) => {
-          Swal.fire('❌ Error', error.error.message || 'Something went wrong!', 'error');
-        }
-      );
-    } else {
-      Swal.fire('⚠️ Warning', 'All fields are required!', 'warning');
-    }
+/** ✅ Handle Password Change */
+onChangePassword() {
+  if (this.changePasswordForm.invalid) {
+    Swal.fire('Error', 'All fields are required!', 'error');
+    return;
   }
+
+  const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
+
+  if (newPassword !== confirmPassword) {
+    Swal.fire('Error', 'New password and confirm password do not match!', 'error');
+    return;
+  }
+
+  if (currentPassword === newPassword) {
+    Swal.fire('Error', 'New password must be different from the old password!', 'error');
+    return;
+  }
+
+  this.apiSer.changePassword(this.username!, currentPassword, newPassword, confirmPassword).subscribe(
+    (response) => {
+      Swal.fire('Success', response.message, 'success').then(() => {
+        this.router.navigate(['/login']); // ✅ Redirect to login
+      });
+    },
+    (error) => {
+      Swal.fire('Error', error.error.message || 'Failed to change password', 'error');
+    }
+  );
+}
 
   /** ✅ Fetch Student Details by Username */
   getStudentDetails(username: string): void {

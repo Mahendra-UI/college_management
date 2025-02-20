@@ -29,6 +29,12 @@ ALTER TABLE students ALTER COLUMN student_id SET DEFAULT nextval('students_stude
 <!-- 
 select * from login l 
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+
+
+DROP EXTENSION IF EXISTS pgcrypto CASCADE;
+
 
 
 UPDATE login SET password = crypt('Student123', gen_salt('bf')) WHERE username = 'B224002';

@@ -187,14 +187,14 @@ deleteSubject(subjectId: number): Observable<any> {
 /**
    * Change Student Password
    */
-changePassword(username: string, currentPassword: string, newPassword: string): Observable<any> {
+changePassword(username: string, currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
   return this.http.post(`${this.baseUrl}/change-password`, {
     username,
     currentPassword,
-    newPassword
+    newPassword,
+    confirmPassword
   });
 }
-
 
 // getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
 //   return this.http.get<any>(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
@@ -208,6 +208,31 @@ updateStudentResult(data: any): Observable<any> {
   return this.http.put(`${this.baseUrl}/updatestudentresult`, data);
 }
 
+getFeeTypes(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/fee-types`);
+}
+
+
+getFeeLedgers(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/fee-ledger`);
+}
+
+getFeeLedgerById(fee_ledger_id: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/fee-ledger/${fee_ledger_id}`);
+}
+
+
+addFeeLedger(feeData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/fee-ledger`, feeData);
+}
+
+updateFeeLedger(fee_ledger_id: number, feeData: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/fee-ledger/${fee_ledger_id}`, feeData);
+}
+
+deleteFeeLedger(fee_ledger_id: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/fee-ledger/${fee_ledger_id}`);
+}
 
 
 getStudentsByCourse(courseId: number): Observable<any> {

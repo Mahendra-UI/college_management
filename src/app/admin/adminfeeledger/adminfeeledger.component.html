@@ -1,0 +1,98 @@
+<!-- Fee Management Table -->
+<section>
+    <div class="container">
+      <h2>Fee Management</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#feeModal" (click)="resetForm()">Add New Fee</button>
+  
+      <div class="table-responsive mt-3">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Fee Type</th>
+              <th>Course</th>
+              <th>Semester</th>
+              <th>Year</th>
+              <th>Fee Amount</th>
+              <th>Created At</th>
+              <th>Updated At</th>          
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of feeRecords; let i = index;">
+              <td>{{ i+1 }}</td>
+              <td>{{ record.fee_type_name }}</td>
+              <td>{{ record.course_name }}</td>
+              <td>{{ record.semester_name }}</td>
+              <td>{{ record.year }}</td>
+              <td>{{ record.fee_amount }}</td>
+              <td>{{ record.created_at | date: 'short' }}</td>
+              <td>{{ record.updated_at | date: 'short' }}</td>
+              <td>
+                <button class="btn btn-info" (click)="onView(record)" data-bs-toggle="modal" data-bs-target="#viewFeeModal">View</button>
+                <button class="btn btn-success" (click)="onEdit(record.fee_ledger_id)" data-bs-toggle="modal" data-bs-target="#feeModal">Edit</button>
+                <button class="btn btn-danger" (click)="deleteFee(record.fee_ledger_id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  
+<!-- Bootstrap Modal for Editing Fee -->
+<div class="modal fade" id="feeModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ editingFeeId ? 'Edit Fee Record' : 'Add Fee Record' }}</h5>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="feeForm" (ngSubmit)="onSubmit()">
+            <label class="form-label">Fee Type:</label>
+            <select class="form-select" formControlName="fee_type_id">
+              <option *ngFor="let type of feeTypes" [value]="type.fee_type_id">{{ type.fee_type_name }}</option>
+            </select>
+  
+            <label class="form-label">Course:</label>
+            <select class="form-select" formControlName="course_id">
+              <option *ngFor="let course of coursesList" [value]="course.course_id">{{ course.course_name }}</option>
+            </select>
+  
+            <label class="form-label">Semester:</label>
+            <select class="form-select" formControlName="semester_id">
+              <option *ngFor="let sem of semesters" [value]="sem.semester_id">{{ sem.semester_name }}</option>
+            </select>
+  
+            <label class="form-label">Year:</label>
+            <input type="text" class="form-control" formControlName="year">
+  
+            <label class="form-label">Fee Amount:</label>
+            <input type="number" class="form-control" formControlName="fee_amount">
+  
+            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- Bootstrap Modal for Viewing Fee Record -->
+  <div class="modal fade" id="viewFeeModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Fee Record Details</h5>
+        </div>
+        <div class="modal-body">
+          <p><strong>Fee Type:</strong> {{ selectedFee?.fee_type_name }}</p>
+          <p><strong>Course:</strong> {{ selectedFee?.course_name }}</p>
+          <p><strong>Semester:</strong> {{ selectedFee?.semester_name }}</p>
+          <p><strong>Year:</strong> {{ selectedFee?.year }}</p>
+          <p><strong>Fee Amount:</strong> {{ selectedFee?.fee_amount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

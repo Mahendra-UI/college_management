@@ -19,7 +19,7 @@
               <div class="col-md-6">
                 <div class="card p-4 shadow-sm">
                   <h2 class="text-center">Change Password</h2>
-                  <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
+                  <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePassword()">
                     <!-- Current Password -->
                     <div class="mb-3">
                       <label for="currentPassword" class="form-label">Current Password</label>
@@ -35,6 +35,14 @@
                       <input type="password" class="form-control" id="newPassword" formControlName="newPassword">
                       <div *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched" class="text-danger">
                         New Password is required (Min: 6 characters)
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="confirmPassword" class="form-label">New Password</label>
+                      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+                      <div *ngIf="changePasswordForm.get('confirmPassword')?.invalid && changePasswordForm.get('confirmPassword')?.touched" class="text-danger">
+                        Confirm Password is required (Min: 6 characters)
                       </div>
                     </div>
           
