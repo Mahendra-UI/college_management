@@ -211,15 +211,44 @@ updateStudentResult(data: any): Observable<any> {
 getFeeTypes(): Observable<any> {
   return this.http.get(`${this.baseUrl}/fee-types`);
 }
+ /** ✅ Process Payment */
+
+ processPayment(feeLedgerId: number, username: string, amount: number): Observable<any> {
+  const body = {
+    fee_ledger_id: feeLedgerId,
+    username: username || "Unknown User", // ✅ Ensure username is a string
+    amount: amount
+  };
+  return this.http.post<any>(`${this.baseUrl}/payments`, body);
+}
 
 
+ processPaymentold(feeLedgerId: number, username: string | null, amount: number): Observable<any> {
+  const body = {
+    fee_ledger_id: feeLedgerId,
+    username: username,
+    amount: amount
+  };
+  return this.http.post<any>(`${this.baseUrl}/payments`, body);
+}
+
+/** ✅ Fetch Payment Receipt */
+getReceipt(transactionId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/receipt/${transactionId}`);
+}
+
+// ✅ Fetch Subjects by Username and Course ID
+getFeeLedgerByUsername(username: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}/fee-ledger/student/${username}`);
+}
 getFeeLedgers(): Observable<any> {
   return this.http.get(`${this.baseUrl}/fee-ledger`);
 }
 
-getFeeLedgerById(fee_ledger_id: number): Observable<any> {
-  return this.http.get(`${this.baseUrl}/fee-ledger/${fee_ledger_id}`);
+getFeeLedgerById(feeLedgerId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/fee-ledger/${feeLedgerId}`);
 }
+
 
 
 addFeeLedger(feeData: any): Observable<any> {

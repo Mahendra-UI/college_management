@@ -1,0 +1,9 @@
+<section class="common_section">
+    <div class="container">
+      <h3>Complete Payment</h3>
+      <p>Fee Ledger ID: {{ feeLedgerId }}</p>
+      <p>Amount: ₹ <input type="number" [(ngModel)]="amount" required></p>
+      <button class="btn btn-success" (click)="processPayment()">Submit Payment</button>
+    </div>
+  </section>
+  

@@ -1,67 +1,100 @@
 <!-- Fee Management Table -->
-<section>
+<section class="common_section">
     <div class="container">
-      <h2>Fee Management</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#feeModal" (click)="resetForm()">Add New Fee</button>
-  
-      <div class="table-responsive mt-3">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Fee Type</th>
-              <th>Course</th>
-              <th>Semester</th>
-              <th>Year</th>
-              <th>Fee Amount</th>
-              <th>Created At</th>
-              <th>Updated At</th>          
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let record of feeRecords; let i = index;">
-              <td>{{ i+1 }}</td>
-              <td>{{ record.fee_type_name }}</td>
-              <td>{{ record.course_name }}</td>
-              <td>{{ record.semester_name }}</td>
-              <td>{{ record.year }}</td>
-              <td>{{ record.fee_amount }}</td>
-              <td>{{ record.created_at | date: 'short' }}</td>
-              <td>{{ record.updated_at | date: 'short' }}</td>
-              <td>
-                <button class="btn btn-info" (click)="onView(record)" data-bs-toggle="modal" data-bs-target="#viewFeeModal">View</button>
-                <button class="btn btn-success" (click)="onEdit(record.fee_ledger_id)" data-bs-toggle="modal" data-bs-target="#feeModal">Edit</button>
-                <button class="btn btn-danger" (click)="deleteFee(record.fee_ledger_id)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="main_heading">
+              <h5>Fee Ledgers</h5>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="common_home_icon">
+                <i class="bi bi-house-door" routerLink="/admin/home"></i>
+            </div>
+        </div>
+        <hr>
+    </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-end">
+            <button class="btn btn-success common_add_record_btn" data-bs-toggle="modal" data-bs-target="#feeModal" (click)="resetForm()">
+              <i class="bi bi-plus-circle"></i> Add New Fee
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered w-100 common_table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Fee Type</th>
+                  <th>Course</th>
+                  <th>Semester</th>
+                  <th>Year</th>
+                  <th>Fee Amount</th>
+                  <th>Fee Description</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>          
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of feeRecords; let i = index;">
+                  <td>{{ i+1 }}</td>
+                  <td>{{ record.fee_type_name }}</td>
+                  <td>{{ record.course_name }}</td>
+                  <td>{{ record.semester_name }}</td>
+                  <td>{{ record.year }}</td>
+                  <td>{{ record.fee_amount }}</td>
+                  <td>{{ record.fee_ledger_description }}</td>
+                  <td>{{ record.created_at | date: 'short' }}</td>
+                  <td>{{ record.updated_at | date: 'short' }}</td>
+                  <td>
+                    <div class="hstack gap-2">
+                    
+                    <a class="btn btn-success btn-sm" (click)="onView(record)" data-bs-toggle="modal" data-bs-target="#viewFeeModal">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                    <button class="btn btn-primary btn-sm" (click)="onEdit(record.fee_ledger_id)" data-bs-toggle="modal" data-bs-target="#feeModal">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteFee(record.fee_ledger_id)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </section>
   
 <!-- Bootstrap Modal for Editing Fee -->
-<div class="modal fade" id="feeModal" tabindex="-1">
-    <div class="modal-dialog">
+<div class="modal fade common_modal_popup" id="feeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="feeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" id="feeModalLabel">
           <h5 class="modal-title">{{ editingFeeId ? 'Edit Fee Record' : 'Add Fee Record' }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+            <i class="bi bi-x"></i>
+        </button>
         </div>
         <div class="modal-body">
           <form [formGroup]="feeForm" (ngSubmit)="onSubmit()">
             <label class="form-label">Fee Type:</label>
-            <select class="form-select" formControlName="fee_type_id">
+            <select class="form-select" formControlName="fee_type_id" (change)="onFeeTypeSelect()">
               <option *ngFor="let type of feeTypes" [value]="type.fee_type_id">{{ type.fee_type_name }}</option>
             </select>
   
             <label class="form-label">Course:</label>
-            <select class="form-select" formControlName="course_id">
+            <select class="form-select" formControlName="course_id" (change)="onCourseSelect()" [disabled]="!feeForm.controls['course_id'].enabled">
               <option *ngFor="let course of coursesList" [value]="course.course_id">{{ course.course_name }}</option>
             </select>
   
             <label class="form-label">Semester:</label>
-            <select class="form-select" formControlName="semester_id">
+            <select class="form-select" formControlName="semester_id" [disabled]="!feeForm.controls['semester_id'].enabled">
               <option *ngFor="let sem of semesters" [value]="sem.semester_id">{{ sem.semester_name }}</option>
             </select>
   
@@ -71,7 +104,12 @@
             <label class="form-label">Fee Amount:</label>
             <input type="number" class="form-control" formControlName="fee_amount">
   
-            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+            <label class="form-label">Fee Description:</label>
+            <textarea class="form-control" formControlName="fee_ledger_description" rows="2"></textarea>
+
+            <button type="submit" class="btn btn-sm btn-success">
+              {{ editingFeeId ? 'Update Fee Record' : 'Submit Fee Record' }}
+            </button>
           </form>
         </div>
       </div>
@@ -79,11 +117,14 @@
   </div>
     
   <!-- Bootstrap Modal for Viewing Fee Record -->
-  <div class="modal fade" id="viewFeeModal" tabindex="-1">
-    <div class="modal-dialog">
+  <div class="modal fade common_modal_popup" id="viewFeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewFeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Fee Record Details</h5>
+          <h5 class="modal-title" id="viewFeeModalLabel">Fee Record Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+            <i class="bi bi-x"></i>
+        </button>
         </div>
         <div class="modal-body">
           <p><strong>Fee Type:</strong> {{ selectedFee?.fee_type_name }}</p>
@@ -91,6 +132,11 @@
           <p><strong>Semester:</strong> {{ selectedFee?.semester_name }}</p>
           <p><strong>Year:</strong> {{ selectedFee?.year }}</p>
           <p><strong>Fee Amount:</strong> {{ selectedFee?.fee_amount }}</p>
+          <p><strong>Fee Description:</strong> {{ selectedFee?.fee_ledger_description }}</p>
+
+          <p><strong>Created At:</strong> {{ selectedFee?.created_at }}</p>
+
+          <p><strong>Updated At:</strong> {{ selectedFee?.updated_at }}</p>
         </div>
       </div>
     </div>

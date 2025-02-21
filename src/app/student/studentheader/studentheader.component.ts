@@ -37,9 +37,10 @@ export class StudentheaderComponent implements OnInit {
 }
 
 signOut() {
-    sessionStorage.clear(); // ✅ Clear sessionStorage instead of localStorage
-    this.router.navigate(['/login']);
+  sessionStorage.clear();
+  this.router.navigate(['/login']);
 }
+
 
   menuToggle() {
     this.toggle.emit();

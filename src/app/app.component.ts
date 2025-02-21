@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 
@@ -10,7 +10,7 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'college-management';
   isLoading = false;
   isBrowser: boolean;
@@ -36,6 +36,7 @@ export class AppComponent {
     
    }
    ngOnInit(): void {
+
     this.isLoading = true; // Set true to demonstrate spinner, set to false after data fetch
 
     if (this.isBrowser) {

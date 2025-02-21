@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
 import { AdminlandingComponent } from './adminlanding/adminlanding.component';
+// import { AuthGuard } from '../auth.guard';
 
 export const adminRoutes: Routes = [
   {
     path: '',
     component: AdminlandingComponent,
+    // canActivate: [AuthGuard],
+    // canLoad: [AuthGuard],
+    // data: { roles: ['Admin'] }, // ✅ Allow Admin & Hostel Admin
     children: [
       {
         path: '',

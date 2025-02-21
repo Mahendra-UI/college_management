@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
 import { StudentlandingComponent } from './studentlanding/studentlanding.component';
+// import { AuthGuard } from '../auth.guard';
 
 export const studentRoutes: Routes = [
   {
     path: '',
     component: StudentlandingComponent,
+    // canActivate: [AuthGuard],
+    // canLoad: [AuthGuard],
+    // data: { roles: ['Student'] },
     children: [
       {
         path: '',
@@ -31,8 +35,28 @@ export const studentRoutes: Routes = [
         loadComponent: () => import('./feestatus/feestatus.component').then((m) => m.FeestatusComponent),
       },
       {
+        path: 'payment',
+        loadComponent: () => import('./payments/payments.component').then((m) => m.PaymentsComponent),
+      },
+      {
+        path: 'receipt',
+        loadComponent: () => import('./receipt/receipt.component').then((m) => m.ReceiptComponent),
+      },
+      
+      {
         path: 'feeinfo',
         loadComponent: () => import('./feeinfo/feeinfo.component').then((m) => m.FeeinfoComponent),
+      },
+      
+      {
+        path: 'feeldger',
+        loadComponent: () => import('./feeledger/feeledger.component').then((m) => m.FeeledgerComponent),
+      },
+
+
+      {
+        path: 'payment',
+        loadComponent: () => import('./payments/payments.component').then((m) => m.PaymentsComponent),
       },
       {
         path: 'totalstudents',

@@ -12,36 +12,44 @@ import { Subscription } from 'rxjs';
 })
 export class AdminheaderComponent implements OnInit {
   @Output() toggle: EventEmitter<any> = new EventEmitter<any>();
-  //@Input() headerLogin!:boolean;
-  profilePic: any;
-  subscription!: Subscription;
-  registerInfo!: boolean;
-  innerWidth: any;
-  emploginData: any;
 
-
-  fullName: string | null = null;
+  full_name: string | null = null;
   course_name: string | null = null;
   username: string | null = null;
-  constructor(private route:ActivatedRoute,
-    private router:Router) {
-   }
-  encrypted:any;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
   ngOnInit(): void {
-    this.fullName = sessionStorage.getItem('fullName');
+    console.log("🔄 Fetching stored values from sessionStorage...");
+
+    // ✅ Fetch full_name from sessionStorage
+    this.full_name = sessionStorage.getItem('full_name');
     this.username = sessionStorage.getItem('username');
     this.course_name = sessionStorage.getItem('course_name');
 
+    console.log("sessionStorage fullName:", this.full_name);
+    console.log("sessionStorage username:", this.username);
+    console.log("sessionStorage course_name:", this.course_name);
+
+    if (!this.full_name) {
+      console.warn("🚨 Warning: full_name is missing in sessionStorage!");
+      this.full_name = "User"; // Default value
+    }
+
     if (!this.course_name) {
-        console.warn("🚨 Warning: course_name is missing in sessionStorage!");
+      console.warn("🚨 Warning: course_name is missing in sessionStorage!");
     } else {
-        console.log("✅ Course Name Loaded:", this.course_name);
+      console.log("✅ Course Name Loaded:", this.course_name);
     }
-    }
-  signOut(){
+  }
+
+  signOut() {
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
-  menuToggle(){
+    
+
+  menuToggle() {
     this.toggle.emit();
   }
 }

@@ -3,6 +3,95 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="main_heading">
+                  <h5>Fee Informationfghjk</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/student/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fee Type</th>
+                                <th>Course</th>
+                                <th>Semester</th>
+                                <th>Year</th>
+                                <th>Fee Amount</th>
+                                <th>Fee Description</th>
+                                <th>Status</th> <!-- New Column -->
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th> <!-- New Column -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let record of feeLedgersList; let i = index;">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ record.fee_type_name }}</td>
+                                <td>{{ record.course_name }}</td>
+                                <td>{{ record.semester_name }}</td>
+                                <td>{{ record.year }}</td>
+                                <td>{{ record.fee_amount }}</td>
+                                <td>{{ record.fee_ledger_description }}</td>
+                                <td>{{ record.fee_status }}</td>
+                                <td>{{ record.created_at | date: 'short' }}</td>
+                                <td>{{ record.updated_at | date: 'short' }}</td>
+                                <td>
+                                  <button class="btn btn-primary" *ngIf="record.fee_status === 'Pending'" (click)="payHere(record.fee_ledger_id)">
+                                    Pay Here
+                                  </button>
+                                  <button class="btn btn-success" 
+                                  *ngIf="record.fee_status === 'Completed' && record.transaction_id" 
+                                  (click)="viewReceipt(record.transaction_id)">
+                            View Receipt
+                          </button>
+                          
+                          
+                                </td>
+                              </tr>                              
+                            <tr *ngIf="feeLedgersList.length === 0">
+                                <td colspan="10" class="text-center">No Records Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="common_section d-none">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
                   <h5>Fee Information</h5>
                 </div>
             </div>

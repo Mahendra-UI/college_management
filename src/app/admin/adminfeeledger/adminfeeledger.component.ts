@@ -30,8 +30,9 @@ export class AdminfeeledgerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initForm();
     this.loadFeeData();
+    this.initForm();
+    this.loadFeeTypes();
   }
 
   /** ✅ Initialize Form */
@@ -42,19 +43,64 @@ export class AdminfeeledgerComponent implements OnInit {
       course_id: ['', Validators.required],
       semester_id: ['', Validators.required],
       year: ['', [Validators.required, Validators.pattern("^[0-9]{4}$")]],
-      fee_amount: ['', [Validators.required, Validators.min(1)]]
+      fee_amount: ['', [Validators.required, Validators.min(1)]],
+      fee_ledger_description: ['', [Validators.required, Validators.maxLength(500)]],  // ✅ New field
     });
+    
   }
+
+/** ✅ Load Fee Types First */
+loadFeeTypes() {
+  this.apiSer.getFeeTypes().subscribe(res => {
+    this.feeTypes = res.feeTypes;
+    console.log("✅ Fee Types Loaded");
+  });
+}
+
+
+/** ✅ Load Courses when Fee Type is Selected */
+onFeeTypeSelect() {
+  this.feeForm.controls['course_id'].reset();
+  this.feeForm.controls['semester_id'].reset();
+  this.feeForm.controls['semester_id'].disable(); // Disable semester until course is selected
+
+  this.apiSer.getCourses().subscribe(res => {
+    this.coursesList = res;
+    console.log("✅ Courses Loaded");
+    this.feeForm.controls['course_id'].enable();
+  });
+}
+
+
+/** ✅ Load Semesters when Course is Selected */
+onCourseSelect() {
+  this.feeForm.controls['semester_id'].reset();
+  this.feeForm.controls['semester_id'].disable(); // Disable until loaded
+
+  this.apiSer.getSemesters().subscribe(res => {
+    this.semesters = res.semesters;
+    console.log("✅ Semesters Loaded");
+    this.feeForm.controls['semester_id'].enable();
+  });
+}
+
+
+ /** ✅ Enable Year & Fee Amount when Semester is Selected */
+ onSemesterSelect() {
+  this.feeForm.controls['year'].enable();
+  this.feeForm.controls['fee_amount'].enable();
+}
 
   /** ✅ Load Data */
 
-  loadFeeData(callback?: () => void) {
-    this.apiSer.getFeeTypes().subscribe(res => this.feeTypes = res.feeTypes);
-    this.apiSer.getCourses().subscribe(res => this.coursesList = res);
-    this.apiSer.getSemesters().subscribe(res => {
-      this.semesters = res.semesters;
-      if (callback) callback();
-    });
+  loadFeeData() {
+  // loadFeeData(callback?: () => void) {
+    // this.apiSer.getFeeTypes().subscribe(res => this.feeTypes = res.feeTypes);
+    // this.apiSer.getCourses().subscribe(res => this.coursesList = res);
+    // this.apiSer.getSemesters().subscribe(res => {
+    //   this.semesters = res.semesters;
+    //   if (callback) callback();
+    // });
     this.apiSer.getFeeLedgers().subscribe(res => this.feeRecords = res.feeRecords);
   }
   
@@ -72,90 +118,75 @@ export class AdminfeeledgerComponent implements OnInit {
       if (res.success) {
         this.editingFeeId = res.feeRecord.fee_ledger_id;
   
-        this.feeForm.patchValue({
-          fee_ledger_id: res.feeRecord.fee_ledger_id,
-          fee_type_id: res.feeRecord.fee_type_id,
-          course_id: res.feeRecord.course_id,
-          semester_id: res.feeRecord.semester_id,
-          year: res.feeRecord.year,
-          fee_amount: res.feeRecord.fee_amount
-        });
+        // ✅ Load Courses based on Fee Type
+        this.apiSer.getCourses().subscribe(courseRes => {
+          this.coursesList = courseRes;
+          this.feeForm.controls['course_id'].enable(); // Enable dropdown
   
-        console.log("✅ Editing Fee Record:", this.feeForm.value);
+          // ✅ Load Semesters based on Course
+          this.apiSer.getSemesters().subscribe(semRes => {
+            this.semesters = semRes.semesters;
+            this.feeForm.controls['semester_id'].enable(); // Enable dropdown
+  
+            // ✅ Patch form AFTER loading dependencies
+            this.feeForm.patchValue({
+              fee_ledger_id: res.feeRecord.fee_ledger_id,
+              fee_type_id: res.feeRecord.fee_type_id,
+              course_id: res.feeRecord.course_id,
+              semester_id: res.feeRecord.semester_id,
+              year: res.feeRecord.year,
+              fee_amount: res.feeRecord.fee_amount,
+              fee_ledger_description: res.feeRecord.fee_ledger_description
+            });
+  
+            console.log("✅ Editing Fee Record:", this.feeForm.value);
+          });
+        });
       } else {
         this.toastr.error("Error fetching fee ledger record.");
       }
     });
   }
-
-  onEditold(fee_ledger_id: number) {
-    this.apiSer.getFeeLedgerById(fee_ledger_id).subscribe(res => {
-      if (res.success) {
-        const record = res.feeRecord;
-        console.log("✅ Editing Record:", record);
-  
-        this.editingFeeId = record.fee_ledger_id;
-  
-        // Ensure dropdown values are bound correctly before patching
-        this.loadFeeData(() => {
-          const formValues = {
-            fee_ledger_id: record.fee_ledger_id,
-            fee_type_id: record.fee_type_id,
-            course_id: record.course_id,
-            semester_id: record.semester_id,
-            year: record.year,
-            fee_amount: record.fee_amount,
-          };
-  
-          console.log("🛠️ Patching Form with:", formValues);
-          this.feeForm.patchValue(formValues);
-        });
-      }
-    });
-  }
-  
-
-  
+ 
 
   /** ✅ View Fee Record */
   onView(record: any) {
     this.selectedFee = record;
   }
 
-  onSubmit() {
-    if (this.feeForm.valid) {
-      let feeData = this.feeForm.value;
-      
-      // ✅ Convert `year` to an INTEGER before sending it to API
-      feeData.year = parseInt(feeData.year);
-  
-      if (this.editingFeeId) {
-        this.apiSer.updateFeeLedger(this.editingFeeId, feeData).subscribe(
-          res => {
-            Swal.fire("✅ Success", "Fee Record Updated!", "success");
-            this.loadFeeData();
-            this.resetForm();
-          },
-          error => {
-            Swal.fire("❌ Error", "Failed to update Fee Record.", "error");
-          }
-        );
-      } else {
-        this.apiSer.addFeeLedger(feeData).subscribe(
-          res => {
-            Swal.fire("✅ Success", "Fee Record Added!", "success");
-            this.loadFeeData();
-            this.resetForm();
-          },
-          error => {
-            Swal.fire("❌ Error", "Failed to add Fee Record.", "error");
-          }
-        );
-      }
+/** ✅ Submit (Add or Update) Fee Ledger */
+onSubmit() {
+  if (this.feeForm.valid) {
+    let feeData = this.feeForm.value;
+    feeData.year = parseInt(feeData.year); // Convert to Integer
+
+    if (this.editingFeeId) {
+      this.apiSer.updateFeeLedger(this.editingFeeId, feeData).subscribe(
+        res => {
+          Swal.fire("✅ Success", "Fee Record Updated!", "success");
+          this.resetForm();
+          this.loadFeeData();
+        },
+        error => {
+          Swal.fire("❌ Error", "Failed to update Fee Record.", "error");
+        }
+      );
     } else {
-      Swal.fire("❌ Invalid Form", "Please fill in all required fields correctly.", "warning");
+      this.apiSer.addFeeLedger(feeData).subscribe(
+        res => {
+          Swal.fire("✅ Success", "Fee Record Added!", "success");
+          this.resetForm();
+          this.loadFeeData();
+        },
+        error => {
+          Swal.fire("❌ Error", "Failed to add Fee Record.", "error");
+        }
+      );
     }
+  } else {
+    Swal.fire("❌ Invalid Form", "Please fill in all required fields correctly.", "warning");
   }
+}
 
   /** ✅ Submit (Add or Update) */
   onSubmitold() {
@@ -209,12 +240,12 @@ export class AdminfeeledgerComponent implements OnInit {
   }
 
 
-  /** ✅ Reset Form */
-  resetForm() {
-    this.editingFeeId = null;
-    this.feeForm.reset();
-    this.feeForm.markAsUntouched();
-  }
+ /** ✅ Reset Form */
+ resetForm() {
+  this.editingFeeId = null;
+  this.feeForm.reset();
+  this.initForm();
+}
 
   /** ✅ Delete Fee Ledger */
   deleteFeef(id: number) {

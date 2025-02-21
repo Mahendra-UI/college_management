@@ -1,0 +1,15 @@
+<section class="receipt-container">
+    <h2>Payment Receipt</h2>
+    <div *ngIf="receiptData">
+        <p><strong>Username:</strong> {{ receiptData.username }}</p>
+        <p><strong>Transaction ID:</strong> {{ receiptData.transaction_id }}</p>
+        <p><strong>Fee Type:</strong> {{ receiptData.fee_type_name }}</p>
+        <p><strong>Course:</strong> {{ receiptData.course_name }}</p>
+        <p><strong>Semester:</strong> {{ receiptData.semester_name }}</p>
+        <p><strong>Year:</strong> {{ receiptData.year }}</p>
+        <p><strong>Fee Amount:</strong> ₹{{ receiptData.amount_paid }}</p>
+        <p><strong>Status:</strong> {{ receiptData.payment_status }}</p>
+        <button class="btn btn-success" (click)="downloadReceipt()">Download Receipt</button>
+    </div>
+    <p *ngIf="!receiptData">Loading receipt...</p>
+</section>
