@@ -20,6 +20,7 @@ import { importProvidersFrom } from '@angular/core';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ChartModule } from 'primeng/chart';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 // Bootstrap the Angular application
 bootstrapApplication(AppComponent, {
@@ -31,7 +32,7 @@ bootstrapApplication(AppComponent, {
     ),
     provideAnimations(),
     provideToastr(), // ✅ Register Toastr globally
-    importProvidersFrom(NgxSpinnerModule.forRoot(), ChartModule),
+    importProvidersFrom(NgxSpinnerModule.forRoot(), ChartModule, NgMultiSelectDropDownModule.forRoot()),
     NgxPaginationModule,
     NgxSpinnerService // ✅ Add NgxSpinner Provider
   ]

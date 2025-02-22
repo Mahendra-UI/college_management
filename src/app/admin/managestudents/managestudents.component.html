@@ -61,6 +61,7 @@
                   <th>Username</th>
                   <th>Course</th>
                   <th>Course Year</th>
+                  <th>Enrollment Date</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -73,7 +74,8 @@
                   <td>{{ student.email_id }}</td>
                   <td>{{ student.username }}</td>
                   <td>{{ student.course_name }}</td>
-                  <td>{{ student.course_year }}</td>
+                  <td>{{ student.academic_course_year_name }}</td>
+                  <td>{{ student.student_enrollment_date | date:'dd-MM-yyyy' }}</td>
                   <td>
                     <span class="badge badge-soft-{{ student.student_status === 'Active' ? 'success' : 'danger' }}">{{ student.student_status }}</span>
                   </td>
@@ -225,38 +227,33 @@
                 </div>
               </div>
 
-              <!-- Course Year -->
+                <!-- Course Year Dropdown (Now Dynamic) -->
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">Course Year <span class="mandatory">*</span></label>
-                  <select class="form-select" formControlName="courseYear">
-                    <option value="" disabled selected>Select Year</option>
-                    <option value="First Year">First Year</option>
-                    <option value="Second Year">Second Year</option>
-                    <option value="Third Year">Third Year</option>
-                    <option value="Fourth Year">Fourth Year</option>
-                  </select>
-                  <div class="error" *ngIf="studentForm.get('courseYear')?.touched && studentForm.get('courseYear')?.invalid">
+                  <label class="form-label">Academic Course Year <span class="mandatory">*</span></label>
+                  <select class="form-select" formControlName="academicCourseYearId" required>
+                    <option value="" disabled selected>Select Academic Year</option>
+                    <option *ngFor="let year of academicCourseYearsList" [value]="year.academic_course_year_id">
+                      {{ year.academic_course_year_name }}
+                    </option>
+                  </select>                  
+                  <div class="error" *ngIf="studentForm.get('academicCourseYearId')?.touched && studentForm.get('academicCourseYearId')?.invalid">
                     Course Year is required.
                   </div>
                 </div>
               </div>
 
-              <!-- Enrollment Year -->
+              <!-- Student Enrollment Date -->
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">Enrollment Year <span class="mandatory">*</span></label>
-                  <select class="form-select" formControlName="year">
-                    <option value="" disabled>Select Year</option>
-                    <option *ngFor="let year of yearsList" [value]="year" [selected]="year === studentForm.get('year')?.value">
-                      {{ year }}
-                    </option>
-                  </select>
-                  <div class="error" *ngIf="studentForm.get('year')?.touched && studentForm.get('year')?.invalid">
-                    Please select a valid enrollment year.
+                  <label class="form-label">Enrollment Date <span class="mandatory">*</span></label>
+                  <input type="date" class="form-control" formControlName="studentEnrollmentDate">
+                  <div class="error" *ngIf="studentForm.get('studentEnrollmentDate')?.touched && studentForm.get('studentEnrollmentDate')?.invalid">
+                    Enrollment Date is required.
                   </div>
                 </div>
               </div>
+
 
 
               <!-- Student Address -->
@@ -308,7 +305,7 @@ Submit
               </div>
 
             </div>
-          </form>            
+          </form>
         </div>
       </div>
     </div>
@@ -492,7 +489,7 @@ Submit
                                       <div class="col-md-1">:</div>
                                       <div class="col-md-6 col-12 col-sm-7">
                                           <div class="previewLabelValue">
-                                            {{ studentDetails.student_date_of_birth }}
+                                            {{ studentDetails.student_date_of_birth | date: 'dd-MM-yyyy' }}
                                           </div>
                                       </div>
                                   </div>
@@ -505,20 +502,20 @@ Submit
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6 col-12 col-sm-7">
                                         <div class="previewLabelValue">
-                                          {{ studentDetails.course_year }}
+                                          {{ studentDetails.academic_course_year_name }}
                                         </div>
                                     </div>
                                   </div>
                                   <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
                                     <div class="col-md-5 col-12 col-sm-4">
                                         <div class="previewLabelName">
-                                            Enrollment Year
+                                            Enrollment Date
                                         </div>
                                     </div>
                                     <div class="col-md-1">:</div>
                                     <div class="col-md-6 col-12 col-sm-7">
                                         <div class="previewLabelValue">
-                                          {{ studentDetails.enrollment_year }}
+                                          {{ studentDetails.student_enrollment_date | date: 'dd-MM-yyyy' }}
                                         </div>
                                     </div>
                                   </div>
@@ -633,6 +630,45 @@ Submit
                                   </tbody>
                                 </table>
                               </div>
+                              <div class="col-md-12 mx-auto">
+                                <h4 class="print form-heading">Student Promotions</h4>
+                            </div>
+                            
+                            <!-- ✅ Table to Show Promotions -->
+                            <div class="table-responsive mt-3">
+                              <div class="text-end pb-2">
+                                <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentpromotion')">
+                                  Edit Student Promotions
+                                </button>
+                              </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Full Name</th>
+                                            <th>Username</th>
+                                            <th>Course</th>
+                                            <th>Enrollment Year</th>
+                                            <th>Current Year</th>
+                                            <th>Updated Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let promotion of promotionList; let i = index;">
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ promotion.full_name }}</td>
+                                            <td>{{ promotion.username }}</td>
+                                            <td>{{ promotion.course_name }}</td>
+                                            <td>{{ promotion.enrollment_course_year }}</td>
+                                            <td>{{ promotion.current_course_year }}</td>
+                                            <td>{{ promotion.updated_course_year }}</td>
+                                        </tr>
+                                        <tr *ngIf="promotionList.length === 0">
+                                            <td colspan="7" class="text-center">No Promotions Found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
                           </div>
                           </div>
                       </div>

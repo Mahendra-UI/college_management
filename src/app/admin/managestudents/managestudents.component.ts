@@ -27,6 +27,11 @@ export class ManagestudentsComponent implements OnInit {
   isSubmitting: boolean = false; // ✅ FIXED Missing Variable
   isCheckingDuplicate : boolean = false;
 
+
+  academicCourseYearsList: any[] = []; // ✅ New list for course years
+
+
+  promotionList: any[] = [];
   studentsList: any[] = [];
   coursesList: any[] = [];
   studentForm!: FormGroup;
@@ -49,29 +54,46 @@ this.loadYears();
 this.initializeForm();
 this.loadStudents();
 this.loadCourses();
+this.loadAcademicCourseYears(); // ✅ Load academic course years
   }
 
 /**
    * ✅ Initialize Form with Validations
    */
+
 initializeForm() {
   this.studentForm = this.fb.group({
     fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     fatherName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
     mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
     emailID: ['', [Validators.required, Validators.email]],
-    studentGender: ['', Validators.required], // ✅ Added gender
-    studentDateOfBirth: ['', Validators.required], // ✅ Added DOB
+    studentGender: ['', Validators.required],
+    studentDateOfBirth: ['', Validators.required],
     courseId: ['', Validators.required],
-    courseYear: ['', Validators.required],
-    year: ['', Validators.required],
+    academicCourseYearId: ['', Validators.required],
+    studentEnrollmentDate: ['', Validators.required], // ✅ Updated to store date instead of year
     studentAddress: ['', Validators.required],
     studentStatus: ['', Validators.required]
   });
-  
+}
+ 
+
+/**
+   * ✅ Load academic course years
+   */
+loadAcademicCourseYears(): void {
+  this.apiSer.getAcademicCourseYears().subscribe(
+    (data) => {
+      this.academicCourseYearsList = data;
+    },
+    (error) => {
+      console.error('Error fetching academic course years', error);
+    }
+  );
 }
 
-  loadYears(): void {
+
+loadYears(): void {
     const currentYear = new Date().getFullYear();
     this.yearsList = Array.from({ length: 10 }, (_, i) => currentYear - i);
   }
@@ -86,8 +108,8 @@ loadStudents(): void {
       setTimeout(() => {
         this.spinner.hide(); // ✅ Hide Spinner after timeout
       }, 500); // Hide after 1.5s
-      this.studentsList = data;
-      this.filteredStudents = data; // Initialize filtered list
+      this.studentsList = data.students;
+      this.filteredStudents = data.students; // Initialize filtered list
     },
     (error) => {
       this.spinner.hide();
@@ -146,11 +168,13 @@ onPageChange(event: number) {
    * ✅ Insert or Update Student
    */
 
-onSubmitoldnew() {
+/**
+   * ✅ Submit the form for Insert/Update
+   */
+
+onSubmit() {
   if (this.studentForm.valid) {
     this.isSubmitting = true;
-
-    const selectedCourse = this.coursesList.find(course => course.course_id == this.studentForm.value.courseId);
 
     const studentData = {
       student_id: this.studentId,
@@ -160,120 +184,48 @@ onSubmitoldnew() {
       email_id: this.studentForm.value.emailID,
       student_gender: this.studentForm.value.studentGender,
       student_date_of_birth: this.studentForm.value.studentDateOfBirth,
-      course_id: this.studentForm.value.courseId,
-      course_name: selectedCourse ? selectedCourse.course_name : '',
-      course_year: this.studentForm.value.courseYear,
-      enrollment_year: Number(this.studentForm.value.year),
+      course_id: this.studentForm.value.courseId,  // ✅ Now passing `course_id`
+      academic_course_year_id: this.studentForm.value.academicCourseYearId,
+      student_enrollment_date: this.studentForm.value.studentEnrollmentDate,
       student_address: this.studentForm.value.studentAddress,
       student_status: this.studentForm.value.studentStatus
     };
 
     if (this.studentId && this.studentId !== 0) {
       this.apiSer.updateStudent(studentData).subscribe(
-        response => {
-          Swal.fire("✅ Success", "Student Updated Successfully", "success");
+        () => {
+          Swal.fire('✅ Success', 'Student Updated Successfully', 'success');
           this.loadStudents();
           this.resetForm();
         },
-        error => {
-          Swal.fire("❌ API Error", error.message, "error");
+        (error) => {
+          Swal.fire('❌ API Error', error.message, 'error');
         }
       );
     } else {
       this.apiSer.saveStudent(studentData).subscribe(
-        response => {
-          Swal.fire("✅ Success", "Student Inserted Successfully", "success");
+        () => {
+          Swal.fire('✅ Success', 'Student Inserted Successfully', 'success');
           this.loadStudents();
           this.resetForm();
         },
-        error => {
-          Swal.fire("❌ API Error", error.message, "error");
+        (error) => {
+          Swal.fire('❌ API Error', error.message, 'error');
         }
       );
     }
   } else {
-    Swal.fire("❌ Invalid Form", "Please fill in all required fields correctly", "warning");
+    Swal.fire('❌ Invalid Form', 'Please fill in all required fields correctly', 'warning');
   }
 }
 
-onSubmit() {
-  if (this.studentForm.valid) {
-    this.isSubmitting = true;
 
-    const selectedCourse = this.coursesList.find(course => course.course_id == this.studentForm.value.courseId);
 
-    const studentData = {
-      student_id: this.studentId,
-      full_name: this.studentForm.value.fullName,
-      father_name: this.studentForm.value.fatherName,
-      mobile_no: this.studentForm.value.mobileNo,
-      email_id: this.studentForm.value.emailID,
-      student_gender: this.studentForm.value.studentGender,
-      student_date_of_birth: this.studentForm.value.studentDateOfBirth,
-      course_id: this.studentForm.value.courseId,
-      course_name: selectedCourse ? selectedCourse.course_name : '',
-      course_year: this.studentForm.value.courseYear,
-      enrollment_year: Number(this.studentForm.value.year),
-      student_address: this.studentForm.value.studentAddress,
-      student_status: this.studentForm.value.studentStatus
-    };
-
-    // ✅ Check for duplicate before inserting/updating
-    this.apiSer.checkDuplicateStudent(studentData.mobile_no, studentData.email_id, studentData.student_id).subscribe(
-      (response) => {
-        if (!response.success) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Duplicate Entry',
-            text: response.message,
-            confirmButtonColor: '#d33'
-          });
-          this.isSubmitting = false;
-        } else {
-          // ✅ Proceed with Insert or Update
-          if (this.studentId && this.studentId !== 0) {
-            this.apiSer.updateStudent(studentData).subscribe(
-              response => {
-                Swal.fire("✅ Success", "Student Updated Successfully", "success");
-                this.loadStudents();
-                this.resetForm();
-              },
-              error => {
-                Swal.fire("❌ API Error", error.message, "error");
-              }
-            );
-          } else {
-            this.apiSer.saveStudent(studentData).subscribe(
-              response => {
-                Swal.fire("✅ Success", "Student Inserted Successfully", "success");
-                this.loadStudents();
-                this.resetForm();
-              },
-              error => {
-                Swal.fire("❌ API Error", error.message, "error");
-              }
-            );
-          }
-        }
-      },
-      (error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: error.error?.message || "Failed to check duplicate values.",
-          confirmButtonColor: '#d33'
-        });
-        this.isSubmitting = false;
-      }
-    );
-  } else {
-    Swal.fire("❌ Invalid Form", "Please fill in all required fields correctly", "warning");
-  }
-}
 
 
 editStudent(student: any): void {
   const selectedCourse = this.coursesList.find(course => course.course_name === student.course_name);
+  const selectedCourseYear = this.academicCourseYearsList.find(year => year.academic_course_year_name === student.academic_course_year_name);
 
   this.studentForm.patchValue({
     fullName: student.full_name,
@@ -283,8 +235,8 @@ editStudent(student: any): void {
     mobileNo: student.mobile_no,
     emailID: student.email_id,
     courseId: selectedCourse ? selectedCourse.course_id : '', 
-    courseYear: student.course_year,
-    year: student.enrollment_year,
+    academicCourseYearId: selectedCourseYear ? selectedCourseYear.academic_course_year_id : '',
+    studentEnrollmentDate: student.student_enrollment_date ? student.student_enrollment_date.split('T')[0] : '',
     studentAddress: student.student_address,
     studentStatus: student.student_status
   });
@@ -293,55 +245,6 @@ editStudent(student: any): void {
 }
 
 
-onSubmitold() {
-  if (this.studentForm.valid) {
-    const selectedCourse = this.coursesList.find(course => course.course_id == this.studentForm.value.courseId);
-
-    const studentData = {
-      student_id: this.studentId,
-      full_name: this.studentForm.value.fullName,
-      father_name: this.studentForm.value.fatherName,
-      mobile_no: this.studentForm.value.mobileNo,
-      email_id: this.studentForm.value.emailID,
-      student_gender: this.studentForm.value.studentGender,
-      student_date_of_birth: this.studentForm.value.studentDateOfBirth,
-      course_id: this.studentForm.value.courseId,
-      course_name: selectedCourse ? selectedCourse.course_name : '',
-      course_year: this.studentForm.value.courseYear,
-      enrollment_year: Number(this.studentForm.value.year),
-      student_address: this.studentForm.value.studentAddress,
-      student_status: this.studentForm.value.studentStatus
-    };
-
-    if (this.studentId && this.studentId !== 0) {
-      // ✅ Update Student
-      this.apiSer.updateStudent(studentData).subscribe(
-        response => {
-          Swal.fire("✅ Success", "Student Updated Successfully", "success");
-          this.loadStudents();
-          this.resetForm();
-        },
-        error => {
-          Swal.fire("❌ API Error", error.message, "error");
-        }
-      );
-    } else {
-      // ✅ Insert Student
-      this.apiSer.saveStudent(studentData).subscribe(
-        response => {
-          Swal.fire("✅ Success", "Student Inserted Successfully", "success");
-          this.loadStudents();
-          this.resetForm();
-        },
-        error => {
-          Swal.fire("❌ API Error", error.message, "error");
-        }
-      );
-    }
-  } else {
-    Swal.fire("❌ Invalid Form", "Please fill in all required fields correctly", "warning");
-  }
-}
   
 //  ✅ Reset the form after insert or update 
 resetForm() {
@@ -353,50 +256,7 @@ resetForm() {
   console.log("🔹 courseId is re-enabled for new student");
 }
 
-getStudentDetailsold(username: string): void {
-  this.apiSer.getCourses().subscribe((courses) => {
-    this.coursesList = courses; // ✅ Ensure courses are loaded before mapping
 
-    this.apiSer.getStudentByUsername(username).subscribe(
-      (response) => {
-        if (response && response.student) {
-          const data = response.student;
-          this.studentDetails = data;
-          this.studentId = data.student_id;
-
-          // ✅ Ensure course_id is correctly mapped
-          const selectedCourse = this.coursesList.find(course => course.course_id === data.course_id);
-
-          this.studentForm.patchValue({
-            fullName: data.full_name || '',
-            fatherName: data.father_name || '',
-            studentGender: data.student_gender || '', 
-            studentDateOfBirth: data.student_date_of_birth ? new Date(data.student_date_of_birth).toISOString().split('T')[0] : '', 
-            mobileNo: data.mobile_no || '',
-            emailID: data.email_id || '',
-            courseId: selectedCourse ? selectedCourse.course_id : data.course_id,  // ✅ Use course_id directly
-            courseYear: data.course_year || '',
-            year: data.enrollment_year ? data.enrollment_year.toString() : '',  
-            studentAddress: data.student_address || '',
-            studentStatus: data.student_status || '',
-            username: data.username || '',  // ✅ Now bound as readonly field
-            rollNumber: data.roll_number || '' // ✅ Now bound as readonly field
-          });
-
-          console.log("🔹 Student Data Received (getStudentDetails):", data);
-          console.log("🔹 Form Values After Patch (getStudentDetails):", this.studentForm.value);
-
-          this.studentForm.markAsDirty();
-          this.studentForm.markAllAsTouched();
-        }
-      },
-      (error) => {
-        console.error('❌ Error fetching student details', error);
-        this.spinner.hide();
-      }
-    );
-  });
-}
 
 onMobileBlur() {
   const mobileNo = this.studentForm.value.mobileNo;
@@ -505,7 +365,7 @@ editStudentold(student: any): void {
     emailID: student.email_id,
     courseId: selectedCourse ? selectedCourse.course_id : '', 
     courseYear: student.course_year,
-    year: student.enrollment_year,
+    year: student.student_enrollment_date,
     studentAddress: student.student_address,
     studentStatus: student.student_status
   });
@@ -558,18 +418,24 @@ editStudentold(student: any): void {
   
 
   getStudentDetails(username: string): void {
+    // ✅ Clear previous student details before fetching new data
+    this.studentDetails = null;
+    this.promotionList = []; 
+    this.subjectsList = [];
+  
     this.apiSer.getStudentByUsername(username).subscribe(
       (response) => {
         if (response && response.student) {
           this.studentDetails = response.student;
           this.studentUsername = response.student.username;
-          this.courseId = response.student.course_id;  // Ensure course_id exists in the response
-
-          // ✅ Fetch marks and subjects separately
+          this.courseId = response.student.course_id;
+  
+          // ✅ Fetch additional student data
           this.getStudentMarks();
           this.getStudentSubjects();
-
-          // ✅ Open View Modal
+          this.loadStudentPromotions(username);
+  
+          // ✅ Open View Modal after data is fully loaded
           setTimeout(() => {
             const modalElement = document.getElementById("studentDetailsModal");
             if (modalElement) {
@@ -589,6 +455,7 @@ editStudentold(student: any): void {
       }
     );
   }
+  
   
   // ✅ Method to fetch student marks
   getStudentMarks(): void {
@@ -632,6 +499,18 @@ editStudentold(student: any): void {
     });
   }
  
+
+  loadStudentPromotions(username: string) {
+    this.apiSer.getPromotionsByUsername(username).subscribe((res: any) => {
+      if (res.success) {
+        this.promotionList = res.promotions;
+      } else {
+        this.promotionList = [];
+        this.toastr.error("No promotions found for this student.");
+      }
+    });
+  }
+  
   
 
   getStudentDetailsexist(username: string): void {
@@ -663,44 +542,47 @@ editStudentold(student: any): void {
     );
   }
   
+
   getStudentDetailsForEdit(username: string): void {
     this.apiSer.getStudentByUsername(username).subscribe(
-      (response) => {
-        if (response && response.student) {
-          const student = response.student;
-          this.studentId = student.student_id;
-  
-          const selectedCourse = this.coursesList.find(course => course.course_id === student.course_id);
-  
-          this.studentForm.patchValue({
-            fullName: student.full_name || '',
-            fatherName: student.father_name || '',
-            studentGender: student.student_gender || '',
-            studentDateOfBirth: student.student_date_of_birth ? new Date(student.student_date_of_birth).toISOString().split('T')[0] : '',
-            mobileNo: student.mobile_no || '',
-            emailID: student.email_id || '',
-            courseId: selectedCourse ? selectedCourse.course_id : student.course_id,
-            courseYear: student.course_year || '',
-            year: student.enrollment_year ? student.enrollment_year.toString() : '',
-            studentAddress: student.student_address || '',
-            studentStatus: student.student_status || ''
-          });
-  
-          // ✅ Enable form fields for editing
-          this.studentForm.enable();
-  
-          // ✅ Mark form as dirty so submit button gets enabled
-          this.studentForm.markAsDirty();
-  
-          console.log("✅ Student Data Loaded for Editing:", student);
+        (response) => {
+            if (response && response.student) {
+                const student = response.student;
+                this.studentId = student.student_id;
+
+                const selectedCourse = this.coursesList.find(course => course.course_id === student.course_id);
+
+                this.studentForm.patchValue({
+                    fullName: student.full_name || '',
+                    fatherName: student.father_name || '',
+                    studentGender: student.student_gender || '',
+                    studentDateOfBirth: student.student_date_of_birth ? new Date(student.student_date_of_birth).toISOString().split('T')[0] : '',
+                    mobileNo: student.mobile_no || '',
+                    emailID: student.email_id || '',
+                    courseId: selectedCourse ? selectedCourse.course_id : student.course_id,
+                    academicCourseYearId: student.academic_course_year_id || '',
+                    studentEnrollmentDate: student.student_enrollment_date ? new Date(student.student_enrollment_date).toISOString().split('T')[0] : '', // ✅ FIXED
+                    studentAddress: student.student_address || '',
+                    studentStatus: student.student_status || ''
+                });
+
+                // ✅ Enable form fields for editing
+                this.studentForm.enable();
+
+                // ✅ Mark form as dirty so submit button gets enabled
+                this.studentForm.markAsDirty();
+
+                console.log("✅ Student Data Loaded for Editing:", student);
+            }
+        },
+        (error) => {
+            console.error("❌ Error fetching student details:", error);
+            Swal.fire("❌ Error", "Failed to load student details.", "error");
         }
-      },
-      (error) => {
-        console.error("❌ Error fetching student details:", error);
-        Swal.fire("❌ Error", "Failed to load student details.", "error");
-      }
     );
-  }
+}
+
+
     
 
   navigateToPage() {
@@ -724,38 +606,36 @@ editStudentold(student: any): void {
   navigateAndCloseModal(modalId: string, focusElementId: string, route?: string) {
     const modalElement = document.getElementById(modalId);
     const focusElement = document.getElementById(focusElementId);
-
+  
     if (modalElement) {
-      // ✅ Move focus before hiding modal
       if (focusElement) {
         focusElement.focus();
       }
-
-      // ✅ Hide modal properly
+  
       modalElement.classList.remove("show");
       modalElement.setAttribute("aria-hidden", "true");
       modalElement.removeAttribute("role");
       modalElement.style.display = "none";
       document.body.classList.remove("modal-open");
-
-      // ✅ Reset form after closing
-      this.studentForm.reset();
-      this.studentId = 0; // Reset Student ID
-
-      // ✅ Remove backdrop
+  
+      // ✅ Clear student data when closing modal
+      this.studentDetails = null;
+      this.promotionList = [];
+      this.subjectsList = [];
+  
       setTimeout(() => {
         const modalBackdrops = document.getElementsByClassName("modal-backdrop");
         while (modalBackdrops.length > 0) {
           modalBackdrops[0].parentNode?.removeChild(modalBackdrops[0]);
         }
-
-        // ✅ Navigate to the provided route after backdrop removal
+  
         if (route) {
           this.router.navigate([route]);
         }
       }, 100);
     }
   }
+  
 
 
 

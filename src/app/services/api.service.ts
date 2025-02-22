@@ -128,6 +128,10 @@ getCourses(): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/getcourses`);
 }
 
+getAcademicCourseYears() {
+  return this.http.get<any>(`${this.baseUrl}/getacademiccourseyears`);
+}
+
 
 saveStudent(studentData: any): Observable<any> {
   return this.http.post(`${this.baseUrl}/savestudents`, studentData);
@@ -304,6 +308,30 @@ addNotification(notification: any): Observable<any> {
 // ✅ Update Notification
 updateNotification(notificationId: number, notification: any): Observable<any> {
   return this.http.put(`${this.baseUrl}/updatenotification/${notificationId}`, notification);
+}
+
+// ✅ Add a new student promotion
+addStudentPromotion(promotionData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/promotions`, promotionData);
+}
+
+
+ // ✅ Fetch all promotions
+ getPromotions(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/promotions`);
+}
+
+// ✅ Fetch promotion details by ID
+getPromotionById(promotionId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/promotions/${promotionId}`);
+}
+
+getStudentsByCourseAndYear(courseId: number, currentYear: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentsbycourseandyear/${courseId}/${encodeURIComponent(currentYear)}`);
+}
+
+getPromotionsByUsername(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/promotions/username/${username}`);
 }
 
 

@@ -1,0 +1,142 @@
+<!-- ✅ Student Promotion Table -->
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Student Promotions</h5>
+                <div class="text-end">
+                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                        + Add Students
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Full Name</th>
+                                <th>Username</th>
+                                <th>Course</th>
+                                <th>Enrollment Course Year</th>
+                                <th>Current Course Year</th>
+                                <th>Updated Course Year</th>
+                                <th>Enrollment Year</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let promotion of promotionList; let i = index;">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ promotion.full_name }}</td>
+                                <td>{{ promotion.username }}</td>
+                                <td>{{ promotion.course_name }}</td>
+                                <td>{{ promotion.enrollment_course_year }}</td>
+                                <td>{{ promotion.current_course_year }}</td>
+                                <td>{{ promotion.updated_course_year }}</td>
+                                <td>{{ promotion.enrollment_year }}</td>
+                                <td>
+                                    <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#promotionDetailsModal" (click)="viewPromotionDetails(promotion.promotion_id)">
+                                        View Details
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="promotionList.length === 0">
+                                <td colspan="9" class="text-center">No Promotions Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ✅ Add Student Promotion Modal -->
+<div class="modal fade" id="addStudentModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Add Students to New Year</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="addPromotionForm">
+                    
+                    <!-- ✅ Select Course -->
+                    <label>Select Course:</label>
+                    <select class="form-control" formControlName="courseId" (change)="loadStudents()">
+                        <option value="" disabled>Select Course</option>
+                        <option *ngFor="let course of coursesList" [value]="course.course_id">
+                            {{ course.course_name }}
+                        </option>
+                    </select>                 
+                    
+                    <!-- ✅ Select Current Year -->
+                    <label>Select Current Year:</label>
+                    <select class="form-control" formControlName="currentYear" (change)="loadStudents()">
+                        <option>First Year</option>
+                        <option>Second Year</option>
+                        <option>Third Year</option>
+                        <option>Fourth Year</option>
+                    </select>
+
+                    <!-- ✅ Select Students using ng-multiselect-dropdown -->
+                    <label>Select Students:</label>
+                    <ng-multiselect-dropdown
+                        [placeholder]="'Select students'"
+                        [data]="availableStudents"
+                        formControlName="selectedStudents"
+                        [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
+
+                    <!-- ✅ Select Updated Year -->
+                    <label>Move to Year:</label>
+                    <select class="form-control" formControlName="updatedYear">
+                        <option>Second Year</option>
+                        <option>Third Year</option>
+                        <option>Fourth Year</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="submitPromotion()" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ✅ Promotion Details Modal -->
+<div class="modal fade" id="promotionDetailsModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Promotion Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="selectedPromotion; else noData">
+                    <p><strong>Promotion ID:</strong> {{ selectedPromotion.promotion_id }}</p>
+                    <p><strong>Student Name:</strong> {{ selectedPromotion.full_name }}</p>
+                    <p><strong>Username:</strong> {{ selectedPromotion.username }}</p>
+                    <p><strong>Course:</strong> {{ selectedPromotion.course_name }}</p>
+                    <p><strong>Enrollment Course Year:</strong> {{ selectedPromotion.enrollment_course_year }}</p>
+                    <p><strong>Current Year:</strong> {{ selectedPromotion.current_course_year }}</p>
+                    <p><strong>Updated Year:</strong> {{ selectedPromotion.updated_course_year }}</p>
+                    <p><strong>Enrollment Year:</strong> {{ selectedPromotion.enrollment_year }}</p>
+                    <p><strong>Created At:</strong> {{ selectedPromotion.created_at | date:'short' }}</p>
+                    <p><strong>Updated At:</strong> {{ selectedPromotion.updated_at | date:'short' }}</p>
+                </div>
+                <ng-template #noData>
+                    <p class="text-center text-muted">No promotion details available.</p>
+                </ng-template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
