@@ -237,6 +237,12 @@ getReceipt(transactionId: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/receipt/${transactionId}`);
 }
 
+/** ✅ Fetch Fee Status for All Students */
+getAllStudentsFeeStatus(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/students/fee-status`);
+}
+
+
 // ✅ Fetch Subjects by Username and Course ID
 getFeeLedgerByUsername(username: string): Observable<any> {
   return this.http.get(`${this.baseUrl}/fee-ledger/student/${username}`);

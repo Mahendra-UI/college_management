@@ -83,7 +83,8 @@ onSubmit() {
           // ✅ Ensure fullName is stored correctly for all roles
           if (response.full_name) {
             sessionStorage.setItem('fullName', response.full_name);
-          } else {
+          } 
+          else {
             sessionStorage.setItem('fullName', "User"); // Default if missing
           }
 

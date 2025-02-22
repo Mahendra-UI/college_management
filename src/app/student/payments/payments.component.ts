@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router, RouterModule } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -58,6 +58,7 @@ export class PaymentsComponent implements OnInit {
         alert("Payment Successful! Transaction ID: " + res.transaction_id);
         sessionStorage.setItem('transaction_id', res.transaction_id); // ✅ Store Transaction ID
         this.router.navigate(['/student/receipt', res.transaction_id]); // ✅ Redirect to Receipt Page
+        
       } else {
         alert("Payment failed! Try again.");
       }

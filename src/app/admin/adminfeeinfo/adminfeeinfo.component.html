@@ -1,0 +1,44 @@
+<section class="common_section">
+    <div class="container">
+        <h4>All Students' Fee Status</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered w-100">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Student Name</th>
+                        <th>Username</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Year</th>
+                        <th>Fee Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Transaction ID</th>
+                        <th>Payment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let record of feeStatusList; let i = index;">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ record.student_name }}</td>
+                        <td>{{ record.student_username }}</td>
+                        <td>{{ record.course_name }}</td>
+                        <td>{{ record.semester_name }}</td>
+                        <td>{{ record.year }}</td>
+                        <td>{{ record.fee_type_name }}</td>
+                        <td>₹{{ record.fee_amount }}</td>
+                        <td [ngClass]="{'text-danger': record.fee_status === 'Pending', 'text-success': record.fee_status === 'Completed'}">
+                            {{ record.fee_status }}
+                        </td>
+                        <td>{{ record.transaction_id || 'N/A' }}</td>
+                        <td>{{ record.payment_date ? (record.payment_date | date: 'short') : 'N/A' }}</td>
+                    </tr>
+                    <tr *ngIf="feeStatusList.length === 0">
+                        <td colspan="11" class="text-center">No Records Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
