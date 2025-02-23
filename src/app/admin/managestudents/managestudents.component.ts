@@ -83,14 +83,26 @@ initializeForm() {
    */
 loadAcademicCourseYears(): void {
   this.apiSer.getAcademicCourseYears().subscribe(
-    (data) => {
-      this.academicCourseYearsList = data;
+    (res: any) => {
+      if (res.success && res.academicYears) {
+        // ✅ Filter out "Course Completed" (academic_course_year_id = 5)
+        this.academicCourseYearsList = res.academicYears.filter(
+          (year: any) => year.academic_course_year_id !== 5
+        );
+        console.log("✅ Loaded Academic Course Years (Excluding Course Completed):", this.academicCourseYearsList);
+      } else {
+        this.academicCourseYearsList = [];
+        console.error("❌ Failed to load academic course years: No data found");
+      }
     },
     (error) => {
-      console.error('Error fetching academic course years', error);
+      this.academicCourseYearsList = [];
+      console.error("❌ Error fetching academic course years:", error);
     }
   );
 }
+
+
 
 
 loadYears(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -318,7 +318,7 @@ addStudentPromotion(promotionData: any): Observable<any> {
 
  // ✅ Fetch all promotions
  getPromotions(): Observable<any> {
-  return this.http.get(`${this.baseUrl}/promotions`);
+  return this.http.get(`${this.baseUrl}/getpromotions`);
 }
 
 // ✅ Fetch promotion details by ID
@@ -326,12 +326,20 @@ getPromotionById(promotionId: number): Observable<any> {
   return this.http.get(`${this.baseUrl}/promotions/${promotionId}`);
 }
 
-getStudentsByCourseAndYear(courseId: number, currentYear: string): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/getstudentsbycourseandyear/${courseId}/${encodeURIComponent(currentYear)}`);
+getStudentsByCourseAndYear(courseId: number, yearId: number): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getstudentsbycourseandyear/${courseId}/${yearId}`);
 }
+
+
 
 getPromotionsByUsername(username: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/promotions/username/${username}`);
+}
+
+
+// ✅ Fetch Promotion History by Username
+getPromotionHistory(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/promotion-history/${username}`);
 }
 
 

@@ -84,7 +84,7 @@
                       <a class="btn btn-success btn-sm" id="viewDetailsBtn" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentDetailsModal">
                           <i class="bi bi-eye"></i>
                       </a>
-                      <a class="btn btn-primary btn-sm" (click)="openEditStudentModal(student.username)">
+                      <a class="btn btn-primary btn-sm" *ngIf="student.academic_course_year_id != 5" (click)="openEditStudentModal(student.username)">
                         <i class="bi bi-pencil"></i>
                       </a>
                     </div>
