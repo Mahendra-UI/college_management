@@ -2,6 +2,13 @@
 collegemanagement
 
 
+<!-- INSERT INTO login (username, password, user_type, full_name, email_id, mobile_no, course_name)
+SELECT s.username, 'Student123', 'Student', s.full_name, s.email_id, s.mobile_no, s.course_name
+FROM students s
+LEFT JOIN login l ON s.username = l.username
+WHERE l.username IS NULL; -->
+
+
 
 <!-- SELECT setval('students_student_id_seq', COALESCE((SELECT MAX(student_id) FROM students), 1), false); -->
 
