@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-
     if (sessionStorage.getItem('username')) {
       this.router.navigate(['/home']); // ✅ Redirect logged-in users away from login page
     }
@@ -61,101 +60,97 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
   }
 
-/** ✅ Handle Login */
-onSubmit() {
-  if (this.loginForm.valid) {
-    const userType = this.selectedValue;
-    const username = this.loginForm.value.userName;
-    const password = this.loginForm.value.enterPassword;
-
-    this.spinner.show();
-
-    this.apiService.login(userType, username, password).subscribe(
-      (response: any) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1500);
-
-        if (response.success) {
-          sessionStorage.setItem('userType', userType);
-          sessionStorage.setItem('username', response.username || username);
-
-          // ✅ Ensure fullName is stored correctly for all roles
-          if (response.full_name) {
-            sessionStorage.setItem('fullName', response.full_name);
-          } 
-          else {
-            sessionStorage.setItem('fullName', "User"); // Default if missing
-          }
-
-          // ✅ Store course details only for Students
-          if (userType === 'Student') {
-            if (response.course_name) {
-              sessionStorage.setItem('course_name', response.course_name);
-            } else {
-              sessionStorage.removeItem('course_name'); // Remove if not available
-            }
-
-            if (response.courseId) {
-              sessionStorage.setItem('courseId', response.courseId.toString());
-            } else {
-              sessionStorage.removeItem('courseId');
-            }
-          } else {
-            sessionStorage.removeItem('course_name');
-            sessionStorage.removeItem('courseId');
-          }
-
+  onSubmit() {
+    if (this.loginForm.valid) {
+      const userType = this.selectedValue;
+      const username = this.loginForm.value.userName;
+      const password = this.loginForm.value.enterPassword;
+  
+      this.spinner.show();
+  
+      this.apiService.login(userType, username, password).subscribe(
+        (response: any) => {
           setTimeout(() => {
-            this.toastr.success('Login Successful ✅', 'Success');
-            this.redirectUser(userType);
+            this.spinner.hide();
           }, 1500);
-        } else {
+  
+          if (response.success) {
+            sessionStorage.setItem('userType', userType);
+            sessionStorage.setItem('username', response.username || username);
+  
+            if (response.full_name) {
+              sessionStorage.setItem('fullName', response.full_name);
+            } else {
+              sessionStorage.setItem('fullName', "User");
+            }
+  
+            if (userType === 'Student') {
+              if (response.course_name) {
+                sessionStorage.setItem('course_name', response.course_name);
+              } else {
+                sessionStorage.removeItem('course_name');
+              }
+  
+              if (response.courseId) {
+                sessionStorage.setItem('courseId', response.courseId.toString());
+              } else {
+                sessionStorage.removeItem('courseId');
+              }
+            } else {
+              sessionStorage.removeItem('course_name');
+              sessionStorage.removeItem('courseId');
+              sessionStorage.setItem('email', response.email || '');
+              sessionStorage.setItem('mobile', response.mobile || '');
+            }
+  
+            setTimeout(() => {
+              this.toastr.success('Login Successful ✅', 'Success');
+              this.redirectUser(userType);
+            }, 1500);
+          } else {
+            setTimeout(() => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Login Failed ❌',
+                text: response.message || "Invalid credentials!",
+                confirmButtonColor: '#d33',
+              });
+            }, 1000);
+          }
+        },
+        (error) => {
           setTimeout(() => {
+            this.spinner.hide();
             Swal.fire({
               icon: 'error',
-              title: 'Login Failed ❌',
-              text: response.message || "Invalid credentials!",
+              title: 'Invalid Credentials ❌',
+              text: 'Please check your username and password!',
               confirmButtonColor: '#d33',
             });
           }, 1000);
         }
-      },
-      (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-          Swal.fire({
-            icon: 'error',
-            title: 'Invalid Credentials ❌',
-            text: 'Please check your username and password!',
-            confirmButtonColor: '#d33',
-          });
-        }, 1000);
-      }
-    );
-  } else {
-    Swal.fire({
-      icon: 'warning',
-      title: '⚠ Fill all fields!',
-      text: 'Please enter all required details.',
-      confirmButtonColor: '#f39c12',
-    });
+      );
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: '⚠ Fill all fields!',
+        text: 'Please enter all required details.',
+        confirmButtonColor: '#f39c12',
+      });
+    }
   }
-}
+  
 
-
-
-/** ✅ Redirect User after Login */
-private redirectUser(userType: string) {
-  if (userType === 'Student') {
-    this.router.navigate(['/student']);
-  } else if (userType === 'Admin') {
-    this.router.navigate(['/admin']);
-  } else if (userType === 'Hostel Admin') {
-    this.router.navigate(['/admin']);
+  /** ✅ Redirect User after Login */
+  private redirectUser(userType: string) {
+    if (userType === 'Student') {
+      this.router.navigate(['/student']);
+    } else if (userType === 'Admin') {
+      this.router.navigate(['/admin']);
+    } else if (userType === 'Hostel Admin') {
+      this.router.navigate(['/admin']);
+    }
   }
-}
-
 
   loginFormCtrl(controlName: any) {
     return this.loginForm.get(controlName);

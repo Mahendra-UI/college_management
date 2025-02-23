@@ -15,7 +15,6 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/login`, { userType, username, password });
   }
 
-
   getStudents(p_type: number = 0): Observable<any> {
     return this.http.get<any[]>(`${this.baseUrl}/getstudents?p_type=${p_type}`);
   }

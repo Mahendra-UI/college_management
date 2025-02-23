@@ -631,7 +631,7 @@ Submit
                                 </table>
                               </div>
                               <div class="col-md-12 mx-auto">
-                                <h4 class="print form-heading">Student Promotions</h4>
+                                <h4 class="print form-heading">Student Promotions History</h4>
                             </div>
                             
                             <!-- ✅ Table to Show Promotions -->
@@ -641,33 +641,29 @@ Submit
                                   Edit Student Promotions
                                 </button>
                               </div>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Full Name</th>
-                                            <th>Username</th>
-                                            <th>Course</th>
-                                            <th>Enrollment Year</th>
-                                            <th>Current Year</th>
-                                            <th>Updated Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let promotion of promotionList; let i = index;">
-                                            <td>{{ i + 1 }}</td>
-                                            <td>{{ promotion.full_name }}</td>
-                                            <td>{{ promotion.username }}</td>
-                                            <td>{{ promotion.course_name }}</td>
-                                            <td>{{ promotion.enrollment_course_year }}</td>
-                                            <td>{{ promotion.current_course_year }}</td>
-                                            <td>{{ promotion.updated_course_year }}</td>
-                                        </tr>
-                                        <tr *ngIf="promotionList.length === 0">
-                                            <td colspan="7" class="text-center">No Promotions Found</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                              <table class="table table-bordered w-100 common_table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Previous Year</th>
+                                        <th>Updated Year</th>
+                                        <!-- <th>Created At</th> -->
+                                        <th>Updated At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let history of promotionHistory; let i = index;">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ history.previous_year }}</td>
+                                        <td>{{ history.updated_year === 'Course Completed' ? '🎓 Course Completed' : history.updated_year }}</td>
+                                        <!-- <td>{{ history.created_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td> -->
+                                        <td>{{ history.updated_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
+                                    </tr>
+                                    <tr *ngIf="promotionHistory.length === 0">
+                                        <td colspan="5" class="text-center text-muted">No history available.</td>
+                                    </tr>
+                                </tbody>                    
+                            </table>
                             </div>                            
                           </div>
                           </div>

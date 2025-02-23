@@ -31,7 +31,7 @@ export class ManagestudentsComponent implements OnInit {
   academicCourseYearsList: any[] = []; // ✅ New list for course years
 
 
-  promotionList: any[] = [];
+  promotionHistory: any[] = [];
   studentsList: any[] = [];
   coursesList: any[] = [];
   studentForm!: FormGroup;
@@ -432,7 +432,7 @@ editStudentold(student: any): void {
   getStudentDetails(username: string): void {
     // ✅ Clear previous student details before fetching new data
     this.studentDetails = null;
-    this.promotionList = []; 
+    this.promotionHistory = []; 
     this.subjectsList = [];
   
     this.apiSer.getStudentByUsername(username).subscribe(
@@ -512,16 +512,26 @@ editStudentold(student: any): void {
   }
  
 
-  loadStudentPromotions(username: string) {
-    this.apiSer.getPromotionsByUsername(username).subscribe((res: any) => {
-      if (res.success) {
-        this.promotionList = res.promotions;
-      } else {
-        this.promotionList = [];
-        this.toastr.error("No promotions found for this student.");
-      }
-    });
-  }
+   // ✅ Load Student Promotion History
+   loadStudentPromotions(username: string) {
+    // this.selectedUsername = username; // Store username for modal title
+    this.apiSer.getPromotionHistory(username).subscribe(
+        (res: any) => {
+            if (res.success && res.history.length > 0) {
+                this.promotionHistory = res.history; // ✅ Store all history records
+                console.log("✅ Promotion History Loaded:", this.promotionHistory);
+            } else {
+                this.promotionHistory = [];
+                this.toastr.warning(res.message || "⚠️ No promotion history found.");
+            }
+        },
+        (error) => {
+            this.promotionHistory = [];
+            console.error("❌ Error fetching promotion history:", error);
+            this.toastr.error("Something went wrong while fetching history.");
+        }
+    );
+}
   
   
 
@@ -632,7 +642,7 @@ editStudentold(student: any): void {
   
       // ✅ Clear student data when closing modal
       this.studentDetails = null;
-      this.promotionList = [];
+      this.promotionHistory = [];
       this.subjectsList = [];
   
       setTimeout(() => {

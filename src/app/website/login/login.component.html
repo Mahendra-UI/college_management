@@ -54,25 +54,36 @@
                 <select class="form-select" id="userType" formControlName="userType" (change)="userChange($event)">
                   <option value="" selected disabled>--Select--</option>
                   <option value="1">Student</option>
-                  <option value="2">Admin</option> <!-- ✅ Added Hostel Admin -->
+                  <option value="2">Admin</option>
                   <option value="3">Hostel Admin</option>
                 </select>
-                <div class="text-danger" *ngIf="loginFormCtrl('userType')?.invalid && loginFormCtrl('userType')?.touched">Type is required</div>
+                <div class="text-danger" *ngIf="loginFormCtrl('userType')?.invalid && loginFormCtrl('userType')?.touched">
+                  Type is required
+                </div>
               </div>
+            
               <div class="form-group mb-3">
                 <label for="userName" class="form-label">User Name <span class="mandatory">*</span></label>
                 <input type="text" class="form-control" id="userName" formControlName="userName">
-                <div class="text-danger" *ngIf="loginFormCtrl('userName')?.invalid && loginFormCtrl('userName')?.touched">User Name is required</div>
+                <div class="text-danger" *ngIf="loginFormCtrl('userName')?.invalid && loginFormCtrl('userName')?.touched">
+                  User Name is required
+                </div>
               </div>
+            
               <div class="form-group mb-3">
                 <label for="enterPassword" class="form-label">Password <span class="mandatory">*</span></label>
                 <input type="password" class="form-control" id="enterPassword" formControlName="enterPassword">
-                <div class="text-danger" *ngIf="loginFormCtrl('enterPassword')?.invalid && loginFormCtrl('enterPassword')?.touched">Password is required</div>
+                <div class="text-danger" *ngIf="loginFormCtrl('enterPassword')?.invalid && loginFormCtrl('enterPassword')?.touched">
+                  Password is required
+                </div>
               </div>
+            
               <div class="form-group mb-3">
-                <button class="btn btn-success btn-md fs-5 w-100" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
+                <button class="btn btn-success btn-md fs-5 w-100" [disabled]="loginForm.invalid" (click)="onSubmit()">
+                  Submit
+                </button>
               </div>
-            </form>
+            </form>            
           </div>
         </div>
       </div>

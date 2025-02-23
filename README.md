@@ -2,6 +2,9 @@
 collegemanagement
 
 
+
+<!-- SELECT setval('students_student_id_seq', COALESCE((SELECT MAX(student_id) FROM students), 1), false); -->
+
 <!-- SELECT setval('login_user_id_seq', COALESCE((SELECT MAX(user_id) FROM login), 1), false); -->
 
 <!-- SELECT setval('students_student_id_seq', 1, false);

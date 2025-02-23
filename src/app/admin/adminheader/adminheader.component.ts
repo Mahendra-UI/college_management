@@ -21,27 +21,28 @@ export class AdminheaderComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("🔄 Fetching stored values from sessionStorage...");
-
-    // ✅ Fetch full_name from sessionStorage
-    this.full_name = sessionStorage.getItem('full_name');
+  
+    // ✅ Fetch correct sessionStorage keys
+    this.full_name = sessionStorage.getItem('full_name') || sessionStorage.getItem('fullName'); // Handles both variations
     this.username = sessionStorage.getItem('username');
     this.course_name = sessionStorage.getItem('course_name');
-
-    console.log("sessionStorage fullName:", this.full_name);
+  
+    console.log("sessionStorage full_name:", this.full_name);
     console.log("sessionStorage username:", this.username);
     console.log("sessionStorage course_name:", this.course_name);
-
+  
     if (!this.full_name) {
       console.warn("🚨 Warning: full_name is missing in sessionStorage!");
       this.full_name = "User"; // Default value
     }
-
+  
     if (!this.course_name) {
       console.warn("🚨 Warning: course_name is missing in sessionStorage!");
     } else {
       console.log("✅ Course Name Loaded:", this.course_name);
     }
   }
+  
 
   signOut() {
     sessionStorage.clear();
