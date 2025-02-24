@@ -22,5 +22,10 @@ export const routes: Routes = [
     loadChildren: () => import('./student/student.routes').then(m => m.studentRoutes),
     // canActivate: [AuthGuard],
   },
+  {
+    path: 'hostel',
+    loadChildren: () => import('./hostel/hostel.routes').then(m => m.hostelRoutes),
+    // canActivate: [AuthGuard],
+  },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];

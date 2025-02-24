@@ -94,11 +94,22 @@ onPageChange(event: number) {
   /** ✅ Load Courses */
   loadCourses() {
     this.apiService.getCourses().subscribe(
-      data => this.coursesList = data,
-      error => console.error('❌ Error fetching courses', error)
+      (res: any) => {
+        if (res?.success && Array.isArray(res.courses)) {
+          this.coursesList = res.courses; // ✅ Assign only the `courses` array
+        } else {
+          console.warn('⚠ No courses found.');
+          this.coursesList = [];
+        }
+        console.log("✅ Loaded Courses:", this.coursesList);
+      },
+      (error) => {
+        console.error("❌ Error fetching courses:", error);
+        this.coursesList = []; // Ensure list is empty on error
+      }
     );
   }
-
+  
 
 
 

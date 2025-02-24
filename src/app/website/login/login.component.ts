@@ -148,7 +148,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     } else if (userType === 'Admin') {
       this.router.navigate(['/admin']);
     } else if (userType === 'Hostel Admin') {
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/hostel']);
     }
   }
 

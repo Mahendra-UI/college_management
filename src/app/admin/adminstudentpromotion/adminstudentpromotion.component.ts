@@ -53,11 +53,23 @@ export class AdminstudentpromotionComponent implements OnInit {
   }
   // ✅ Load Courses
   loadCourses() {
-    this.apiSer.getCourses().subscribe((res: any) => {
-      this.coursesList = res ? res : [];
-      console.log("Loaded Courses:", this.coursesList);
-    });
+    this.apiSer.getCourses().subscribe(
+      (res: any) => {
+        if (res?.success && Array.isArray(res.courses)) {
+          this.coursesList = res.courses; // ✅ Assign only the `courses` array
+        } else {
+          console.warn('⚠ No courses found.');
+          this.coursesList = [];
+        }
+        console.log("✅ Loaded Courses:", this.coursesList);
+      },
+      (error) => {
+        console.error("❌ Error fetching courses:", error);
+        this.coursesList = []; // Ensure list is empty on error
+      }
+    );
   }
+  
 
   loadAcademicCourseYears(): void {
     this.apiSer.getAcademicCourseYears().subscribe(

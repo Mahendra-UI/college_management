@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-end">
-                    <button class="btn btn-success common_add_record_btn" data-bs-toggle="modal" data-bs-target="#addStudentMarksModal">
+                    <button class="btn btn-success common_add_record_btn btn-sm" data-bs-toggle="modal" data-bs-target="#addStudentMarksModal">
                         <i class="bi bi-plus-circle"></i> Add New Result
                     </button>
                 </div>
@@ -100,14 +100,14 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Select Course</label>
-                                <select formControlName="courseId" (change)="onCourseChange($event)" class="form-select">
+                                <select formControlName="courseId" (change)="onCourseChange($event)" class="form-select" [attr.disabled]="isEditing ? true : null">
                                     <option value="" selected disabled>--Select Course--</option>
                                     <option *ngFor="let course of courses" [value]="course.course_id">{{ course.course_name }}</option>
                                 </select>
                             </div>
                         </div>
-            
-                        <!-- Select Student with ng-select -->
+                
+                        <!-- Select Student -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Select Student Name</label>
@@ -118,11 +118,12 @@
                                     bindValue="full_name"
                                     placeholder="Search Student"
                                     [searchable]="true"
-                                    (change)="onStudentChange($event)">
+                                    (change)="onStudentChange($event)"
+                                    [ngClass]="{'disabled-select': isEditing}">
                                 </ng-select>
                             </div>
                         </div>
-
+                
                         <!-- Student Username (Read-Only) -->
                         <div class="col-md-3">
                             <div class="form-group">
@@ -130,38 +131,38 @@
                                 <input type="text" class="form-control" formControlName="username" readonly>
                             </div>
                         </div>
-            
+                
                         <!-- Select Semester -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Select Semester</label>
-                                <select formControlName="semesterId" (change)="onSemesterChange($event)" class="form-select">
+                                <select formControlName="semesterId" (change)="onSemesterChange($event)" class="form-select" [attr.disabled]="isEditing ? true : null">
                                     <option value="" selected disabled>--Select Semester--</option>
                                     <option *ngFor="let sem of semesters" [value]="sem.semester_id">{{ sem.semester_name }}</option>
                                 </select>
                             </div>
                         </div>
-            
+                
                         <!-- Select Subject -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Select Subject</label>
-                                <select formControlName="subjectId" (change)="onSubjectChange($event)" class="form-select">
+                                <select formControlName="subjectId" (change)="onSubjectChange($event)" class="form-select" [attr.disabled]="isEditing ? true : null">
                                     <option value="" selected disabled>--Select Subject--</option>
                                     <option *ngFor="let subject of subjects" [value]="subject.subject_id">{{ subject.subject_name }}</option>
                                 </select>
                             </div>
                         </div>
-            
-                        <!-- Enter Credits (No Auto-fill for new records) -->
+                
+                        <!-- Enter Credits (Editable in Edit Mode) -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Credits</label>
                                 <input type="number" class="form-control" formControlName="studentCredits">
                             </div>
                         </div>
-            
-                        <!-- Select Result Status -->
+                
+                        <!-- Select Result Status (Editable in Edit Mode) -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Result Status</label>
@@ -172,15 +173,19 @@
                                 </select>
                             </div>
                         </div>
-            
-                        <!-- Submit Button -->
+                
+                        <!-- Submit/Update Button -->
                         <div class="col-md-3">
                             <div class="form-group">
-                                <button class="btn btn-sm btn-success" (click)="onSubmit()">Submit</button>
+                                <button class="btn btn-sm" [ngClass]="isEditing ? 'btn-primary' : 'btn-success'"
+                                    [disabled]="studentResultsForm.invalid"
+                                    (click)="onSubmit()">
+                                    {{ isEditing ? 'Update' : 'Submit' }}
+                                </button>
                             </div>
                         </div>
                     </div>
-                </form>
+                </form>                
             </div>
         </div>
     </div>

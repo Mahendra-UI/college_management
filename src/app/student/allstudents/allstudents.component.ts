@@ -58,12 +58,20 @@ getStudentDetails(username: string): void {
    */
   loadCourses(): void {
     this.apiSer.getCourses().subscribe(
-      (data) => {
-        this.coursesList = data;
+      (res: any) => {
+        if (res?.success && Array.isArray(res.courses)) {
+          this.coursesList = res.courses; // ✅ Extracts and assigns only the `courses` array
+        } else {
+          console.warn('⚠ No courses found.');
+          this.coursesList = [];
+        }
+        console.log("✅ Loaded Courses:", this.coursesList);
       },
       (error) => {
-        console.error('Error fetching courses', error);
+        console.error("❌ Error fetching courses:", error);
+        this.coursesList = []; // Ensure list is empty on error
       }
     );
   }
+  
 }

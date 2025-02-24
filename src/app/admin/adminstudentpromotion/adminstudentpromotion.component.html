@@ -1,16 +1,27 @@
-<!-- ✅ Student Promotion Table -->
 <section class="common_section">
     <div class="container">
         <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Student Promotions</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/admin/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
             <div class="col-md-12">
-                <h5>Student Promotions</h5>
                 <div class="text-end">
-                    <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-                        + Add Students
+                    <button class="btn btn-success common_add_record_btn btn-sm" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                        <i class="bi bi-plus-circle"></i> Add New Promotion
                     </button>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered w-100">
+                    <table class="table table-bordered w-100 common_table">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -33,14 +44,16 @@
                                 <td>{{ promotion.updated_year === 'Course Completed' ? '🎓 Course Completed' : promotion.updated_year }}</td>
                                 <td>{{ promotion.enrollment_year | date:'dd-MM-yyyy' }}</td>
                                 <td>
-                                    <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#promotionDetailsModal"
-                                            (click)="viewPromotionDetails(promotion.promotion_id)">
-                                        View Details
-                                    </button>
-                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#promotionHistoryModal"
-                                            (click)="loadPromotionHistory(promotion.username)">
-                                        View History
-                                    </button>
+                                    <div class="hstack gap-2">
+                                        <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#promotionDetailsModal"
+                                        (click)="viewPromotionDetails(promotion.promotion_id)">
+                                        <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#promotionHistoryModal"
+                                                (click)="loadPromotionHistory(promotion.username)">
+                                                <i class="bi bi-clock-history"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             <tr *ngIf="promotionsList.length === 0">
@@ -56,13 +69,15 @@
 
 
 <!-- ✅ Promotion Details Modal -->
-<div class="modal fade" id="promotionDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade common_modal_popup" id="promotionDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="promotionDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="promotionDetailsModalLabel">Promotion Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <div *ngIf="selectedPromotion; else noData">
@@ -89,37 +104,45 @@
 
 
 <!-- ✅ Promotion History Modal -->
-<div class="modal fade" id="promotionHistoryModal" tabindex="-1" aria-labelledby="promotionHistoryLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade common_modal_popup" id="promotionHistoryModal" tabindex="-1" aria-labelledby="promotionHistoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="promotionHistoryLabel">Promotion History for {{ selectedUsername }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Previous Year</th>
-                            <th>Updated Year</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let history of promotionHistory; let i = index;">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ history.previous_year }}</td>
-                            <td>{{ history.updated_year === 'Course Completed' ? '🎓 Course Completed' : history.updated_year }}</td>
-                            <td>{{ history.created_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
-                            <td>{{ history.updated_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
-                        </tr>
-                        <tr *ngIf="promotionHistory.length === 0">
-                            <td colspan="5" class="text-center text-muted">No history available.</td>
-                        </tr>
-                    </tbody>                    
-                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered w-100 common_table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Previous Year</th>
+                                        <th>Updated Year</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let history of promotionHistory; let i = index;">
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ history.previous_year }}</td>
+                                        <td>{{ history.updated_year === 'Course Completed' ? '🎓 Course Completed' : history.updated_year }}</td>
+                                        <td>{{ history.created_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
+                                        <td>{{ history.updated_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
+                                    </tr>
+                                    <tr *ngIf="promotionHistory.length === 0">
+                                        <td colspan="5" class="text-center text-muted">No history available.</td>
+                                    </tr>
+                                </tbody>                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -131,44 +154,58 @@
 
 
 <!-- ✅ Add Student Promotion Modal -->
-<div class="modal fade" id="addStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade common_modal_popup" id="addStudentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 aria-labelledby="addStudentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addStudentModalLabel">Add Students to New Year</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="bi bi-x"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="addPromotionForm">
-                    <!-- ✅ Select Course -->
-                    <label>Select Course:</label>
-                    <select class="form-control" formControlName="courseId" (change)="loadStudents()">
-                        <option value="" disabled>Select Course</option>
-                        <option *ngFor="let course of coursesList" [value]="course.course_id">
-                            {{ course.course_name }}
-                        </option>
-                    </select>                 
-                
-                    <!-- ✅ Select Current Year -->
-                    <label>Select Current Year:</label>
-                    <select class="form-control" formControlName="currentYear" (change)="loadStudents()">
-                        <option value="" disabled>Select Year</option>
-                        <option *ngFor="let year of academicCourseYears" [value]="year.academic_course_year_id">
-                            {{ year.academic_course_year_name }}
-                        </option>
-                    </select>
-                
-                    <!-- ✅ Select Students using ng-multiselect-dropdown -->
-                    <label>Select Students:</label>
-                    <ng-multiselect-dropdown
-                        [placeholder]="'Select students'"
-                        [data]="availableStudents"
-                        formControlName="selectedStudents"
-                        [settings]="dropdownSettings">
-                    </ng-multiselect-dropdown>
-                
-                </form>                
+                <div class="row">
+                    <!-- <div class="col-md-4"></div> -->
+                    <div class="col-md-12">
+                        <form [formGroup]="addPromotionForm">
+                            <!-- ✅ Select Course -->
+                            <div class="form-group">
+                                <label class="form-label">Select Course:</label>
+                                <select class="form-control" formControlName="courseId" (change)="loadStudents()">
+                                    <option value="" disabled>Select Course</option>
+                                    <option *ngFor="let course of coursesList" [value]="course.course_id">
+                                        {{ course.course_name }}
+                                    </option>
+                                </select>
+                            </div>
+                        
+                            <!-- ✅ Select Current Year -->
+                            <div class="form-group">
+                                <label class="form-label">Select Current Year:</label>
+                                <select class="form-control" formControlName="currentYear" (change)="loadStudents()">
+                                    <option value="" disabled>Select Year</option>
+                                    <option *ngFor="let year of academicCourseYears" [value]="year.academic_course_year_id">
+                                        {{ year.academic_course_year_name }}
+                                    </option>
+                                </select>
+                            </div>
+                        
+                            <!-- ✅ Select Students using ng-multiselect-dropdown -->
+                            <div class="form-group">
+                                <label class="form-label">Select Students:</label>
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'Select students'"
+                                    [data]="availableStudents"
+                                    formControlName="selectedStudents"
+                                    [settings]="dropdownSettings">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        
+                        </form>
+                    </div>
+                    <!-- <div class="col-md-4"></div> -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button (click)="submitPromotion()" class="btn btn-success">Submit</button>

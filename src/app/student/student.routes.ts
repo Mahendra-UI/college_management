@@ -35,6 +35,10 @@ export const studentRoutes: Routes = [
         loadComponent: () => import('./feestatus/feestatus.component').then((m) => m.FeestatusComponent),
       },
       {
+        path: 'mypromotions',
+        loadComponent: () => import('./mypromotions/mypromotions.component').then((m) => m.MypromotionsComponent),
+      },
+      {
         path: 'payment',
         loadComponent: () => import('./payments/payments.component').then((m) => m.PaymentsComponent),
       },

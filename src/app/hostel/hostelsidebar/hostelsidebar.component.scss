@@ -1,0 +1,190 @@
+// Define variables
+// $primary-color: #0F2C7A;
+$primary-color: #07294d;
+$secondary-color: #22252C;
+$hover-bg-color: #394253;
+$highlight-color: orange;
+$menu-header-color: #969CBA;
+$active-border-color: #03A9F5;
+$text-color: white;
+$font-primary: 'Nunito', sans-serif;
+$font-size-sm: 12px;
+$font-size-md: 13px;
+$font-size-lg: 14px;
+$font-size-xl: 16px;
+$font-weight-light: 400;
+$font-weight-regular: 500;
+$font-weight-bold: 600;
+$line-height-sm: 14px;
+$line-height-md: 16px;
+$line-height-lg: 20px;
+$line-height-xl: 31px;
+
+.navbar .navbar-brand {
+  margin-left: 0;
+}
+
+.sidebar {
+  width: 248px;
+  background-color: $primary-color;
+  color: $text-color;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 12px 0;
+  overflow: hidden;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  z-index: 1055;
+
+  .nav {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 250px);
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  .nav-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  ul {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+
+    h4.menu-header {
+      background-color: $secondary-color;
+      color: $menu-header-color;
+      font-family: $font-primary;
+      font-size: $font-size-xl;
+      font-weight: $font-weight-regular;
+      line-height: $line-height-xl;
+      padding-left: 10px;
+    }
+  }
+
+  .nav-content > ul {
+    width: 100%;
+    transition: width 300ms ease-in-out;
+
+    li > a {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 15px 10px;
+      background-color: $primary-color;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+
+      label {
+        color: $text-color;
+        font-family: $font-primary;
+        font-size: $font-size-md;
+        font-weight: $font-weight-regular;
+        margin-left: 15px;
+      }
+
+      &:hover {
+        background-color: $hover-bg-color;
+
+        label {
+          color: $text-color;
+        }
+      }
+
+      &.active-link {
+        color: $text-color;
+        border-left: 3px solid $highlight-color;
+        background-color: $hover-bg-color;
+
+        label {
+          color: $highlight-color;
+        }
+      }
+    }
+  }
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a {
+  color: #fff;
+  position: relative;
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
+  background-color: #394253;
+  /* background: #03A9F5; */
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > label {
+  color: orange;
+}
+.sidebar .nav-content > ul li.acttive-link > a {
+  background-color: #394253;
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active-link > a > i {
+  color: orange;
+}
+.sidebar .nav-content > ul li:hover > a, .sidebar .nav-content > ul li.active > a {
+  color: #fff;
+  position: relative;
+  /* background: #03A9F5; */
+  // border-left: 3px solid #03A9F5;
+  border-left: 3px solid orange;
+}
+.user-profile {
+  p, label, b {
+    font-family: $font-primary;
+  }
+
+  p {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-md;
+  }
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-light;
+    line-height: $line-height-sm;
+  }
+
+  b {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-sm;
+  }
+}
+
+.left-panel-footer {
+  position: absolute;
+  width: 90%;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  .social-icons {
+    width: 100%;
+    justify-content: center;
+
+    svg {
+      background: $secondary-color;
+      padding: 6px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.sidebar-sub-toggle {
+  &:not(.collapsed) .sidebar-collapse-icon {
+    transform: translate(10px, 1px) rotate(-182deg);
+  }
+  &.collapsed .sidebar-collapse-icon {
+    transform: translate(10px, 2px);
+  }
+}

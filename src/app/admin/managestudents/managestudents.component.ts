@@ -121,6 +121,8 @@ loadStudents(): void {
         this.spinner.hide(); // ✅ Hide Spinner after timeout
       }, 500); // Hide after 1.5s
       this.studentsList = data.students;
+      console.log(this.studentsList, "students list new issue");
+      
       this.filteredStudents = data.students; // Initialize filtered list
     },
     (error) => {
@@ -167,14 +169,21 @@ onPageChange(event: number) {
    */
   loadCourses(): void {
     this.apiSer.getCourses().subscribe(
-      (data) => {
-        this.coursesList = data;
+      (response) => {
+        if (response.success && response.courses) {
+          this.coursesList = response.courses; // ✅ Assign only the `courses` array
+        } else {
+          console.warn('⚠ No courses found.');
+          this.coursesList = [];
+        }
       },
       (error) => {
-        console.error('Error fetching courses', error);
+        console.error('❌ Error fetching courses:', error);
+        this.coursesList = []; // Ensure list is empty on error
       }
     );
   }
+  
 
 /**
    * ✅ Insert or Update Student

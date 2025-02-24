@@ -308,7 +308,7 @@ loadStudentResults() {
   loadStudents(): void {
     this.apiSer.getStudents(0).subscribe(
       (data) => {
-        this.studentsList = data;
+        this.studentsList = data.students;
         this.preparePieChartData();  // ✅ Fixed missing function
         this.prepareStudentsBarChartData();
       },
