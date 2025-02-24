@@ -186,6 +186,7 @@ loadSemesters() {
 // ✅ Submit Form
 
 // ✅ Handle Submit / Update
+
 onSubmit() {
   if (this.studentResultsForm.valid) {
     const formData = this.studentResultsForm.value;
@@ -202,7 +203,7 @@ onSubmit() {
           this.studentResultsForm.reset();
         },
         error => {
-          this.spinner.hide();  // ✅ Ensure spinner is hidden
+          this.spinner.hide();  
           Swal.fire('❌ Error!', error.error?.message || "⚠ Error updating result.", 'error');
           this.toastr.error(error.error?.message || "⚠ Error updating result.", 'Error');
         }
@@ -217,7 +218,7 @@ onSubmit() {
           this.studentResultsForm.reset();
         },
         error => {
-          this.spinner.hide();  // ✅ Ensure spinner is hidden
+          this.spinner.hide();
           Swal.fire('❌ Error!', error.error?.message || "⚠ Student result already exists.", 'error');
           this.toastr.error(error.error?.message || "⚠ Student result already exists.", 'Error');
         }
@@ -228,10 +229,7 @@ onSubmit() {
   }
 }
 
-
-
- // ✅ Handle Edit
- editStudentResult(resultId: number) {
+editStudentResult(resultId: number) {
   this.isEditing = true;
   this.apiService.getStudentResultById(resultId).subscribe(response => {
     if (response.success) {
@@ -252,6 +250,8 @@ onSubmit() {
     }
   });
 }
+
+
 
   
   viewStudentResult(resultId: number) {

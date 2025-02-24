@@ -118,35 +118,38 @@ onCourseSelect() {
       if (res.success) {
         this.editingFeeId = res.feeRecord.fee_ledger_id;
   
-        // ✅ Load Courses based on Fee Type
+        // ✅ Load Courses First
         this.apiSer.getCourses().subscribe(courseRes => {
-          this.coursesList = courseRes;
+          this.coursesList = courseRes.courses;  // Ensure correct key
           this.feeForm.controls['course_id'].enable(); // Enable dropdown
   
-          // ✅ Load Semesters based on Course
+          // ✅ Now, Load Semesters
           this.apiSer.getSemesters().subscribe(semRes => {
-            this.semesters = semRes.semesters;
+            this.semesters = semRes.semesters; // Ensure correct key
             this.feeForm.controls['semester_id'].enable(); // Enable dropdown
   
-            // ✅ Patch form AFTER loading dependencies
-            this.feeForm.patchValue({
-              fee_ledger_id: res.feeRecord.fee_ledger_id,
-              fee_type_id: res.feeRecord.fee_type_id,
-              course_id: res.feeRecord.course_id,
-              semester_id: res.feeRecord.semester_id,
-              year: res.feeRecord.year,
-              fee_amount: res.feeRecord.fee_amount,
-              fee_ledger_description: res.feeRecord.fee_ledger_description
-            });
-  
-            console.log("✅ Editing Fee Record:", this.feeForm.value);
+            // ✅ PATCH FORM after data is loaded
+            setTimeout(() => {
+              this.feeForm.patchValue({
+                fee_ledger_id: res.feeRecord.fee_ledger_id,
+                fee_type_id: res.feeRecord.fee_type_id,
+                course_id: res.feeRecord.course_id,
+                semester_id: res.feeRecord.semester_id,
+                year: res.feeRecord.year,
+                fee_amount: res.feeRecord.fee_amount,
+                fee_ledger_description: res.feeRecord.fee_ledger_description
+              });
+              console.log("✅ Form Bound:", this.feeForm.value);
+            }, 500);  // Adding slight delay ensures dropdowns are loaded
           });
         });
+  
       } else {
         this.toastr.error("Error fetching fee ledger record.");
       }
     });
   }
+  
  
 
   /** ✅ View Fee Record */
