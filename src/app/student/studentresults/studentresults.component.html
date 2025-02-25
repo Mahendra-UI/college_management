@@ -17,10 +17,7 @@
         <div class="row align-items-end">
           <div class="col-md-9">
             <h5><strong>Username:</strong> {{ username }}</h5>
-            <h5>
-              <strong>Course:</strong> {{ courseName || 'N/A' }} |
-              <strong>Semester:</strong> {{ semesterName || 'N/A' }}
-            </h5>
+            <h5><strong>Course:</strong> {{ courseName || 'N/A' }} | <strong>Semester:</strong> {{ semesterName || 'N/A' }}</h5>
           </div>
           <div class="col-md-3">
             <div class="form-group">
@@ -57,9 +54,14 @@
               <td>{{ result.semester_name }}</td>
               <td>{{ result.subject_name }}</td>
               <td>{{ result.total_credits }}</td>
+
               <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
-                {{ result.result_status === 'Pass' ? result.earned_credits : 0 }}
+                {{ result.result_status === 'Pass' ? result.earned_credits : result.earned_credits }}
               </td>
+
+              <!-- <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
+                {{ result.result_status === 'Pass' ? result.earned_credits : 0 }}
+              </td> -->
               <td><span class="badge badge-soft-{{ result.result_status === 'Pass' ? 'success' : 'danger' }}">{{ result.result_status }}</span></td>
             </tr>
             <tr *ngIf="resultsList.length == 0">

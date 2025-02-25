@@ -502,23 +502,60 @@ editStudentold(student: any): void {
   }
 
   // ✅ Method to fetch student subjects
+
+
+//   getStudentSubjectsbysemester(): void {
+//     this.spinner.show();
+//     console.log(`📡 Fetching subjects for Username: ${this.studentUsername}, Course ID: ${this.courseId}, Semester ID: ${this.semesterId}`);
+
+//     this.apiSer.getSubjectsByUsernameCourseSemester(this.studentUsername, this.courseId, this.semesterId).subscribe({
+//         next: (response) => {
+//             if (response.success) {
+//                 setTimeout(() => {
+//                     this.spinner?.hide(); // ✅ Hide Spinner after timeout
+//                 }, 500); // Hide after 0.5s
+//                 this.subjectsList = response.subjects;
+//                 console.log("✅ Subjects List:", this.subjectsList);
+//             } else {
+//                 console.warn("⚠ No subjects found:", response.message);
+//                 this.subjectsList = [];
+//             }
+//         },
+//         error: (error) => {
+//             console.error("❌ Error fetching subjects:", error);
+//             this.subjectsList = [];
+//             this.spinner.hide();
+//         }
+//     });
+// }
+
+
   getStudentSubjects(): void {
+    this.spinner.show();
+    console.log(`📡 Fetching subjects for Username: ${this.studentUsername}, Course ID: ${this.courseId}`);
+
     this.apiSer.getSubjectsByUsernameAndCourse(this.studentUsername, this.courseId).subscribe({
-      next: (response) => {
-        if (response.success) {
-          setTimeout(() => {
-            this.spinner?.hide(); // ✅ Hide Spinner after timeout
-          }, 500); // Hide after 0.5s
-          this.subjectsList = response.subjects;
-        } else {
-          console.error('No subjects found:', response.message);
+        next: (response) => {
+            if (response.success) {
+                setTimeout(() => {
+                    this.spinner?.hide(); // ✅ Hide Spinner after timeout
+                }, 500); // Hide after 0.5s
+                this.subjectsList = response.subjects;
+                console.log("✅ Subjects List:", this.subjectsList);
+            } else {
+                console.warn("⚠ No subjects found:", response.message);
+                this.subjectsList = [];
+            }
+        },
+        error: (error) => {
+            console.error("❌ Error fetching subjects:", error);
+            this.subjectsList = [];
+            this.spinner.hide();
         }
-      },
-      error: (error) => {
-        console.error('Error fetching subjects:', error);
-      }
     });
-  }
+}
+
+
  
 
    // ✅ Load Student Promotion History

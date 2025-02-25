@@ -157,13 +157,14 @@ getSubjectsByUsernameAndSemester(username: string, semesterId: number): Observab
 // ✅ Fetch Subjects by Username, Course, and Semester
 
 getSubjectsByUsernameCourseSemester(username: string, courseId: number, semesterId: number): Observable<any> {
-  if (!username || !courseId || !semesterId) {
-    console.error("❌ Error: Invalid API call due to missing parameters", { username, courseId, semesterId });
-    return throwError(() => new Error("Invalid API call - missing parameters"));
+  if (!username.trim() || isNaN(courseId) || isNaN(semesterId)) {
+      console.error("❌ Error: Invalid API call due to missing or invalid parameters", { username, courseId, semesterId });
+      return throwError(() => new Error("Invalid API call - missing or incorrect parameters"));
   }
   
-  return this.http.get(`${this.baseUrl}/getsubjects/user/${username}/${courseId}/${semesterId}`);
+  return this.http.get(`${this.baseUrl}/getsubjects/user/${username.trim()}/${courseId}/${semesterId}`);
 }
+
 
 getStudentResultById(resultId: number) {
   return this.http.get<any>(`${this.baseUrl}/getstudentresult/${resultId}`);
@@ -340,6 +341,4 @@ getPromotionsByUsername(username: string): Observable<any> {
 getPromotionHistory(username: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/promotion-history/${username}`);
 }
-
-
 }

@@ -117,21 +117,24 @@ onPageChange(event: number) {
   loadSubjects() {
     this.spinner.show();
     console.log(`📡 Fetching subjects for Course ID: ${this.selectedCourseId}, Semester ID: ${this.selectedSemesterId}`);
-    this.apiService.getSubjects(this.selectedCourseId, this.selectedSemesterId).subscribe(
+
+    this.apiService.getSubjects(Number(this.selectedCourseId), Number(this.selectedSemesterId)).subscribe(
       (data: any) => {
         setTimeout(() => {
           this.spinner.hide(); // ✅ Hide Spinner after timeout
         }, 500); // Hide after 1.5s
+
         console.log("✅ Subjects List:", data.subjects);
         this.subjectsList = data.subjects;
-        this.filteredSubjects = data.subjects; // Initialize filtered list
+        this.filteredSubjects = data.subjects;
       },
       (error) => {
         this.spinner.hide();
-        console.error("❌ Error fetching subjects:", error)
+        console.error("❌ Error fetching subjects:", error);
       }
     );
-  }
+}
+
 
   /** ✅ Handle Course Change */
   onCourseChange(event: any) {
@@ -158,25 +161,31 @@ onPageChange(event: number) {
   }
 
 /** ✅ Add or Update Subject */
+
 onSubmit() {
   if (this.subjectForm.valid) {
     let subjectData = {
-      subjectId: this.editingSubjectId || this.subjectForm.value.subjectId, // ✅ Keep existing subjectId in update case
+      subjectId: this.editingSubjectId || this.subjectForm.value.subjectId, 
       courseId: this.subjectForm.value.courseId,
       semesterId: this.subjectForm.value.semesterId,
       subjectName: this.subjectForm.value.subjectName,
-      subjectCredits: this.subjectForm.value.subjectCredits,
-      subjectCode: this.editingSubjectId ? this.subjectForm.value.subjectCode : `SUB-${this.subjectForm.value.courseId}-${this.subjectForm.value.semesterId}-${Date.now().toString().slice(-5)}`, // ✅ Generate only if new
+      subjectCredits: Number(this.subjectForm.value.subjectCredits), // ✅ Ensure it's a number
+      subjectCode: this.editingSubjectId 
+        ? this.subjectForm.value.subjectCode 
+        : `SUB-${this.subjectForm.value.courseId}-${this.subjectForm.value.semesterId}-${Date.now().toString().slice(-5)}`, 
     };
+
+    if (isNaN(subjectData.subjectCredits) || subjectData.subjectCredits <= 0) {
+      Swal.fire("❌ Error", "Invalid subject credits", "error");
+      return;
+    }
 
     console.log("🛠️ Preparing to submit:", subjectData);
 
     if (this.editingSubjectId) {
-      // ✅ Update Subject (Keep subjectCode unchanged)
       this.apiService.updateSubject(this.editingSubjectId, subjectData).subscribe(
         (response) => {
-          console.log("✅ Update Response:", response);
-          Swal.fire("✅ Success", `Subject Updated`, "success");
+          Swal.fire("✅ Success", "Subject Updated", "success");
           this.loadSubjects();
           this.resetForm();
         },
@@ -186,12 +195,9 @@ onSubmit() {
         }
       );
     } else {
-      // ✅ Add New Subject (Generate new subjectCode)
       this.apiService.addSubject(subjectData).subscribe(
         (response) => {
-          console.log("✅ Add Response:", response);
-          Swal.fire("✅ Success", `Subject Added:`, "success");
-          // Swal.fire("✅ Success", `Subject Added: ${subjectData.subjectCode}`, "success");
+          Swal.fire("✅ Success", "Subject Added", "success");
           this.loadSubjects();
           this.resetForm();
         },
@@ -208,8 +214,9 @@ onSubmit() {
 }
 
 
-  /** ✅ Edit Subject */
 
+
+  /** ✅ Edit Subject */
   onEdit(subjectId: number) {
     console.log("✏️ Fetching Subject:", subjectId);
   
@@ -218,23 +225,23 @@ onSubmit() {
         if (response.success) {
           const subject = response.subject;
           this.editingSubjectId = subject.subject_id; // ✅ Keep subject_id unchanged
-  
+
           this.loadSemesters(() => {
             this.subjectForm.patchValue({
-              subjectId: subject.subject_id, // ✅ Ensure subject_id is retained
+              subjectId: subject.subject_id,
               courseId: subject.course_id,
               semesterId: subject.semester_id,
               subjectName: subject.subject_name,
-              subjectCredits: subject.subject_credits,
+              subjectCredits: parseFloat(subject.subject_credits), // ✅ Ensure numeric value
               subjectCode: subject.subject_code, // ✅ Keep the same subjectCode
             });
-  
+
             this.subjectForm.markAsTouched();
             this.subjectForm.markAsDirty();
-  
+
             console.log("✅ Subject Data Bound to Form:", this.subjectForm.value);
           });
-  
+
         } else {
           console.error("❌ Subject not found");
         }
@@ -244,7 +251,7 @@ onSubmit() {
         Swal.fire("❌ Error", "Failed to fetch subject details.", "error");
       }
     );
-  }
+}
   
   
   loadSemesters(callback?: () => void) {
