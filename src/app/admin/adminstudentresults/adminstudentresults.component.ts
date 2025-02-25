@@ -289,9 +289,14 @@ editStudentResult(resultId: number) {
           (response) => {
             if (response.success) {
               Swal.fire('Deleted!', 'Student result has been deleted.', 'success');
-              
-              // ✅ Reload student results from API after deletion
-              this.loadStudentResults();
+  
+              // ✅ Remove the deleted result from local array
+              this.filteredStudentResults = this.filteredStudentResults.filter(res => res.result_id !== resultId);
+  
+              // ✅ Force UI refresh after deletion
+              setTimeout(() => {
+                this.loadStudentResults();
+              }, 100); // Small delay to ensure UI updates
             } else {
               Swal.fire('Error!', response.message, 'error');
             }
