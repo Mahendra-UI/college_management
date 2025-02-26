@@ -341,4 +341,20 @@ getPromotionsByUsername(username: string): Observable<any> {
 getPromotionHistory(username: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/promotion-history/${username}`);
 }
+
+
+getStudentCgpaByUsername(username: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getcgpa/${username}`);
+}
+
+// ✅ Update CGPA for a student
+updateStudentCgpa(data: { username: string, cgpa: number }): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/updatestudentcgpa`, data);
+}
+
+getAllStudentsCGPA(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getallcgpa`);
+}
+
+
 }

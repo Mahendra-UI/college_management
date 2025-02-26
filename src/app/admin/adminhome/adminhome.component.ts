@@ -264,7 +264,7 @@ loadStudentResults() {
   loadCourses(callback?: () => void) {
     this.apiSer.getCourses().subscribe(
       (data) => {
-        this.coursesList = data;
+        this.coursesList = data.courses;
         console.log("✅ Courses Loaded:", this.coursesList);
         if (callback) callback();
       },
