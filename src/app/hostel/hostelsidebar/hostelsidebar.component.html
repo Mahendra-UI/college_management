@@ -25,6 +25,19 @@
                             <label class="menu-label">Hostel Students Management</label>
                         </a>
                     </li>
+                    <li routerLinkActive="active-link">
+                        <a class="sidebar-sub-toggle collapsed" id="hostelroutes" data-bs-toggle="collapse"
+                            href="#hosetlManagementActivity" role="button" aria-expanded="false" aria-controls="hosetlManagementActivity">
+                            <img src="manage.png" />
+                            <label>Hostel Management</label>
+                            <span class="sidebar-collapse-icon bi-chevron-down"></span>
+                        </a>
+                        <ul class="accordion-collapse collapse" id="hosetlManagementActivity" aria-labelledby="hostelroutes"
+                            data-bs-parent="#accordionExample">
+                                <li><a routerLink="/hostel/addhostel">Hostels List</a></li>
+                                <li><a routerLink="/hostel/addblock">Blocks List</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

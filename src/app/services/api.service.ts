@@ -357,4 +357,63 @@ getAllStudentsCGPA(): Observable<any> {
 }
 
 
+
+// Hostel Management
+
+
+getHostels(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/hostels`);
+}
+
+addHostel(hostelData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/hostels`, hostelData);
+}
+
+updateHostel(hostelData: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/hostels`, hostelData);
+}
+
+
+getHostelById(hostel_id: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/hostels/${hostel_id}`);
+}
+
+
+deleteHostel(hostel_id: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/hostels/${hostel_id}`);
+}
+
+// Blocks
+
+// 🔹 Get All Blocks
+getBlocks(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/blocks`);
+}
+
+// 🔹 Get Blocks by Hostel ID
+getBlocksByHostel(hostel_id: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/blocks/${hostel_id}`);
+}
+
+// 🔹 Add New Block
+addBlock(blockData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/blocks`, blockData);
+}
+
+// 🔹 Update Block by ID
+updateBlock(blockData: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/blocks`, blockData);
+}
+
+// 🔹 Delete Block by ID
+deleteBlock(block_id: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/blocks/${block_id}`);
+}
+
+getBlockById(block_id: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/blocks/${block_id}`);
+}
+
+
+
 }
