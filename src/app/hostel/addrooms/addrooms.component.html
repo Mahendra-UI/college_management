@@ -2,74 +2,124 @@
     <h2>Room Management</h2>
   
     <form [formGroup]="roomForm" (ngSubmit)="submitRoom()">
-        <div class="form-group">
-          <label for="hostel_id">Select Hostel</label>
-          <select class="form-control" formControlName="hostel_id">
-            <option value="">-- Select Hostel --</option>
-            <option *ngFor="let hostel of hostels" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
-          </select>
+  
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="hostel_id">Select Hostel</label>
+                    <select class="form-control" formControlName="hostel_id">
+                      <option value="">-- Select Hostel --</option>
+                      <option *ngFor="let hostel of hostels" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
+                    </select>
+                    <div *ngIf="roomForm.get('hostel_id')?.invalid && roomForm.get('hostel_id')?.touched" class="text-danger">
+                      Please select a hostel.
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="block_id">Select Block</label>
+                    <select class="form-control" formControlName="block_id">
+                      <option value="">-- Select Block --</option>
+                      <option *ngFor="let block of blocks" [value]="block.block_id">{{ block.block_name }}</option>
+                    </select>
+                    <div *ngIf="roomForm.get('block_id')?.invalid && roomForm.get('block_id')?.touched" class="text-danger">
+                      Please select a block.
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="floor_id">Select Floor</label>
+                    <select class="form-control" formControlName="floor_id">
+                      <option value="">-- Select Floor --</option>
+                      <option *ngFor="let floor of floors" [value]="floor.floor_id">{{ floor.floor_name }}</option>
+                    </select>
+                    <div *ngIf="roomForm.get('floor_id')?.invalid && roomForm.get('floor_id')?.touched" class="text-danger">
+                      Please select a floor.
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="room_name">Room Number</label>
+                    <input type="text" class="form-control" formControlName="room_name" placeholder="Enter Room No." />
+                    <div *ngIf="roomForm.get('room_name')?.invalid && roomForm.get('room_name')?.touched" class="text-danger">
+                      <span *ngIf="roomForm.get('room_name')?.errors?.['required']">Room No. is required.</span>
+                      <span *ngIf="roomForm.get('room_name')?.errors?.['minlength']">Room No. must be at least 2 characters.</span>
+                      <span *ngIf="roomForm.get('room_name')?.errors?.['pattern']">Room No. can only contain letters, numbers, and spaces.</span>
+                    </div>
+                  </div>          
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="seats">Seats</label>
+                    <input type="number" class="form-control" formControlName="seats" placeholder="Enter Number of Seats" />
+                    <div *ngIf="roomForm.get('seats')?.invalid && roomForm.get('seats')?.touched" class="text-danger">
+                      <span *ngIf="roomForm.get('seats')?.errors?.['required']">Seats are required.</span>
+                      <span *ngIf="roomForm.get('seats')?.errors?.['min']">Minimum 1 seat is required.</span>
+                      <span *ngIf="roomForm.get('seats')?.errors?.['max']">Maximum 10 seats allowed.</span>
+                      <span *ngIf="roomForm.get('seats')?.errors?.['pattern']">Only numbers are allowed.</span>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <div class="hstack gap-1">
+                    <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid">
+                        {{ isUpdating ? 'Update Room' : 'Add Room' }}
+                      </button>
+                      <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
+                </div>
+            </div>
         </div>
-    
-        <div class="form-group">
-          <label for="block_id">Select Block</label>
-          <select class="form-control" formControlName="block_id">
-            <option value="">-- Select Block --</option>
-            <option *ngFor="let block of blocks" [value]="block.block_id">{{ block.block_name }}</option>
-          </select>
-        </div>
-    
-        <div class="form-group">
-            <label for="floor_id">Select Floor</label>
-            <select class="form-control" formControlName="floor_id">
-              <option value="">-- Select Floor --</option>
-              <option *ngFor="let floor of floors" [value]="floor.floor_id">{{ floor.floor_name }}</option>
-            </select>
-          </div>
-          
-    
-        <div class="form-group">
-          <label for="room_name">Room Name</label>
-          <input type="text" class="form-control" formControlName="room_name" placeholder="Enter Room Name" />
-        </div>
-    
-        <div class="form-group">
-          <label for="seats">Seats</label>
-          <input type="number" class="form-control" formControlName="seats" placeholder="Enter Number of Seats" />
-        </div>
-    
-        <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid">
-            {{ isUpdating ? 'Update Room' : 'Add Room' }}
-          </button>
-          <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
-          
       </form>
+      
   
     <h3>Room List</h3>
+    <!-- ✅ Search Box -->
+  <div class="form-group mb-3">
+    <input type="text" class="form-control" [(ngModel)]="searchQuery" (input)="filterRooms()" placeholder="Search...">
+</div>
+
+<!-- ✅ Total Records Count with Displayed Count -->
+<div class="mb-2">
+    <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredRooms.length }} records</span>
+  </div>
+
+
     <table class="table table-bordered w-100 common_table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Room Name</th>
+          <th>Room No.</th>
           <th>Seats</th>
           <th>Floor</th>
+          <th>Block Name</th>
+          <th>Hostel Name</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let room of roomsList">
+      <tr *ngFor="let room of filteredRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
           <td>{{ room.room_id }}</td>
           <td>{{ room.room_name }}</td>
           <td>{{ room.seats }}</td>
           <td>{{ room.floor_name }}</td>
+          <td>{{ room.block_name }}</td>
+          <td>{{ room.hostel_name }}</td>
           <td>
-            <button class="btn btn-info btn-sm" (click)="editRoom(room.room_id)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.room_id)">Delete</button>
+            <div class="hstack gap-2">
+                <button class="btn btn-info btn-sm" (click)="editRoom(room.room_id)">Edit</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.room_id)">Delete</button>
+            </div>
           </td>          
         </tr>
-        <tr *ngIf="roomsList.length === 0">
-            <td class="text-center" colspan="5">No Records Found</td>
+        <tr *ngIf="filteredRooms.length === 0">
+            <td class="text-center" colspan="7">No Records Found</td>
         </tr>
       </tbody>
     </table>
+    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+
   </div>
   

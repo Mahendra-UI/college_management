@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-addrooms',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxPaginationModule, FormsModule],
   templateUrl: './addrooms.component.html',
   styleUrl: './addrooms.component.scss'
 })
@@ -23,6 +23,15 @@ export class AddroomsComponent implements OnInit {
   roomsList: any[] = [];
   isUpdating = false;
   selectedRoomId: number | null = null;
+
+
+  filteredRooms: any[] = []; // ✅ Filtered list for search
+  searchQuery: string = ''; // ✅ Stores search input
+
+
+  // ✅ Pagination Variables
+  currentPage = 1;
+  itemsPerPage = 7; // Show 5 rooms per page
 
   constructor(
     private fb: FormBuilder,
@@ -43,9 +52,18 @@ export class AddroomsComponent implements OnInit {
       hostel_id: ['', Validators.required],
       block_id: ['', Validators.required],
       floor_id: ['', Validators.required],
-      room_name: ['', [Validators.required, Validators.minLength(2)]],
-      seats: ['', [Validators.required, Validators.min(1)]]
-    });
+      room_name: ['', [
+        Validators.required, 
+        Validators.minLength(2), 
+        Validators.pattern('^[a-zA-Z0-9 ]+$') // ✅ Only letters, numbers, and spaces allowed
+      ]],
+      seats: ['', [
+        Validators.required, 
+        Validators.min(1), 
+        Validators.max(10), // ✅ Max 10 seats allowed
+        Validators.pattern('^[0-9]+$') // ✅ Only numeric values allowed
+      ]]
+    });  
 
     // Fetch Blocks when hostel is selected
     this.roomForm.get('hostel_id')?.valueChanges.subscribe((hostelId) => {
@@ -97,13 +115,28 @@ export class AddroomsComponent implements OnInit {
   }
   
 
-  // Fetch All Rooms
-  getAllRooms() {
-    this.apiSer.getRooms().subscribe(
-      (res) => (this.roomsList = res.rooms),
-      () => this.toastr.error('Failed to fetch rooms!', 'Error')
-    );
-  }
+// Fetch All Rooms
+getAllRooms() {
+  this.apiSer.getRooms().subscribe(
+    (res) => {
+      this.roomsList = res.rooms;
+      this.filteredRooms = res.rooms; // ✅ Initialize filtered list
+    },
+    () => this.toastr.error('Failed to fetch rooms!', 'Error')
+  );
+}
+
+
+// ✅ Search Functionality
+// ✅ Search Functionality
+filterRooms() {
+  this.filteredRooms = this.roomsList.filter(room =>
+    Object.values(room).some((value: any) =>
+      value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
+  );
+  this.currentPage = 1; // ✅ Reset to first page on new search
+}
 
   // Add or Update Room
   submitRoom() {
@@ -216,6 +249,17 @@ export class AddroomsComponent implements OnInit {
     });
   }
   
+
+ // ✅ Method to display the number of visible records
+ displayedRecordsCount(): number {
+  return Math.min(this.itemsPerPage, this.filteredRooms.length - (this.currentPage - 1) * this.itemsPerPage);
+}
+
+
+// ✅ Pagination Page Change Handler
+onPageChange(pageNumber: number) {
+  this.currentPage = pageNumber;
+}
 
   // Reset Form
   resetForm() {
