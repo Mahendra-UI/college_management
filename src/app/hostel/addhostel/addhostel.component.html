@@ -1,48 +1,74 @@
-<div class="container">
-    <h2>Hostel Management</h2>
-  
+<section class="common_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Manage Hostels</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="common_home_icon">
+              <i class="bi bi-house-door" routerLink="/hostel/home"></i>
+          </div>
+      </div>
+      <hr>
+    </div>
     <form [formGroup]="hostelForm" (ngSubmit)="submitHostel()">
-      <div class="form-group">
-        <label for="hostel_name">Hostel Name</label>
-        <input
-          type="text"
-          class="form-control"
-          formControlName="hostel_name"
-          placeholder="Enter Hostel Name"
-        />
-        <div *ngIf="hostelForm.get('hostel_name')?.invalid && hostelForm.get('hostel_name')?.touched" class="text-danger">
-          Hostel name is required (Min 3 characters).
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="hostel_name">Hostel Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="hostel_name"
+              placeholder="Enter Hostel Name"
+            />
+            <div *ngIf="hostelForm.get('hostel_name')?.invalid && hostelForm.get('hostel_name')?.touched" class="text-danger">
+              Hostel name is required (Min 3 characters).
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="hstack gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+              {{ isUpdating ? 'Update Hostel' : 'Add Hostel' }}
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
+          </div>
         </div>
       </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-        {{ isUpdating ? 'Update Hostel' : 'Add Hostel' }}
-      </button>
-      <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
     </form>
-  
-    <hr />
-  
-    <h3>Hostel List</h3>
-    <div *ngIf="isLoading">Loading...</div>
-    <table class="table table-striped" *ngIf="!isLoading">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Hostel Name</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let hostel of hostels">
-          <td>{{ hostel.hostel_id }}</td>
-          <td>{{ hostel.hostel_name }}</td>
-          <td>
-            <button class="btn btn-info btn-sm" (click)="editHostel(hostel.hostel_id)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteHostel(hostel.hostel_id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-bordered w-100 common_table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Hostel Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hostel of hostels">
+                <td>{{ hostel.hostel_id }}</td>
+                <td>{{ hostel.hostel_name }}</td>
+                <td>
+                  <div class="hstack gap-2">
+                    <button class="btn btn-info btn-sm" (click)="editHostel(hostel.hostel_id)">Edit</button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteHostel(hostel.hostel_id)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="hostels.length === 0">
+                <td class="text-center" colspan="3">No Records Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+</section>
