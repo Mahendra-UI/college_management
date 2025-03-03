@@ -2,14 +2,8 @@
     <h2>Block Management</h2>
   
     <form [formGroup]="blockForm" (ngSubmit)="submitBlock()">
-      <div class="form-group">
-        <label for="block_name">Block Name</label>
-        <input type="text" class="form-control" formControlName="block_name" placeholder="Enter Block Name" />
-        <div *ngIf="blockForm.get('block_name')?.invalid && blockForm.get('block_name')?.touched" class="text-danger">
-          Block name is required (Min 2 characters).
-        </div>
-      </div>
-  
+  <div class="row">
+      <div class="col-md-3">
       <div class="form-group">
         <label for="hostel_id">Select Hostel</label>
         <select class="form-control" formControlName="hostel_id">
@@ -20,12 +14,24 @@
           Please select a hostel.
         </div>
       </div>
-  
+      </div>
+      <div class="col-md-3">
+      <div class="form-group">
+        <label for="block_name">Block Name</label>
+        <input type="text" class="form-control" formControlName="block_name" placeholder="Enter Block Name" />
+        <div *ngIf="blockForm.get('block_name')?.invalid && blockForm.get('block_name')?.touched" class="text-danger">
+          Block name is required (Min 2 characters).
+        </div>
+      </div>
+      </div>
+      <div class="col-md-3">
       <button type="submit" class="btn btn-primary" [disabled]="isLoading">
         {{ isUpdating ? 'Update Block' : 'Add Block' }}
       </button>
       <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
-    </form>
+      </div>
+    </div>
+  </form>
   
     <hr />
   
@@ -33,18 +39,19 @@
   
     <div *ngIf="isLoading">Loading...</div>
   
-    <table class="table table-striped" *ngIf="!isLoading && blocksList.length > 0">
+    <table class="table table-bordered w-100 common_table">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>#</th>
           <th>Block Name</th>
           <th>Hostel Name</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let block of blocksList">
-          <td>{{ block.block_id }}</td>
+        <tr *ngFor="let block of blocksList; let i = index;">
+          <td>{{ i+1 }}</td>
+          <!-- <td>{{ block.block_id }}</td> -->
           <td>{{ block.block_name }}</td>
           <td>{{ block.hostel_name }}</td>
           <td>
@@ -52,11 +59,10 @@
             <button class="btn btn-danger btn-sm" (click)="deleteBlock(block.block_id)">Delete</button>
           </td>
         </tr>
+        <tr *ngIf="blocksList.length === 0">
+          <td class="text-center" colspan="4">No Records Found</td>
+        </tr>
       </tbody>
     </table>
-  
-    <div *ngIf="!isLoading && blocksList.length === 0">
-      <p>No blocks found. Please select a hostel.</p>
-    </div>
   </div>
   

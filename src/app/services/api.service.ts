@@ -392,7 +392,7 @@ getBlocks(): Observable<any> {
 
 // 🔹 Get Blocks by Hostel ID
 getBlocksByHostel(hostel_id: number): Observable<any> {
-  return this.http.get(`${this.baseUrl}/blocks/${hostel_id}`);
+  return this.http.get(`${this.baseUrl}/blocks/hostel/${hostel_id}`);
 }
 
 // 🔹 Add New Block
@@ -415,5 +415,68 @@ getBlockById(block_id: number): Observable<any> {
 }
 
 
+// Floors API
+
+
+// Get all floors
+getFloors(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/floors`);
+}
+
+// Get floor by floor_id
+getFloorById(floor_id: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/floors/${floor_id}`);
+}
+
+
+// Insert a new floor
+addFloor(data: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/floors`, data);
+}
+
+// Update floor
+updateFloor(data: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/floors`, data);
+}
+
+// Delete floor by ID
+deleteFloor(floorId: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/floors/${floorId}`);
+}
+
+getFloorsByBlockAndHostel(blockId: number, hostelId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/floors/block/${blockId}/hostel/${hostelId}`);
+}
+
+
+// Rooms API
+
+
+// Add Room
+addRoom(data: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/rooms`, data);
+}
+
+// Get All Rooms
+getRooms(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/rooms`);
+}
+
+// Get Room by ID
+getRoomById(roomId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/rooms/${roomId}`);
+}
+
+
+// Update Room
+// ✅ Update Room API
+updateRoom(data: any): Observable<any> {
+  return this.http.put(`${this.baseUrl}/rooms`, data);
+}
+
+// Delete Room
+deleteRoom(roomId: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/rooms/${roomId}`);
+}
 
 }

@@ -1,0 +1,87 @@
+<div class="container">
+    <h2>Floor Management</h2>
+  
+    <form [formGroup]="floorForm" (ngSubmit)="submitFloor()">
+        <div class="row">
+            <div class="col-md-3">
+      <div class="form-group">
+        <label for="hostel_id">Select Hostel</label>
+        <select class="form-control" formControlName="hostel_id">
+          <option value="">-- Select Hostel --</option>
+          <option *ngFor="let hostel of hostels" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
+        </select>
+        <div *ngIf="floorForm.get('hostel_id')?.invalid && floorForm.get('hostel_id')?.touched" class="text-danger">
+          Please select a hostel.
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-3">
+      <div class="form-group">
+        <label for="block_id">Select Block</label>
+        <select class="form-control" formControlName="block_id">
+            <option value="">-- Select Block --</option>
+            <option *ngFor="let block of blocks" [value]="block.block_id">
+                {{ block.block_name }}
+            </option>
+        </select>
+        <div *ngIf="floorForm.get('block_id')?.invalid && floorForm.get('block_id')?.touched" class="text-danger">
+            Please select a block.
+        </div>
+    </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="floor_name">Floor Name</label>
+        <input type="text" class="form-control" formControlName="floor_name" placeholder="Enter Floor Name" />
+        <div *ngIf="floorForm.get('floor_name')?.invalid && floorForm.get('floor_name')?.touched" class="text-danger">
+          Floor name is required (Min 2 characters).
+        </div>
+      </div>
+      </div>
+
+            <div class="col-md-3">
+      <button 
+      type="submit" 
+      class="btn btn-primary" 
+      [disabled]="floorForm.invalid">
+      {{ isUpdating ? 'Update Floor' : 'Add Floor' }}
+    </button>
+
+      <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
+      </div>
+    </div>
+    </form>
+  
+    <h3>Floor List</h3>
+    <table class="table table-bordered w-100 common_table">
+      <thead>
+        <tr>
+            <th>#</th>
+            <!-- <th>ID</th> -->
+            <th>Floor Name</th>
+            <th>Block</th>
+            <th>Hostel</th>
+            <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let floor of floorsList; let i = index;">
+            <td>{{ i+1 }}</td>
+            <!-- <td>{{ floor.floor_id }}</td> -->
+            <td>{{ floor.floor_name }}</td>
+            <td>{{ floor.block_name }}</td>
+            <td>{{ floor.hostel_name }}</td>
+            <td>
+                <button class="btn btn-info btn-sm" (click)="editFloor(floor.floor_id)">Edit</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteFloor(floor.floor_id)">Delete</button>
+            </td>        
+        </tr>
+        <tr *ngIf="floorsList.length === 0">
+            <td class="text-center" colspan="5">No Records Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

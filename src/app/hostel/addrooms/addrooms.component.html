@@ -1,0 +1,75 @@
+<div class="container">
+    <h2>Room Management</h2>
+  
+    <form [formGroup]="roomForm" (ngSubmit)="submitRoom()">
+        <div class="form-group">
+          <label for="hostel_id">Select Hostel</label>
+          <select class="form-control" formControlName="hostel_id">
+            <option value="">-- Select Hostel --</option>
+            <option *ngFor="let hostel of hostels" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+          <label for="block_id">Select Block</label>
+          <select class="form-control" formControlName="block_id">
+            <option value="">-- Select Block --</option>
+            <option *ngFor="let block of blocks" [value]="block.block_id">{{ block.block_name }}</option>
+          </select>
+        </div>
+    
+        <div class="form-group">
+            <label for="floor_id">Select Floor</label>
+            <select class="form-control" formControlName="floor_id">
+              <option value="">-- Select Floor --</option>
+              <option *ngFor="let floor of floors" [value]="floor.floor_id">{{ floor.floor_name }}</option>
+            </select>
+          </div>
+          
+    
+        <div class="form-group">
+          <label for="room_name">Room Name</label>
+          <input type="text" class="form-control" formControlName="room_name" placeholder="Enter Room Name" />
+        </div>
+    
+        <div class="form-group">
+          <label for="seats">Seats</label>
+          <input type="number" class="form-control" formControlName="seats" placeholder="Enter Number of Seats" />
+        </div>
+    
+        <button type="submit" class="btn btn-primary" [disabled]="roomForm.invalid">
+            {{ isUpdating ? 'Update Room' : 'Add Room' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
+          
+      </form>
+  
+    <h3>Room List</h3>
+    <table class="table table-bordered w-100 common_table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Room Name</th>
+          <th>Seats</th>
+          <th>Floor</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let room of roomsList">
+          <td>{{ room.room_id }}</td>
+          <td>{{ room.room_name }}</td>
+          <td>{{ room.seats }}</td>
+          <td>{{ room.floor_name }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" (click)="editRoom(room.room_id)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteRoom(room.room_id)">Delete</button>
+          </td>          
+        </tr>
+        <tr *ngIf="roomsList.length === 0">
+            <td class="text-center" colspan="5">No Records Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
