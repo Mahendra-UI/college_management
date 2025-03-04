@@ -97,20 +97,6 @@ export class ManagenotificationsComponent implements OnInit {
     this.currentPage = event;
   }
 
-  // ✅ Fetch Notification by ID (View Notification)
-  viewNotificationold(notificationId: number): void {
-    this.apiService.getNotificationById(notificationId).subscribe(response => {
-      if (response.success) {
-        this.selectedNotification = response.notification;
-      } else {
-        alert("⚠ Notification not found.");
-        this.selectedNotification = null;
-      }
-    }, error => {
-      console.error("❌ Error fetching notification:", error);
-      alert("❌ Error fetching notification.");
-    });
-  }
 
   resetForm() {
     this.notificationForm.reset();
@@ -205,15 +191,6 @@ export class ManagenotificationsComponent implements OnInit {
   }
   
 
-  // ✅ Edit Notification
-  editNotificationold(notification: any): void {
-    this.isEditing = true;
-    this.editNotificationId = notification.notification_id;
-    this.notificationForm.patchValue({
-      title: notification.title,
-      title_description: notification.title_description
-    });
-  }
 
   deleteNotification(notificationId: number): void {
     Swal.fire({
