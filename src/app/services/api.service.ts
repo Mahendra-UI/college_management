@@ -479,4 +479,43 @@ deleteRoom(roomId: number): Observable<any> {
   return this.http.delete(`${this.baseUrl}/rooms/${roomId}`);
 }
 
+
+// Get Students
+// getStudentsByAcademicCourseYear(academicCourseYearId: number): Observable<any> {
+//   return this.http.get(`${this.baseUrl}/getstudentsbyacademiccourseyearid?academic_course_year_id=${academicCourseYearId}`);
+// }
+
+// getStudentsByAcademicCourseYear(academicCourseYearId: number): Observable<any> {
+//   return this.http.get(`${this.baseUrl}/getstudents?p_type=${academicCourseYearId}`);
+// }
+
+getStudentsByAcademicCourseYear(academicCourseYearId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getstudentsbyacademiccourseyearid?academic_course_year_id=${academicCourseYearId}`);
+}
+
+
+// Get Available Rooms
+getAvailableRooms(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getAvailableRooms`);
+}
+
+getAllocatedRooms(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getAllocatedRooms`);
+}
+
+// Allocate Student to Room
+allocateStudents(data: { allocations: any[] }): Observable<any> {
+  return this.http.post(`${this.baseUrl}/allocateStudentsToRooms`, data);
+}
+
+// getFloorsByBlock(blockId: number): Observable<any> {
+//   return this.http.get(`${this.baseUrl}/getFloorsByBlock/${blockId}`);
+// }
+
+getRoomsByHostelBlockFloor(hostelId: number, blockId: number, floorId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/rooms/hostel/${hostelId}/block/${blockId}/floor/${floorId}`);
+}
+getAvailableRoomsByFloor(floorId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/rooms/floor/${floorId}`);
+}
 }

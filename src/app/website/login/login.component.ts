@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (sessionStorage.getItem('username')) {
-      this.router.navigate(['/home']); // ✅ Redirect logged-in users away from login page
+      this.router.navigate(['/login']); // ✅ Redirect logged-in users away from login page
     }
 
     // ✅ Prevent Back Navigation

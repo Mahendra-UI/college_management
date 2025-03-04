@@ -1,0 +1,114 @@
+<div class="container">
+    <h2 class="text-center">Allocate Students to Rooms</h2>
+  
+    <form [formGroup]="allocationForm" (ngSubmit)="allocate()">
+        <div class="row">
+          <div class="col-md-3">
+                    <!-- Academic Course Year Selection -->
+          <div class="form-group">
+            <label for="academicCourseYear">Academic Course Year</label>
+            <select class="form-control" formControlName="academic_course_year_id" (change)="getStudents()">
+              <option value="">-- Select Year --</option>
+              <option *ngFor="let year of academicYears" [value]="year.academic_course_year_id">{{ year.academic_course_year_name }}</option>
+            </select>
+          </div>
+          </div>
+      
+          <div class="col-md-3">
+                    <!-- Students Selection (Using ng-multiselect-dropdown) -->
+          <div class="form-group">
+            <label>Select Students (Max 3)</label>
+            <ng-multiselect-dropdown
+            [placeholder]="'Select students'"
+            [data]="students"
+            formControlName="selectedStudents"
+            [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+          
+        
+          </div>
+          </div>
+      
+          <div class="col-md-3">
+            <!-- Hostel Selection -->
+            <div class="form-group">
+              <label for="hostel">Select Hostel</label>
+              <select class="form-control" formControlName="hostel_id" (change)="getBlocks()">
+                <option value="">-- Select Hostel --</option>
+                <option *ngFor="let hostel of hostels" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
+              </select>
+            </div>
+          </div>
+    
+          <div class="col-md-3">
+              <!-- Block Selection -->
+            <div class="form-group">
+              <label for="block">Select Block</label>
+              <select class="form-control" formControlName="block_id" (change)="getFloors()">
+                <option value="">-- Select Block --</option>
+                <option *ngFor="let block of blocks" [value]="block.block_id">{{ block.block_name }}</option>
+              </select>
+            </div>
+          </div>
+    
+          <div class="col-md-3">
+              <!-- Floor Selection -->
+            <div class="form-group">
+              <label for="floor">Select Floor</label>
+              <select class="form-control" formControlName="floor_id" (change)="getRooms()">
+                <option value="">-- Select Floor --</option>
+                <option *ngFor="let floor of floors" [value]="floor.floor_id">{{ floor.floor_name }}</option>
+              </select>
+            </div>
+            
+          </div>
+          <div class="col-md-3">
+            <!-- Room Selection -->
+                <div class="form-group">
+                    <label for="room">Select Room</label>
+                    <select class="form-control" formControlName="room_id">
+                    <option value="">-- Select Room --</option>
+                    <option *ngFor="let room of availableRooms" [value]="room.room_id">
+                        {{ room.room_name }} (Seats: {{ room.total_seats }} | Available: {{ room.available_seats }})
+                    </option>
+                    </select>
+                </div>
+  
+          </div>
+          <div class="col-md-3">
+              <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="allocationForm.invalid">
+              Allocate Room
+            </button>
+          </div>
+        </div>
+      </form>
+  
+    <!-- Allocated Rooms Table -->
+    <h3 class="mt-4">Allocated Rooms</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Username</th>
+          <th>Hostel</th>
+          <th>Block</th>
+          <th>Floor</th>
+          <th>Room</th>
+          <th>Allocated At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let allocation of allocatedRooms">
+          <td>{{ allocation.full_name }}</td>
+          <td>{{ allocation.username }}</td>
+          <td>{{ allocation.hostel_name }}</td>
+          <td>{{ allocation.block_name }}</td>
+          <td>{{ allocation.floor_name }}</td>
+          <td>{{ allocation.room_name }}</td>
+          <td>{{ allocation.allocated_at_time }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
