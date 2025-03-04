@@ -70,16 +70,36 @@
                     <option value="">-- Select Room --</option>
                     <option *ngFor="let room of availableRooms" [value]="room.room_id">
                         {{ room.room_name }} (Seats: {{ room.total_seats }} | Available: {{ room.available_seats }})
-                    </option>
+                    </option>                    
+                    <!-- <option *ngFor="let room of availableRooms" [value]="room.room_id">
+                        {{ room.room_name }} (Seats: {{ room.total_seats }} | Available: {{ room.available_seats }})
+                    </option> -->
                     </select>
                 </div>
   
           </div>
           <div class="col-md-3">
               <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-block" [disabled]="allocationForm.invalid">
+
+
+<!-- Submit Button with Spinner -->
+<button type="submit" class="btn btn-primary btn-block" [disabled]="isLoading || allocationForm.invalid">
+    <span *ngIf="!isLoading">Allocate Room</span>
+    <span *ngIf="isLoading">
+      <i class="fa fa-spinner fa-spin"></i> Allocating...
+    </span>
+  </button>
+
+              <!-- <button type="submit" class="btn btn-primary btn-block" [disabled]="isLoading || allocationForm.invalid">
+                <span *ngIf="!isLoading">Allocate Room</span>
+                <span *ngIf="isLoading">
+                  <i class="fa fa-spinner fa-spin"></i> Allocating...
+                </span>
+              </button>               -->
+
+            <!-- <button type="submit" class="btn btn-primary btn-block" [disabled]="allocationForm.invalid">
               Allocate Room
-            </button>
+            </button> -->
           </div>
         </div>
       </form>

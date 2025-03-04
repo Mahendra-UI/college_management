@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-allocaterooms',
@@ -24,10 +27,14 @@ export class AllocateroomsComponent implements OnInit {
   dropdownSettings: any = {}; // Multi-select settings
 
 
+  isLoading = false; // ✅ Spinner flag
+
+
+
   selectedUsernames: string = '';
 
 
-  constructor(private fb: FormBuilder, private apiSer: ApiService) {}
+  constructor(private fb: FormBuilder, private apiSer: ApiService, private toastr: ToastrService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.getHostels();
@@ -165,51 +172,61 @@ getRooms() {
   /** ✅ Allocate Students */
 
 
-  allocate() {
-    if (this.allocationForm.invalid) {
-      alert('Please fill all required fields.');
-      return;
+/** ✅ Allocate Students with Spinner & Notifications */
+
+allocate() {
+  if (this.allocationForm.invalid) {
+    Swal.fire('⚠️ Warning', 'Please fill all required fields.', 'warning');
+    return;
+  }
+
+  if (!this.allocationForm.value.selectedStudents || this.allocationForm.value.selectedStudents.length === 0) {
+    Swal.fire('⚠️ Warning', 'Please select at least one student.', 'warning');
+    return;
+  }
+
+  this.spinner.show(); // ✅ Show Spinner
+
+  const allocationData = this.allocationForm.value.selectedStudents.map((selectedStudent: any) => {
+    const studentId = selectedStudent.student_id;
+    const student = this.students.find((s: any) => s.student_id === studentId);
+
+    if (!student) {
+      console.error("❌ Student not found:", selectedStudent);
+      return null;
     }
-  
-    if (!this.allocationForm.value.selectedStudents || this.allocationForm.value.selectedStudents.length === 0) {
-      alert('Please select at least one student.');
-      return;
-    }
-  
-    console.log("✅ Current students array:", this.students);
-    console.log("✅ Selected students:", this.allocationForm.value.selectedStudents);
-  
-    const allocationData = this.allocationForm.value.selectedStudents.map((selectedStudent: any) => {
-      const studentId = selectedStudent.student_id;
-      const student = this.students.find((s: any) => s.student_id === studentId);
-  
-      if (!student) {
-        console.error("❌ Student not found:", selectedStudent);
-        return null;
+
+    return {
+      student_id: student.student_id,
+      username: student.username,
+      full_name: student.full_name,
+      room_id: this.allocationForm.value.room_id,
+      academic_course_year_id: this.allocationForm.value.academic_course_year_id
+    };
+  }).filter((data: any) => data !== null);
+
+  if (allocationData.length === 0) {
+    this.spinner.hide();
+    Swal.fire("⚠️ Warning", "No valid students selected for allocation.", "warning");
+    return;
+  }
+
+  this.apiSer.allocateStudents({ allocations: allocationData }).subscribe(
+    (res: any) => {
+      this.spinner.hide();
+      if (res.success) {
+        Swal.fire('✅ Success', 'Students Allocated Successfully!', 'success');
+        this.getAllocatedRooms(); // Refresh Allocated Rooms
+      } else {
+        Swal.fire('❌ Error', res.message, 'error');
       }
-  
-      return {
-        student_id: student.student_id,
-        username: student.username,  // ✅ Now including username
-        full_name: student.full_name,
-        room_id: this.allocationForm.value.room_id
-      };
-    }).filter((data: any) => data !== null);
-  
-    if (allocationData.length === 0) {
-      alert("No valid students selected for allocation.");
-      return;
+    },
+    (error) => {
+      this.spinner.hide();
+      console.error("❌ Allocation API Error:", error);
+      Swal.fire('❌ Error', error.error.message, 'error');
     }
-  
-    this.apiSer.allocateStudents({ allocations: allocationData }).subscribe(
-      () => {
-        alert('Students Allocated Successfully');
-        this.getAllocatedRooms();
-      },
-      (error) => {
-        console.error("❌ Allocation API Error:", error);
-        alert('Failed to allocate students. Please try again.');
-      }
-    );
-  }  
+  );
+}
+
 }
