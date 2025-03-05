@@ -38,6 +38,12 @@ export const studentRoutes: Routes = [
         path: 'mypromotions',
         loadComponent: () => import('./mypromotions/mypromotions.component').then((m) => m.MypromotionsComponent),
       },
+
+      {
+        path: 'allocatedroomslists',
+        loadComponent: () => import('./allocatedroomslists/allocatedroomslists.component').then((m) => m.AllocatedroomslistsComponent),
+      },
+
       {
         path: 'payment',
         loadComponent: () => import('./payments/payments.component').then((m) => m.PaymentsComponent),

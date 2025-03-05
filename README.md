@@ -118,3 +118,16 @@ SELECT username, full_name, academic_course_year_id, student_status
 FROM students 
 WHERE username = 'B522001';
  -->
+
+
+
+<!-- INSERT INTO room_availability (
+    room_id, room_name, total_seats, available_seats, 
+    hostel_id, hostel_name, block_id, block_name, floor_id, floor_name, status
+)
+SELECT 
+    r.room_id, r.room_name, r.seats, r.seats,  -- Available seats = total seats initially
+    r.hostel_id, r.hostel_name, r.block_id, r.block_name, r.floor_id, r.floor_name,
+    'Available'
+FROM rooms r
+ON CONFLICT (room_id) DO NOTHING;  -- Prevent duplicate inserts -->

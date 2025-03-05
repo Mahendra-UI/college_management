@@ -1,5 +1,18 @@
-<div class="container">
-    <h2 class="text-center">Allocate Students to Rooms</h2>
+<section class="common_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Allocate Rooms to Students</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="common_home_icon">
+              <i class="bi bi-house-door" routerLink="/hostel/home"></i>
+          </div>
+      </div>
+      <hr>
+  </div>
   
     <form [formGroup]="allocationForm" (ngSubmit)="allocate()">
         <div class="row">
@@ -103,32 +116,41 @@
           </div>
         </div>
       </form>
-  
-    <!-- Allocated Rooms Table -->
-    <h3 class="mt-4">Allocated Rooms</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Username</th>
-          <th>Hostel</th>
-          <th>Block</th>
-          <th>Floor</th>
-          <th>Room</th>
-          <th>Allocated At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let allocation of allocatedRooms">
-          <td>{{ allocation.full_name }}</td>
-          <td>{{ allocation.username }}</td>
-          <td>{{ allocation.hostel_name }}</td>
-          <td>{{ allocation.block_name }}</td>
-          <td>{{ allocation.floor_name }}</td>
-          <td>{{ allocation.room_name }}</td>
-          <td>{{ allocation.allocated_at_time }}</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered w-100 common_table">
+              <thead>
+                <tr>
+                  <th>Allocation ID</th>
+                  <th>Student Name</th>
+                  <th>Username</th>
+                  <th>Hostel</th>
+                  <th>Block</th>
+                  <th>Floor</th>
+                  <th>Room</th>
+                  <th>Allocated At</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let allocation of allocatedRooms">
+                  <td>{{ allocation.allocation_id }}</td>
+                  <td>{{ allocation.full_name }}</td>
+                  <td>{{ allocation.username }}</td>
+                  <td>{{ allocation.hostel_name }}</td>
+                  <td>{{ allocation.block_name }}</td>
+                  <td>{{ allocation.floor_name }}</td>
+                  <td>{{ allocation.room_name }}</td>
+                  <td>{{ allocation.allocated_at | date: 'short' }}</td>
+                </tr>
+                <tr *ngIf="allocatedRooms.length === 0">
+                  <td class="text-center" colspan="8">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
   </div>
   
+</section>

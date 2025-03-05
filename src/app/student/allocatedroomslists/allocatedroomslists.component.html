@@ -1,0 +1,59 @@
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Allocated Rooms to Students</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/student/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+    
+        <!-- ✅ Show logged-in username -->
+        <p class="text-muted">Showing records for: <strong>{{ selectedUsername }}</strong></p>
+    
+        <!-- ✅ Pagination and record count -->
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="text-muted mb-0">Showing {{ filteredRooms.length }} records</p>
+            </div>
+        </div>
+    
+        <table class="table table-bordered w-100 common_table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Hostel</th>
+                    <th>Block</th>
+                    <th>Floor</th>
+                    <th>Room No.</th>
+                    <th>Allocated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let room of filteredRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                    <td>{{ room.username }}</td>
+                    <td>{{ room.full_name }}</td>
+                    <td>{{ room.hostel_name }}</td>
+                    <td>{{ room.block_name }}</td>
+                    <td>{{ room.floor_name }}</td>
+                    <td>{{ room.room_name }}</td>
+                    <td>{{ room.allocated_at | date:'short' }}</td>
+                </tr>
+                <tr *ngIf="filteredRooms.length === 0">
+                    <td colspan="7" class="text-center">No Allocated Rooms Found</td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <!-- ✅ Pagination Controls -->
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </div>
+    
+</section>

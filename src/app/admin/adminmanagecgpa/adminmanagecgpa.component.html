@@ -1,80 +1,99 @@
-<div class="container mt-4">
-    <h2 class="text-center">Manage Student CGPA</h2>
-
-    <!-- Table to Display CGPA Records -->
-    <table class="table table-bordered mt-4">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Course Name</th>
-                <th>Academic Course Year</th>
-                <th>Enrollment Date</th>
-                <th>Status</th>
-                <th>CGPA</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let student of allStudentsCGPAList; let i = index;">
-                <td>{{ i + 1 }}</td>
-                <td>{{ student.username }}</td>
-                <td>{{ student.full_name }}</td>
-                <td>{{ student.course_name }}</td>
-                <td>{{ student.academic_course_year_name }}</td>
-                <td>{{ student.student_enrollment_date | date }}</td>
-                <td>{{ student.student_status }}</td>
-                <td><strong>{{ student.cgpa }}</strong></td>
-                <td>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cgpaModal" (click)="openEditModal(student.username)">
-                        Edit CGPA
-                    </button>
-                </td>
-            </tr>
-            <tr *ngIf="allStudentsCGPAList.length === 0">
-                <td colspan="9" class="text-center">No CGPA records found.</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Bootstrap Modal for Editing CGPA -->
-<!-- Bootstrap 5 Modal -->
-<div class="modal fade" id="cgpaModal" tabindex="-1" aria-labelledby="cgpaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Student CGPA</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="cgpaForm" (ngSubmit)="updateCGPA()">
-            <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="username" readonly />
-            </div>
-  
-            <div class="mb-3">
-              <label class="form-label">Full Name</label>
-              <input type="text" class="form-control" formControlName="fullName" readonly />
-            </div>
-  
-            <div class="mb-3">
-              <label class="form-label">Enter CGPA</label>
-              <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" required />
-              <div *ngIf="cgpaForm.controls['cgpa'].invalid && cgpaForm.controls['cgpa'].touched" class="text-danger">
-                Enter a valid CGPA (0 - 10).
-              </div>
-            </div>
-  
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success" [disabled]="cgpaForm.invalid">Update CGPA</button>
-            </div>
-          </form>
-        </div>
+<section class="common_section">
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Manage Student CGPA</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="common_home_icon">
+              <i class="bi bi-house-door" routerLink="/admin/home"></i>
+          </div>
+      </div>
+      <hr>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+            <!-- Table to Display CGPA Records -->
+    <table class="table table-bordered w-100 common_table">
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Full Name</th>
+              <th>Course Name</th>
+              <th>Academic Course Year</th>
+              <th>Enrollment Date</th>
+              <th>Status</th>
+              <th>CGPA</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let student of allStudentsCGPAList; let i = index;">
+              <td>{{ i + 1 }}</td>
+              <td>{{ student.username }}</td>
+              <td>{{ student.full_name }}</td>
+              <td>{{ student.course_name }}</td>
+              <td>{{ student.academic_course_year_name }}</td>
+              <td>{{ student.student_enrollment_date | date }}</td>
+              <td>{{ student.student_status }}</td>
+              <td><strong>{{ student.cgpa }}</strong></td>
+              <td>
+                  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#cgpaModal" (click)="openEditModal(student.username)">
+                      Edit CGPA
+                  </button>
+              </td>
+          </tr>
+          <tr *ngIf="allStudentsCGPAList.length === 0">
+              <td colspan="9" class="text-center">No CGPA records found.</td>
+          </tr>
+      </tbody>
+  </table>
       </div>
     </div>
   </div>
-  
+</div>
+</section>
+
+<!-- Bootstrap 5 Modal -->
+<div class="modal fade common_modal_popup" id="cgpaModal" tabindex="-1" aria-labelledby="cgpaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Student CGPA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="cgpaForm" (ngSubmit)="updateCGPA()">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" formControlName="username" readonly />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" formControlName="fullName" readonly />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Enter CGPA</label>
+            <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" required />
+            <div *ngIf="cgpaForm.controls['cgpa'].invalid && cgpaForm.controls['cgpa'].touched" class="text-danger">
+              Enter a valid CGPA (0 - 10).
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" [disabled]="cgpaForm.invalid">Update CGPA</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
