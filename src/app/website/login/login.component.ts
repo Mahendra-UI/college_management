@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (sessionStorage.getItem('username')) {
-      this.router.navigate(['/login']); // ✅ Redirect logged-in users away from login page
+      this.router.navigate(['/student']); // ✅ Redirect logged-in users away from login page
     }
 
     // ✅ Prevent Back Navigation
@@ -60,86 +60,75 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
+  /** ✅ Submit Login Form */
+
+/** ✅ Submit Login Form */
+onSubmit() {
+  if (this.loginForm.valid) {
       const userType = this.selectedValue;
       const username = this.loginForm.value.userName;
       const password = this.loginForm.value.enterPassword;
-  
+
       this.spinner.show();
-  
+
       this.apiService.login(userType, username, password).subscribe(
-        (response: any) => {
-          setTimeout(() => {
-            this.spinner.hide();
-          }, 1500);
-  
-          if (response.success) {
-            sessionStorage.setItem('userType', userType);
-            sessionStorage.setItem('username', response.username || username);
-  
-            if (response.full_name) {
-              sessionStorage.setItem('fullName', response.full_name);
-            } else {
-              sessionStorage.setItem('fullName', "User");
-            }
-  
-            if (userType === 'Student') {
-              if (response.course_name) {
-                sessionStorage.setItem('course_name', response.course_name);
+          (response: any) => {
+              setTimeout(() => {
+                  this.spinner.hide();
+              }, 1500);
+
+              if (response.success) {
+                  // ✅ Store user details in sessionStorage
+                  sessionStorage.setItem('userType', userType);
+                  sessionStorage.setItem('username', response.username || username);
+                  sessionStorage.setItem('fullName', response.full_name || "User");
+
+                  // ✅ Ensure student_id is stored for Student users
+                  if (userType === 'Student') {
+                      sessionStorage.setItem('student_id', response.student_id?.toString() || '');
+                      sessionStorage.setItem('course_name', response.course_name || '');
+                      sessionStorage.setItem('courseId', response.courseId?.toString() || '');
+                      sessionStorage.setItem('academic_course_year_id', response.academic_course_year_id?.toString() || '');
+                      sessionStorage.setItem('academic_course_year_name', response.academic_course_year_name || '');
+                  } else {
+                      // ✅ Remove Student-specific data for non-students
+                      sessionStorage.removeItem('student_id');
+                      sessionStorage.removeItem('course_name');
+                      sessionStorage.removeItem('courseId');
+                      sessionStorage.removeItem('academic_course_year_id');
+                      sessionStorage.removeItem('academic_course_year_name');
+
+                      // ✅ Store email & mobile for Admin/Hostel Admin users
+                      sessionStorage.setItem('email', response.email || '');
+                      sessionStorage.setItem('mobile', response.mobile || '');
+                  }
+
+                  setTimeout(() => {
+                      this.toastr.success('Login Successful ✅', 'Success');
+                      this.redirectUser(userType);
+                  }, 1500);
               } else {
-                sessionStorage.removeItem('course_name');
+                  // ✅ Show error message if login fails
+                  this.showError(response.message || "Invalid credentials!");
               }
-  
-              if (response.courseId) {
-                sessionStorage.setItem('courseId', response.courseId.toString());
-              } else {
-                sessionStorage.removeItem('courseId');
-              }
-            } else {
-              sessionStorage.removeItem('course_name');
-              sessionStorage.removeItem('courseId');
-              sessionStorage.setItem('email', response.email || '');
-              sessionStorage.setItem('mobile', response.mobile || '');
-            }
-  
-            setTimeout(() => {
-              this.toastr.success('Login Successful ✅', 'Success');
-              this.redirectUser(userType);
-            }, 1500);
-          } else {
-            setTimeout(() => {
-              Swal.fire({
-                icon: 'error',
-                title: 'Login Failed ❌',
-                text: response.message || "Invalid credentials!",
-                confirmButtonColor: '#d33',
-              });
-            }, 1000);
+          },
+          (error) => {
+              this.spinner.hide();
+              console.error("❌ Login API Error:", error);
+              this.showError("Please check your username and password!");
           }
-        },
-        (error) => {
-          setTimeout(() => {
-            this.spinner.hide();
-            Swal.fire({
-              icon: 'error',
-              title: 'Invalid Credentials ❌',
-              text: 'Please check your username and password!',
-              confirmButtonColor: '#d33',
-            });
-          }, 1000);
-        }
       );
-    } else {
+  } else {
+      // ✅ Alert for incomplete form fields
       Swal.fire({
-        icon: 'warning',
-        title: '⚠ Fill all fields!',
-        text: 'Please enter all required details.',
-        confirmButtonColor: '#f39c12',
+          icon: 'warning',
+          title: '⚠ Fill all fields!',
+          text: 'Please enter all required details.',
+          confirmButtonColor: '#f39c12',
       });
-    }
   }
-  
+}
+
 
   /** ✅ Redirect User after Login */
   private redirectUser(userType: string) {
@@ -152,10 +141,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loginFormCtrl(controlName: any) {
+  /** ✅ Show Error */
+  private showError(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed ❌',
+      text: message,
+      confirmButtonColor: '#d33',
+    });
+  }
+
+  /** ✅ Get Form Control */
+  loginFormCtrl(controlName: string) {
     return this.loginForm.get(controlName);
   }
 
+  /** ✅ Initialize Animations */
   ngAfterViewInit(): void {
     console.log("Initializing AOS...");
     AOS.init({

@@ -46,6 +46,8 @@ export class ManagestudentsComponent implements OnInit {
   subjectsList: any[] = []; 
 
 
+  roomRequests: any[] = [];
+
   constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService, private toastr: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
@@ -454,6 +456,7 @@ editStudentold(student: any): void {
           // ✅ Fetch additional student data
           this.getStudentMarks();
           this.getStudentSubjects();
+          this.loadHostelAllocations();
           this.loadStudentPromotions(username);
   
           // ✅ Open View Modal after data is fully loaded
@@ -557,6 +560,28 @@ editStudentold(student: any): void {
 
 
  
+
+loadHostelAllocations(): void {
+  if (!this.studentUsername) {
+    console.error("❌ No username found in session storage.");
+    return;
+  }
+
+  this.apiSer.getStudentRoomRequestsByUsername(this.studentUsername).subscribe(
+    (res) => {
+      if (res.success) {
+        this.roomRequests = res.requests;
+        console.log("📜 Loaded Room Requests:", this.roomRequests);
+      } else {
+        this.roomRequests = [];
+        this.toastr.info("No room requests found.", "Info");
+      }
+    },
+    (error) => {
+      console.error("❌ Error fetching student room requests:", error);
+    }
+  );
+}
 
    // ✅ Load Student Promotion History
    loadStudentPromotions(username: string) {

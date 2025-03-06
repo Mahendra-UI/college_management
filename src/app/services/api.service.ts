@@ -508,9 +508,6 @@ allocateStudents(data: { allocations: any[] }): Observable<any> {
   return this.http.post(`${this.baseUrl}/allocateStudentsToRooms`, data);
 }
 
-// getFloorsByBlock(blockId: number): Observable<any> {
-//   return this.http.get(`${this.baseUrl}/getFloorsByBlock/${blockId}`);
-// }
 
 getRoomsByHostelBlockFloor(hostelId: number, blockId: number, floorId: number): Observable<any> {
   return this.http.get(`${this.baseUrl}/rooms/hostel/${hostelId}/block/${blockId}/floor/${floorId}`);
@@ -518,4 +515,78 @@ getRoomsByHostelBlockFloor(hostelId: number, blockId: number, floorId: number): 
 getAvailableRoomsByFloor(floorId: number): Observable<any> {
   return this.http.get(`${this.baseUrl}/rooms/floor/${floorId}`);
 }
+
+
+
+// Submit Room Request
+// submitRoomRequest(data: any): Observable<any> {
+//   return this.http.post(`${this.baseUrl}/requestRoom`, data);
+// }
+
+
+/** ✅ Submit Room Request */
+submitRoomRequest(requestData: any): Observable<{ success: boolean; message: string }> {
+  return this.http.post<{ success: boolean; message: string }>(
+    `${this.baseUrl}/requestRoom`,  // ✅ Ensure this matches the correct API route
+    requestData
+  );
+}
+
+
+ /** ✅ Get Room Requests for Logged-in Student */
+ getStudentRoomRequests(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/roomRequests`);
+  // return this.http.get(`${this.baseUrl}/getAllocatedRooms`);
+}
+
+ /** ✅ Fetch Room Requests */
+
+ getStudentRoomRequestsByUsername(username: string): Observable<{ success: boolean; requests: any[] }> {
+  if (!username) {
+    console.error("❌ API Call Skipped: Username is empty!");
+    return throwError(() => new Error("Username is required")); // Prevent API call with empty username
+  }
+
+  console.log("🔍 Calling API with:", `${this.baseUrl}/roomRequests/${encodeURIComponent(username.trim())}`);
+
+  return this.http.get<{ success: boolean; requests: any[] }>(
+    `${this.baseUrl}/roomRequests/${encodeURIComponent(username.trim())}`
+  );
+}
+
+
+
+// getStudentRoomRequestsByUsername(username: string): Observable<any> {
+//   console.log("📥 Fetching Room Requests for:", username);
+//   return this.http.get(`${this.baseUrl}/roomRequests/${username}`);
+// }
+
+
+updateRoomRequestStatus(data: any): Observable<any> {
+  console.log("📤 Updating Room Request:", data);
+  return this.http.put(`${this.baseUrl}/updateRoomRequestStatus`, data);
+}
+
+
+// Approve Room Request
+approveRoomRequest(requestId: number): Observable<any> {
+  return this.http.put(`${this.baseUrl}/approveRequest/${requestId}`, {});
+}
+
+// Allocate Room After Approval
+allocateRoomWithRequest(payload: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}/allocateWithRequest`, payload);
+}
+
+
+// Get Room Requests for Admin
+getRoomRequests(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/roomRequests`);
+}
+
+getRoomRequestById(requestId: number): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getRoomRequestByRequestId/${requestId}`);
+}
+
+
 }

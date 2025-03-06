@@ -48,6 +48,13 @@ export const studentRoutes: Routes = [
         path: 'payment',
         loadComponent: () => import('./payments/payments.component').then((m) => m.PaymentsComponent),
       },
+
+      {
+        path: 'studentroomrequst',
+        loadComponent: () => import('./studentroomrequst/studentroomrequst.component').then((m) => m.StudentroomrequstComponent),
+      },
+
+
       {
         path: 'receipt',
         loadComponent: () => import('./receipt/receipt.component').then((m) => m.ReceiptComponent),

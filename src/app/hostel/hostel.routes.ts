@@ -55,9 +55,20 @@ export const hostelRoutes: Routes = [
       },
 
 
-      
+      {
+        path: 'hostelroomrequests',
+        loadComponent: () => import('./hostelroomrequests/hostelroomrequests.component').then((m) => m.HostelroomrequestsComponent),
+      },
+
+
+      {
+        path: 'allocateroomforrequest',
+        loadComponent: () => import('./allocateroomforrequest/allocateroomforrequest.component').then((m) => m.AllocateroomforrequestComponent),
+      },
+
       
 
+      
       {
         path: '**', // Handle unmatched routes within admin module
         redirectTo: '/login',
