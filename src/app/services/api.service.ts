@@ -554,6 +554,11 @@ submitRoomRequest(requestData: any): Observable<{ success: boolean; message: str
   );
 }
 
+/** ✅ Fetch Room Request by Request ID */
+getRoomRequestByRequestId(requestId: number): Observable<{ success: boolean; request: any }> {
+  return this.http.get<{ success: boolean; request: any }>(`${this.baseUrl}/getRoomRequestByRequestId/${requestId}`);
+}
+
 
 
 // getStudentRoomRequestsByUsername(username: string): Observable<any> {

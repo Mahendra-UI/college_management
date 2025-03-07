@@ -54,12 +54,21 @@
                                     <td>{{ room.room_name }}</td>
                                     <td>{{ room.total_seats }}</td>
                                     <td>{{ room.available_seats }}</td>
-                                    <td [ngClass]="{
+                                    <!-- <td [ngClass]="{
                                         'text-success': room.status === 'Available',
                                         'text-warning': room.status === 'Partially Filled',
                                         'text-danger': room.status === 'Full'
-                                    }">{{ room.status }}</td>
-                                    <td>{{ room.last_updated_at | date:'short' }}</td>
+                                    }">{{ room.status }}</td> -->
+                                    <td>
+                                        <span class="badge"
+                                        [ngClass]="{
+                                          'bg-success': room.status === 'Available',
+                                          'bg-danger': room.status === 'Full',
+                                        }">
+                                        {{ room.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ room.last_updated | date:'short' }}</td>
                                 </tr>
                                 <tr *ngIf="filteredRooms.length === 0">
                                     <td colspan="8" class="text-center">No Available Rooms Found</td>

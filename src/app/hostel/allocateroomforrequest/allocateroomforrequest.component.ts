@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-allocateroomforrequest',
@@ -121,38 +122,49 @@ export class AllocateroomforrequestComponent implements OnInit {
 
 
   /** ✅ Allocate Room to Student */
+
   allocateRoom(): void {
     if (this.allocateRoomForm.invalid) {
-      this.toastr.warning("Please fill all required fields", "Warning");
-      return;
+        Swal.fire('⚠️ Warning', 'Please fill all required fields.', 'warning');
+        this.toastr.warning("Please fill all required fields", "Warning");
+        return;
     }
-  
+
     const payload = this.allocateRoomForm.value; // ✅ Send the form data directly
-  
+
     console.log("🚀 Submitting Data:", payload);
-  
+
     this.spinner.show();
     this.isLoading = true;
-  
+
     this.apiSer.allocateRoomWithRequest(payload).subscribe(
-      (res) => {
-        this.spinner.hide();
-        this.isLoading = false;
-        if (res.success) {
-          this.toastr.success("Room allocated successfully!", "Success");
-        } else {
-          this.toastr.error(res.message, "Error");
+        (res) => {
+            this.spinner.hide();
+            this.isLoading = false;
+
+            if (res.success) {
+                Swal.fire('✅ Success', 'Room allocated successfully!', 'success');
+                this.toastr.success("Room allocated successfully!", "Success");
+            } else {
+                Swal.fire('❌ Error', res.message, 'error');
+                this.toastr.error(res.message, "Error");
+            }
+        },
+        (error) => {
+            this.spinner.hide();
+            this.isLoading = false;
+
+            console.error("❌ Allocation API Error:", error);
+            const errorMessage = error?.error?.message || "Failed to allocate room. Please try again.";
+
+            Swal.fire('❌ Error', errorMessage, 'error');
+            this.toastr.error(errorMessage, "Error");
         }
-      },
-      (error) => {
-        this.spinner.hide();
-        this.isLoading = false;
-        console.error("❌ Allocation API Error:", error);
-        this.toastr.error("Failed to allocate room", "Error");
-      }
     );
-  }
-  
+}
+
+
+
 
   
   loadRoomRequests(): void {
@@ -233,4 +245,27 @@ openActionModal(requestId: number): void {
   );
 }
 
+
+  loadRoomRequestDetails(requestId: number): void {
+    this.apiSer.getRoomRequestByRequestId(requestId).subscribe(
+      (res) => {
+        if (res.success) {
+          this.selectedRequest = res.request;
+          console.log("✅ Loaded Room Request:", this.selectedRequest);
+        } else {
+          this.selectedRequest = null;
+          this.toastr.warning("No room request found for this ID.", "Warning");
+        }
+      },
+      (error) => {
+        console.error("❌ Error fetching room request:", error);
+        this.toastr.error("Failed to load room request. Please try again later.", "Error");
+      }
+    );
+  }
+
+
+  
 }
+
+

@@ -217,6 +217,7 @@ allocate() {
       if (res.success) {
         Swal.fire('✅ Success', 'Students Allocated Successfully!', 'success');
         this.getAllocatedRooms(); // Refresh Allocated Rooms
+        this.allocationForm.reset();
       } else {
         Swal.fire('❌ Error', res.message, 'error');
       }

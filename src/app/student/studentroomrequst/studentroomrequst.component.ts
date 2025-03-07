@@ -16,6 +16,10 @@ import Swal from 'sweetalert2';
   styleUrl: './studentroomrequst.component.scss'
 })
 export class StudentroomrequstComponent implements OnInit {
+
+  selectedRequest: any = null;
+  selectedRequestId: number | null = null;
+
   roomRequestForm!: FormGroup;
   academicYears: any[] = [];
   roomRequests: any[] = [];
@@ -292,6 +296,23 @@ getStudentRequests(): void {
   );
 }
 
+loadRoomRequestDetails(requestId: number): void {
+  this.apiService.getRoomRequestByRequestId(requestId).subscribe(
+    (res) => {
+      if (res.success) {
+        this.selectedRequest = res.request;
+        console.log("✅ Loaded Room Request:", this.selectedRequest);
+      } else {
+        this.selectedRequest = null;
+        this.toastr.warning("No room request found for this ID.", "Warning");
+      }
+    },
+    (error) => {
+      console.error("❌ Error fetching room request:", error);
+      this.toastr.error("Failed to load room request. Please try again later.", "Error");
+    }
+  );
+}
 
 
 }

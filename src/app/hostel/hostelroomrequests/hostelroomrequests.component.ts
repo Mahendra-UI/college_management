@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-hostelroomrequests',
@@ -19,6 +20,9 @@ export class HostelroomrequestsComponent implements OnInit {
   actionForm!: FormGroup; // Form for approving/rejecting requests
   selectedRequest: any = null; // Stores selected request for modal
   isLoading = false; // Loader flag
+
+  selectedRequestId: number | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -72,38 +76,52 @@ export class HostelroomrequestsComponent implements OnInit {
   /** ✅ Submit Action (Approve/Reject) */
   submitAction(): void {
     if (this.actionForm.invalid) {
-      this.toastr.warning("Please fill all required fields", "Warning");
-      return;
+        Swal.fire('⚠️ Warning', 'Please fill all required fields.', 'warning');
+        return;
     }
 
     this.spinner.show();
     this.isLoading = true;
 
     const actionData = {
-      request_id: this.selectedRequest.request_id,
-      status: this.actionForm.value.status,
-      remarks: this.actionForm.value.remarks
+        request_id: this.selectedRequest.request_id,
+        status: this.actionForm.value.status,
+        remarks: this.actionForm.value.remarks
     };
 
     this.apiSer.updateRoomRequestStatus(actionData).subscribe(
-      (res) => {
-        this.spinner.hide();
-        this.isLoading = false;
+        (res) => {
+            this.spinner.hide();
+            this.isLoading = false;
 
+            Swal.fire('✅ Success', `Room request ${actionData.status} successfully!`, 'success');
+            this.toastr.success(`Room request ${actionData.status} successfully!`, "Success");
+            this.loadRoomRequests(); // Refresh requests after action
+        },
+        (error) => {
+            this.spinner.hide();
+            this.isLoading = false;
+            Swal.fire('❌ Error', 'Failed to update request.', 'error');
+            this.toastr.error("Failed to update request.", "Error");
+        }
+    );
+}
+
+
+  loadRoomRequestDetails(requestId: number): void {
+    this.apiSer.getRoomRequestByRequestId(requestId).subscribe(
+      (res) => {
         if (res.success) {
-          this.toastr.success(`Room request ${actionData.status} successfully!`, "Success");
-          this.loadRoomRequests(); // Refresh requests after action
-          // let modal = bootstrap.Modal.getInstance(document.getElementById('actionModal')!);
-          // modal?.hide();
+          this.selectedRequest = res.request;
+          console.log("✅ Loaded Room Request:", this.selectedRequest);
         } else {
-          this.toastr.error(res.message, "Error");
+          this.selectedRequest = null;
+          this.toastr.warning("No room request found for this ID.", "Warning");
         }
       },
       (error) => {
-        this.spinner.hide();
-        this.isLoading = false;
-        console.error("❌ Action API Error:", error);
-        this.toastr.error("Failed to update request.", "Error");
+        console.error("❌ Error fetching room request:", error);
+        this.toastr.error("Failed to load room request. Please try again later.", "Error");
       }
     );
   }
