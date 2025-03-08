@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { Tooltip } from 'bootstrap';
+
 
 @Component({
   selector: 'app-allocateroomforrequest',
@@ -14,7 +16,9 @@ import Swal from 'sweetalert2';
   templateUrl: './allocateroomforrequest.component.html',
   styleUrl: './allocateroomforrequest.component.scss'
 })
-export class AllocateroomforrequestComponent implements OnInit {
+export class AllocateroomforrequestComponent implements OnInit  {
+
+  // @ViewChild('tooltipButton', { static: false }) tooltipButton!: ElementRef;
 
   roomRequests: any[] = []; // Store all room requests
   selectedRequest: any = null; // Stores selected request for modal
@@ -285,6 +289,16 @@ openActionModal(requestId: number): void {
     );
   }
 
+  // ngAfterViewInit() {
+  //   setTimeout(() => {
+  //     if (this.tooltipButton) {
+  //       new Tooltip(this.tooltipButton.nativeElement, {
+  //         trigger: 'hover'
+  //       });
+  //     }
+  //   }, 500); // Wait for DOM rendering
+  // }
+  
 }
 
 

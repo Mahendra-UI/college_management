@@ -20,23 +20,32 @@ export class AllocatedroomslistsComponent implements OnInit {
 
   currentPage = 1;
   itemsPerPage = 7;
+  isLoading = false;
 
   constructor(private toastr: ToastrService, private apiSer: ApiService) {}
 
   ngOnInit(): void {
-    // ✅ Load username from sessionStorage
     this.selectedUsername = sessionStorage.getItem('username');
-    
-    // ✅ Fetch allocated rooms on load
+    console.log(sessionStorage.getItem('username'), "loading username");
+
+    if (!this.selectedUsername) {
+      this.toastr.warning("Username not found in session storage!", "Warning");
+      return;
+    }
+
     this.fetchAllocatedRooms();
   }
 
   fetchAllocatedRooms() {
-    this.apiSer.getAllocatedRooms().subscribe(
+    this.apiSer.getAllocatedRoomsByUsername(this.selectedUsername!).subscribe(
       (res) => {
         if (res.success) {
           this.allocatedRooms = res.allocatedRooms;
-          this.filterRooms(); // ✅ Automatically filter rooms
+          this.filteredRooms = this.allocatedRooms;
+
+          if (this.allocatedRooms.length === 0) {
+            this.toastr.info("No allocated rooms found!", "Info");
+          }
         }
       },
       (err) => {
@@ -44,18 +53,8 @@ export class AllocatedroomslistsComponent implements OnInit {
         this.toastr.error('Failed to load allocated rooms!', 'Error');
       }
     );
-  }
+}
 
-  // ✅ Filter rooms based on the stored username
-  filterRooms() {
-    if (!this.selectedUsername) {
-      this.filteredRooms = this.allocatedRooms; // Show all if no username in sessionStorage
-    } else {
-      this.filteredRooms = this.allocatedRooms.filter(room =>
-        room.username.toLowerCase() === this.selectedUsername?.toLowerCase()
-      );
-    }
-  }
 
   // ✅ Handle pagination page change
   onPageChange(pageNumber: number) {

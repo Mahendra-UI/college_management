@@ -1,4 +1,4 @@
-<section class="common_section">
+<section class="common_section"> 
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -13,18 +13,24 @@
             </div>
             <hr>
         </div>
-    
+
         <!-- ✅ Show logged-in username -->
         <p class="text-muted">Showing records for: <strong>{{ selectedUsername }}</strong></p>
-    
+
+        <!-- ✅ Loading State -->
+        <div *ngIf="isLoading" class="text-center">
+            <i class="fa fa-spinner fa-spin fa-2x"></i>
+            <p>Loading allocated rooms...</p>
+        </div>
+
         <!-- ✅ Pagination and record count -->
-        <div class="row align-items-center">
+        <div *ngIf="!isLoading" class="row align-items-center">
             <div class="col-md-6">
                 <p class="text-muted mb-0">Showing {{ filteredRooms.length }} records</p>
             </div>
         </div>
-    
-        <table class="table table-bordered w-100 common_table">
+
+        <table *ngIf="!isLoading" class="table table-bordered w-100 common_table">
             <thead>
                 <tr>
                     <th>Username</th>
@@ -51,9 +57,8 @@
                 </tr>
             </tbody>
         </table>
-    
+
         <!-- ✅ Pagination Controls -->
-        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+        <pagination-controls *ngIf="filteredRooms.length > 0" (pageChange)="onPageChange($event)"></pagination-controls>
     </div>
-    
 </section>

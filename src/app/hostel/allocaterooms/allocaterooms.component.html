@@ -129,6 +129,7 @@
                   <th>Block</th>
                   <th>Floor</th>
                   <th>Room</th>
+                  <th>Status</th>
                   <th>Allocated At</th>
                 </tr>
               </thead>
@@ -141,6 +142,18 @@
                   <td>{{ allocation.block_name }}</td>
                   <td>{{ allocation.floor_name }}</td>
                   <td>{{ allocation.room_name }}</td>
+                  <td>
+                    <span class="badge"
+                    [ngClass]="{
+                      'badge-light-success': allocation.status === 'Approved',
+                      'badge-light-warning': allocation.status === 'Pending',
+                      'badge-light-danger': allocation.status === 'Rejected',
+                      'badge-light-info': allocation.status === 'Allocated',
+                      'badge-light-dark': allocation.status === 'Inactive'
+                    }">
+                    {{ allocation.status }}
+                  </span>
+                  </td>
                   <td>{{ allocation.allocated_at | date: 'short' }}</td>
                 </tr>
                 <tr *ngIf="allocatedRooms.length === 0">

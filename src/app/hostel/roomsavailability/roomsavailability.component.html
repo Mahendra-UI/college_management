@@ -62,11 +62,18 @@
                                     <td>
                                         <span class="badge"
                                         [ngClass]="{
+                                          'badge-light-success': room.status === 'Available',
+                                          'badge-light-danger': room.status === 'Full',
+                                        }">
+                                        {{ room.status }}
+                                        </span>
+                                        <!-- <span class="badge"
+                                        [ngClass]="{
                                           'bg-success': room.status === 'Available',
                                           'bg-danger': room.status === 'Full',
                                         }">
                                         {{ room.status }}
-                                        </span>
+                                        </span> -->
                                     </td>
                                     <td>{{ room.last_updated | date:'short' }}</td>
                                 </tr>

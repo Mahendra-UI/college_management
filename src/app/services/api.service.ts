@@ -604,5 +604,8 @@ getRoomRequestHistory(requestId: any): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/requestHistory/${requestId}`);
 }
 
+getAllocatedRoomsByUsername(username: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/getAllocatedRoomsByUsername/${encodeURIComponent(username)}`);
+}
 
 }

@@ -27,6 +27,9 @@
                 <th>Block</th>
                 <th>Floor</th>
                 <th>Room</th>
+                <th>Requested By</th>
+                <th>Academic Year</th>
+                <th>Status</th>
                 <th>Allocated At</th>
               </tr>
             </thead>
@@ -40,6 +43,21 @@
                 <td>{{ room.block_name }}</td>
                 <td>{{ room.floor_name }}</td>
                 <td>{{ room.room_name }}</td>
+                <td>{{ room.requested_by }}</td>
+                <td>{{ room.academic_course_year_id }}</td>
+                <td>
+                  <!-- {{ room.status }} -->
+                  <span class="badge"
+                  [ngClass]="{
+                    'badge-light-success': room.status === 'Approved',
+                    'badge-light-warning': room.status === 'Pending',
+                    'badge-light-danger': room.status === 'Rejected',
+                    'badge-light-info': room.status === 'Allocated',
+                    'badge-light-dark': room.status === 'Inactive'
+                  }">
+                  {{ room.status }}
+                </span>
+                </td>
                 <td>{{ room.allocated_at | date: 'short' }}</td>
               </tr>
               <tr *ngIf="allocatedRooms.length === 0">

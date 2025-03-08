@@ -1,7 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent } from 'ngx-spinner';
+import { Tooltip } from 'bootstrap';
+
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,13 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
+
+
+  ngAfterViewInit() {
+    this.initTooltips();
+  }
+
   title = 'college-management';
   isLoading = false;
   isBrowser: boolean;
@@ -35,8 +43,28 @@ export class AppComponent implements OnInit {
     }
     
    }
+
+   private initTooltips() {
+    setTimeout(() => {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(tooltipTriggerEl => {
+        const customClass = tooltipTriggerEl.getAttribute('data-tooltip-class');
+        new Tooltip(tooltipTriggerEl, {
+          trigger: 'hover',
+          customClass: customClass || ''
+        });
+      });
+    }, 500);
+  }
+
    ngOnInit(): void {
 
+      // Reinitialize tooltips when navigation changes
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.initTooltips();
+        }
+      });
     this.isLoading = true; // Set true to demonstrate spinner, set to false after data fetch
 
     if (this.isBrowser) {

@@ -309,6 +309,128 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
   opacity: 0.6;
 }
 
+// badge styles
+
+
+// .badge-light-primary {
+//   background-color: #e1eefe !important;
+//   color: #0056b3 !important;
+// }
+
+
+
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.badge-light-primary {
+  background-color: #e1eefe;
+  color: #0056b3;
+}
+
+.badge-light-secondary {
+  background-color: #f0f0f5;
+  color: #6c757d;
+}
+
+.badge-light-success {
+  background-color: #e6f9ea;
+  color: #28a745;
+}
+
+.badge-light-info {
+  background-color: #e8f6ff;
+  color: #17a2b8;
+}
+
+.badge-light-warning {
+  background-color: #fff5e1;
+  color: #ffc107;
+}
+
+.badge-light-danger {
+  background-color: #fdecea;
+  color: #dc3545;
+}
+
+// .badge-light-dark {
+//   background-color: #d6d8db;
+//   color: #343a40;
+// }
+.badge-light-dark {
+  background-color: #d6d8db; /* Light gray */
+  color: #343a40; /* Dark gray */
+}
+.badge-light-inactive {
+  background-color: #f0f0f5; /* Very light gray */
+  color: #6c757d; /* Muted gray */
+}
+
+
+
+
+// tooltips colors
+
+
+
+/* Custom Info Tooltip */
+.tooltip-primary .tooltip-inner {
+  background-color: #0d6efd !important; /* Blue */
+  color: #fff !important;
+}
+.tooltip-primary .tooltip-arrow::before {
+  border-top-color: #0d6efd !important;
+}
+
+
+
+/* Custom Info Tooltip */
+.tooltip-info .tooltip-inner {
+  background-color: #0dcaf0 !important; /* Blue */
+  color: #000 !important;
+}
+.tooltip-info .tooltip-arrow::before {
+  border-top-color: #0dcaf0 !important;
+}
+
+
+/* Custom Blue Tooltip */
+.tooltip-blue .tooltip-inner {
+  background-color: #007bff !important; /* Blue */
+  color: white !important;
+}
+.tooltip-blue .tooltip-arrow::before {
+  border-top-color: #007bff !important;
+}
+
+/* Custom Green Tooltip */
+.tooltip-green .tooltip-inner {
+  background-color: #28a745 !important; /* Green */
+  color: white !important;
+}
+.tooltip-green .tooltip-arrow::before {
+  border-top-color: #28a745 !important;
+}
+
+/* Custom Red Tooltip */
+.tooltip-red .tooltip-inner {
+  background-color: #dc3545 !important; /* Red */
+  color: white !important;
+}
+.tooltip-red .tooltip-arrow::before {
+  border-top-color: #dc3545 !important;
+}
+
+
 
 // .multiselect-dropdown{
 //   .dropdown-btn{

@@ -78,6 +78,16 @@
                 <td>{{ request.academic_course_year_id }}</td>
                 <td>
                   <span class="badge"
+                  [ngClass]="{
+                    'badge-light-success': request.status === 'Approved',
+                    'badge-light-warning': request.status === 'Pending',
+                    'badge-light-danger': request.status === 'Rejected',
+                    'badge-light-info': request.status === 'Allocated',
+                    'badge-light-dark': request.status === 'Inactive'
+                  }">
+                  {{ request.status }}
+                </span>
+                  <!-- <span class="badge"
                     [ngClass]="{
                       'bg-success': request.status === 'Approved',
                       'bg-warning': request.status === 'Pending',
@@ -85,23 +95,40 @@
                       'bg-info': request.status === 'Allocated'
                     }">
                     {{ request.status }}
-                  </span>
+                  </span> -->
                 </td>
                 <td>{{ request.requested_at | date: 'short' }}</td>
                 <td>
                   <div class="hstack gap-2">
                     <!-- ✅ Button to Open Request Details Modal -->
+
                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roomRequestModal"
+                    (click)="loadRoomRequestDetails(request.request_id)" data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="View Info" data-tooltip-class="tooltip-primary">
+                    <i class="bi bi-eye"></i>
+                    </button>
+
+                    <!-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roomRequestModal"
                       (click)="loadRoomRequestDetails(request.request_id)">
                       View
-                    </button>
+                    </button> -->
                     <!-- ✅ Button to Open Request History Modal -->
-                    <button class="btn btn-info btn-sm" 
+                    <button class="btn btn-info btn-sm"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#roomRequestHistoryModal"
+                    (click)="loadRequestHistory(request.request_id)"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="View History"data-tooltip-class="tooltip-info">
+                      <i class="bi bi-clock-history"></i>
+                  </button>
+                    <!-- <button class="btn btn-info btn-sm" 
                       data-bs-toggle="modal" 
                       data-bs-target="#roomRequestHistoryModal"
                       (click)="loadRequestHistory(request.request_id)">
                       History
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>
