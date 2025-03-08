@@ -51,6 +51,7 @@ export class StudentroomrequstComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     console.log("Fetching stored values from sessionStorage...");
   
     // ✅ Ensure sessionStorage values are assigned first
@@ -312,6 +313,22 @@ loadRoomRequestDetails(requestId: number): void {
       this.toastr.error("Failed to load room request. Please try again later.", "Error");
     }
   );
+}
+
+requestHistory : any[] = [];
+
+loadRequestHistory(requestId: any) {
+  this.selectedRequest = this.roomRequests.find(req => req.request_id === requestId);
+  this.apiService.getRoomRequestHistory(requestId).subscribe((response: any) => {
+    if (response.success) {
+      this.requestHistory = response.history;
+    } else {
+      this.requestHistory = [];
+    }
+  }, error => {
+    console.error("Error fetching request history:", error);
+    this.requestHistory = [];
+  });
 }
 
 

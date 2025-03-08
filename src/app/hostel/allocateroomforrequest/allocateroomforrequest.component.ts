@@ -266,6 +266,25 @@ openActionModal(requestId: number): void {
 
 
   
+  requestHistory : any[] = [];
+
+  loadRequestHistory(requestId: any) {
+    this.selectedRequest = this.roomRequests.find(req => req.request_id === requestId);
+    this.apiSer.getRoomRequestHistory(requestId).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.requestHistory = response.history;
+        } else {
+          this.requestHistory = [];
+        }
+      },
+      (error) => {
+        console.error("Error fetching request history:", error);
+        this.requestHistory = [];
+      }
+    );
+  }
+
 }
 
 

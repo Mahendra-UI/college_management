@@ -567,9 +567,14 @@ getRoomRequestByRequestId(requestId: number): Observable<{ success: boolean; req
 // }
 
 
-updateRoomRequestStatus(data: any): Observable<any> {
-  console.log("📤 Updating Room Request:", data);
-  return this.http.put(`${this.baseUrl}/updateRoomRequestStatus`, data);
+// updateRoomRequestStatus(data: any): Observable<any> {
+//   console.log("📤 Updating Room Request:", data);
+//   return this.http.put(`${this.baseUrl}/updateRoomRequestStatus`, data);
+// }
+
+
+updateRoomRequestStatus(actionData: any): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/updateRoomRequestStatus`, actionData);
 }
 
 
@@ -591,6 +596,12 @@ getRoomRequests(): Observable<any> {
 
 getRoomRequestById(requestId: number): Observable<any> {
   return this.http.get(`${this.baseUrl}/getRoomRequestByRequestId/${requestId}`);
+}
+
+
+// ✅ Fetch Promotion History by Username
+getRoomRequestHistory(requestId: any): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/requestHistory/${requestId}`);
 }
 
 

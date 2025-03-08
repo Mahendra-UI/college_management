@@ -16,6 +16,10 @@ import Swal from 'sweetalert2';
 })
 export class HostelroomrequestsComponent implements OnInit {
 
+
+  full_name: string | null = null;
+
+
   roomRequests: any[] = []; // Store all room requests
   actionForm!: FormGroup; // Form for approving/rejecting requests
   selectedRequest: any = null; // Stores selected request for modal
@@ -32,6 +36,7 @@ export class HostelroomrequestsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.full_name = sessionStorage.getItem('full_name') || sessionStorage.getItem('fullName'); // Handles both variations
     this.loadRoomRequests();
     this.initializeForm();
   }
@@ -74,7 +79,51 @@ export class HostelroomrequestsComponent implements OnInit {
   }
 
   /** ✅ Submit Action (Approve/Reject) */
+
   submitAction(): void {
+    if (this.actionForm.invalid) {
+        Swal.fire('⚠️ Warning', 'Please fill all required fields.', 'warning');
+        return;
+    }
+
+    if (!this.full_name || this.full_name.trim() === '') {
+        Swal.fire('❌ Error', 'User identity missing! Please log in again.', 'error');
+        return;
+    }
+
+    this.spinner.show();
+    this.isLoading = true;
+
+    const actionData = {
+        request_id: this.selectedRequest.request_id,
+        status: this.actionForm.value.status,
+        remarks: this.actionForm.value.remarks,
+        performed_by: this.full_name // ✅ Ensure this holds the logged-in user's name
+    };
+
+    this.apiSer.updateRoomRequestStatus(actionData).subscribe(
+        (res) => {
+            this.spinner.hide();
+            this.isLoading = false;
+
+            Swal.fire('✅ Success', `Room request ${actionData.status} successfully!`, 'success');
+            this.toastr.success(`Room request ${actionData.status} successfully!`, "Success");
+            this.loadRoomRequests(); // Refresh requests
+            this.loadRequestHistory(this.selectedRequest.request_id); // Reload history
+        },
+        (error) => {
+            this.spinner.hide();
+            this.isLoading = false;
+            Swal.fire('❌ Error', 'Failed to update request.', 'error');
+            this.toastr.error("Failed to update request.", "Error");
+        }
+    );
+}
+
+
+
+
+  submitActionold(): void {
     if (this.actionForm.invalid) {
         Swal.fire('⚠️ Warning', 'Please fill all required fields.', 'warning');
         return;
@@ -125,5 +174,23 @@ export class HostelroomrequestsComponent implements OnInit {
       }
     );
   }
+  requestHistory : any[] = [];
 
+  loadRequestHistory(requestId: any) {
+    this.selectedRequest = this.roomRequests.find(req => req.request_id === requestId);
+    this.apiSer.getRoomRequestHistory(requestId).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.requestHistory = response.history;
+        } else {
+          this.requestHistory = [];
+        }
+      },
+      (error) => {
+        console.error("Error fetching request history:", error);
+        this.requestHistory = [];
+      }
+    );
+  }
+   
 }

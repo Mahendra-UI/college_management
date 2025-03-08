@@ -77,6 +77,12 @@
                 (click)="selectedRequest = request">
                 Take Action
               </button>
+              <button class="btn btn-info btn-sm" 
+              data-bs-toggle="modal" 
+              data-bs-target="#roomRequestHistoryModal"
+              (click)="loadRequestHistory(request.request_id)">
+              History
+            </button>
               </div>
             </td>
           </tr>
@@ -150,6 +156,49 @@
         </div>
         <div *ngIf="!selectedRequest">
           <p class="text-center text-muted">No details available</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Request History Modal -->
+<div class="modal fade" id="roomRequestHistoryModal" tabindex="-1" aria-labelledby="roomRequestHistoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roomRequestHistoryModalLabel">Room Request History - ID {{ selectedRequest?.request_id }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Request History</h6>
+        <div *ngIf="requestHistory && requestHistory.length > 0">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Action</th>
+                <th>Performed By</th>
+                <th>Remarks</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let history of requestHistory; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ history.action }}</td>
+                <td>{{ history.performed_by }}</td>
+                <td>{{ history.remarks }}</td>
+                <td>{{ history.action_timestamp | date: 'short' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="requestHistory.length === 0">
+          <p class="text-muted text-center">No history found for this request.</p>
         </div>
       </div>
       <div class="modal-footer">
