@@ -30,23 +30,25 @@
 
                 <nav class="navbar navbar-expand-lg navbar-light justify-content-end header-menu profile-menu py-0">
                     <ul class="navbar-nav flex-row align-items-center">
-                        <!-- <li class="nav-item me-3"><label class="lastlogin text-white"><i class="bi bi-clock"></i> Last
-                            Login: <span>27th March 2023, 03:15 PM</span></label></li> -->
-                            <li class="nav-item"><label class="lastlogin text-white">
-                                {{full_name}}
-                             </label></li> 
-                             <li class="nav-item profileDD">
-                                 <div class="dropdown">
-                                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                     <img src="userLogo.png" class="img-fluid profilePic" alt="image" />
-                                     </button>
-                                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                                            <button class="dropdown-item" type="button" (click)="signOut()"><i class="bi bi-box-arrow-right pe-2" ></i> Logout</button>
-                                     </ul>
-                                 </div>
-                             </li>
+                        <li class="nav-item">
+                            <label class="lastlogin text-white">{{ full_name }}</label>
+                        </li>
+                        <li class="nav-item profileDD dropdown">
+                            <button class="btn dropdown-toggle text-white" type="button" id="dropdownMenuButtonAdmin"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="user.png" class="img-fluid profilePic" alt="image" />
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButtonAdmin">
+                                <li>
+                                    <a class="dropdown-item" (click)="signOut()" style="cursor: pointer;">
+                                        <i class="bi bi-box-arrow-right pe-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>                        
                     </ul>
                 </nav>
+                
             </div>
         </nav>
     </div>

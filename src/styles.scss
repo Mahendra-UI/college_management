@@ -2,6 +2,7 @@
 @import "@ng-select/ng-select/themes/default.theme.css";
 @import "ngx-toastr/toastr";
 
+
 // Variables
 $font-family: 'Nunito', sans-serif;
 $primary-color: #193567;
@@ -335,31 +336,40 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
 .badge-light-primary {
   background-color: #e1eefe;
   color: #0056b3;
+  border: 1px solid #0056b3;
 }
 
 .badge-light-secondary {
   background-color: #f0f0f5;
   color: #6c757d;
+  border: 1px solid #6c757d;
 }
 
 .badge-light-success {
   background-color: #e6f9ea;
   color: #28a745;
+  border: 1px solid #28a745;
 }
 
 .badge-light-info {
   background-color: #e8f6ff;
   color: #17a2b8;
+  border: 1px solid #17a2b8;
+
 }
 
 .badge-light-warning {
   background-color: #fff5e1;
   color: #ffc107;
+  border: 1px solid #ffc107;
+
 }
 
 .badge-light-danger {
   background-color: #fdecea;
   color: #dc3545;
+  border: 1px solid #dc3545;
+
 }
 
 // .badge-light-dark {
@@ -369,10 +379,12 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
 .badge-light-dark {
   background-color: #d6d8db; /* Light gray */
   color: #343a40; /* Dark gray */
+  border: 1px solid #343a40;
 }
 .badge-light-inactive {
   background-color: #f0f0f5; /* Very light gray */
   color: #6c757d; /* Muted gray */
+  border: 1px solid #6c757d;
 }
 
 

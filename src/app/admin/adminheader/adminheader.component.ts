@@ -23,6 +23,7 @@ export class AdminheaderComponent implements OnInit {
     console.log("🔄 Fetching stored values from sessionStorage...");
   
     // ✅ Fetch correct sessionStorage keys
+    // this.full_name = sessionStorage.getItem('full_name') || sessionStorage.getItem('fullName'); // Handles both variations
     this.full_name = sessionStorage.getItem('full_name') || sessionStorage.getItem('fullName'); // Handles both variations
     this.username = sessionStorage.getItem('username');
     this.course_name = sessionStorage.getItem('course_name');

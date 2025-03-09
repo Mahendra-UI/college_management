@@ -1,3 +1,4 @@
+
 // Define variables
 // $primary-color: #0F2C7A;
 $primary-color: #07294d;
@@ -187,4 +188,9 @@ $line-height-xl: 31px;
   &.collapsed .sidebar-collapse-icon {
     transform: translate(10px, 2px);
   }
+}
+
+
+.dropdown-toggle::after {
+  border-color: #fff !important;
 }

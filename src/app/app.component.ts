@@ -1,8 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { NgxSpinnerComponent } from 'ngx-spinner';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Tooltip } from 'bootstrap';
+import { Dropdown } from 'bootstrap';
 
 
 @Component({
@@ -17,12 +18,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.initTooltips();
+    this.initDropdowns();
   }
 
   title = 'college-management';
   isLoading = false;
   isBrowser: boolean;
-  constructor(private router:Router,public elementRef: ElementRef, private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private spinner: NgxSpinnerService, private router:Router,public elementRef: ElementRef, private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
     // this.router.events.subscribe((val:any)=>{
     //   if (val instanceof NavigationEnd) {
@@ -57,8 +59,22 @@ export class AppComponent implements OnInit, AfterViewInit {
     }, 500);
   }
 
-   ngOnInit(): void {
+  private initDropdowns() {
+    setTimeout(() => {
+      const dropdownElements = document.querySelectorAll('.dropdown-toggle');
+  
+      dropdownElements.forEach(dropdownElement => {
+        const dropdownInstance = Dropdown.getInstance(dropdownElement);
+        if (!dropdownInstance) {
+          new Dropdown(dropdownElement);
+        }
+      });
+    }, 1000);
+  }
+  
 
+   ngOnInit(): void {
+     // Show spinner globally on app initialization
       // Reinitialize tooltips when navigation changes
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
