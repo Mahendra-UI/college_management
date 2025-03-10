@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AdminheaderComponent } from '../adminheader/adminheader.component';
 import { AdminfooterComponent } from '../adminfooter/adminfooter.component';
 import { Subscription } from 'rxjs';
+import AOS from 'aos';
 
 @Component({
   selector: 'app-adminsidebar',
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './adminsidebar.component.html',
   styleUrl: './adminsidebar.component.scss'
 })
-export class AdminsidebarComponent implements OnInit {
+export class AdminsidebarComponent implements OnInit, AfterViewInit {
   menuList:any = [];
 
 
@@ -74,4 +75,17 @@ export class AdminsidebarComponent implements OnInit {
       this.router.navigate(['fiveg']);
     }
   }
+    /** ✅ Initialize Animations */
+    ngAfterViewInit(): void {
+      console.log("Initializing AOS...");
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
+  
+      setTimeout(() => {
+        console.log("Refreshing AOS...");
+        AOS.refresh();
+      }, 500);
+    }
 }

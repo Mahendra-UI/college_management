@@ -77,9 +77,10 @@
                     <!-- Bootstrap 5 Modal Trigger (No TypeScript Needed) -->
                     <div class="hstack gap-2">
                       <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roomRequestModal"
-                      (click)="loadRoomRequestDetails(request.request_id)" data-bs-toggle="tooltip"
+                      (click)="loadRoomRequestDetails(request.request_id)">
+                      <!-- data-bs-toggle="tooltip"
                       data-bs-placement="top"
-                      title="View Info" data-tooltip-class="tooltip-primary">
+                      title="View Info" data-tooltip-class="tooltip-primary" -->
                       <i class="bi bi-eye"></i>
                     </button>
                       <button *ngIf="request.status === 'Approved'" class="btn btn-primary btn-sm"
@@ -91,10 +92,10 @@
                     <button class="btn btn-info btn-sm"
                     data-bs-toggle="modal" 
                     data-bs-target="#roomRequestHistoryModal"
-                    (click)="loadRequestHistory(request.request_id)"
-                    data-bs-toggle="tooltip"
+                    (click)="loadRequestHistory(request.request_id)">
+                    <!-- data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title="View History"data-tooltip-class="tooltip-info">
+                    title="View History" data-tooltip-class="tooltip-info" -->
                 <i class="bi bi-clock-history"></i>
             </button>
             
