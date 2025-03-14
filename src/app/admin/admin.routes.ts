@@ -62,6 +62,11 @@ export const adminRoutes: Routes = [
         path: 'adminmanagecgpa',
         loadComponent: () => import('./adminmanagecgpa/adminmanagecgpa.component').then((m) => m.AdminmanagecgpaComponent),
       },
+
+      {
+        path: 'adminmanagesgpa',
+        loadComponent: () => import('./adminmanagesgpa/adminmanagesgpa.component').then((m) => m.AdminmanagesgpaComponent),
+      },
       
       {
         path: '**', // Handle unmatched routes within admin module

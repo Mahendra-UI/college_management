@@ -352,8 +352,20 @@ updateStudentCgpa(data: { username: string, cgpa: number }): Observable<any> {
   return this.http.put<any>(`${this.baseUrl}/updatestudentcgpa`, data);
 }
 
+updateStudentSGPACGPA(updatedData: any) {
+  return this.http.put<{ success: boolean; message: string }>(
+    `${this.baseUrl}/update-sgpa-cgpa`,
+    updatedData
+  );
+}
+
+
 getAllStudentsCGPA(): Observable<any> {
   return this.http.get(`${this.baseUrl}/getallcgpa`);
+}
+
+getAllStudentsSGPACGPA(): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getallsgpacgpa`);
 }
 
 

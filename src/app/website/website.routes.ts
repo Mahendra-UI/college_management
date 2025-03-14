@@ -27,6 +27,10 @@ export const websiteRoutes: Routes = [
             loadComponent: () => import('./contactus/contactus.component').then((m) => m.ContactusComponent)
         },
         {
+            path: 'common-comp',
+            loadComponent: () => import('./common-comp/common-comp.component').then((m) => m.CommonCompComponent)
+        },
+        {
             path: '**',
             redirectTo: '/login',
             pathMatch: 'full',
