@@ -171,7 +171,7 @@ getStudentResultById(resultId: number) {
 }
 
 getStudentMarksByUsername(username: string): Observable<any> {
-  return this.http.get<any>(`${this.baseUrl}/getstudentresultbyusername/${username}`);
+  return this.http.get<any>(`${this.baseUrl}/getstudentresultsbyusername/${username}`);
 }
 
 deleteStudentResult(resultId: number): Observable<any> {

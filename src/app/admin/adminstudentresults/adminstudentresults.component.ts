@@ -46,7 +46,8 @@ export class AdminstudentresultsComponent implements OnInit {
       semesterId: ['', Validators.required],
       subjectId: ['', Validators.required],
       studentCredits: [''], // No auto-fill for new records
-      resultStatus: ['', Validators.required]
+      resultStatus: ['', Validators.required],
+      subjectGrade: ['', Validators.required]  // New field added
     });
 
     this.loadCourses();
@@ -228,6 +229,7 @@ onSubmit() {
     Swal.fire('⚠ Form Incomplete!', 'Please fill all required fields before submitting.', 'warning');
   }
 }
+
 
 editStudentResult(resultId: number) {
   this.isEditing = true;

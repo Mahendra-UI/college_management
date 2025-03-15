@@ -38,6 +38,7 @@
                           <th>Subject</th>
                           <th>Total Credits</th>
                           <th>Earned Credits</th>
+                          <th>Grade</th>
                           <th>Result Status</th>
                           <th>Action</th>
                         </tr>
@@ -52,6 +53,7 @@
                           <td>{{ result.subject_name }}</td>
                           <td>{{ result.total_credits }}</td>
                           <td>{{ result.earned_credits }}</td>
+                          <td>{{ result.subject_grade }}</td>
                           <td><span class="badge badge-soft-{{ result.result_status === 'Pass' ? 'success' : 'danger' }}">{{ result.result_status }}</span></td>
                           <td>
                             <div class="hstack gap-2">
@@ -161,7 +163,14 @@
                                 <input type="number" class="form-control" formControlName="studentCredits">
                             </div>
                         </div>
-                
+                <!-- Enter Subject Grade -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">Subject Grade</label>
+                                <input type="text" class="form-control" formControlName="subjectGrade">
+                            </div>
+                        </div>
+
                         <!-- Select Result Status (Editable in Edit Mode) -->
                         <div class="col-md-3">
                             <div class="form-group">
@@ -211,6 +220,8 @@
                     <p><strong>Subject:</strong> {{ selectedStudentResult.subject_name }}</p>
                     <p><strong>Total Credits:</strong> {{ selectedStudentResult.total_credits }}</p>
                     <p><strong>Earned Credits:</strong> {{ selectedStudentResult.earned_credits }}</p>
+                    <p><strong>Grade:</strong> {{ selectedStudentResult.subject_grade }}</p>
+                    
                     <p><strong>Result Status:</strong> {{ selectedStudentResult.result_status }}</p>
                     <!-- <p><strong>Created At:</strong> {{ selectedStudentResult.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
                     <p><strong>Updated At:</strong> {{ selectedStudentResult.updated_at | date:'dd/MM/yyyy HH:mm' }}</p> -->

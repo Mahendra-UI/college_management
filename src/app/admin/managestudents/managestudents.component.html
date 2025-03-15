@@ -568,20 +568,27 @@ Submit
                               <table class="table table-bordered w-100 common_table">
                                 <thead>
                                   <tr>
-                                    <th>Subject</th>
-                                    <th>Credits</th>
-                                    <th>Status</th>
                                     <th>Semester</th>
+                                    <th>Subject</th>
+                                    <th>Total Credits</th>
+                                    <th>Earned Credits</th>
+                                    <th>Grade</th>
+                                    <th>Result Status</th>
                                     <th>Created At</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <ng-container *ngIf="studentDetails.marks && studentDetails.marks.length > 0; else noRecords">
                                     <tr *ngFor="let mark of studentDetails.marks">
-                                      <td>{{ mark.subject_name }}</td>
-                                      <td>{{ mark.credits }}</td>
-                                      <td>{{ mark.result_status }}</td>
                                       <td>{{ mark.semester_name }}</td>
+                                      <td>{{ mark.subject_name }}</td>
+                                      <td>{{ mark.total_credits }}</td>
+                                      <td>{{ mark.earned_credits }}</td>
+                                      <td>{{ mark.subject_grade }}</td>
+                                      <!-- <td>{{ mark.subject_name }}</td>
+                                      <td>{{ mark.credits }}</td> -->
+                                      <td>{{ mark.result_status }}</td>
+                                      <!-- <td>{{ mark.semester_name }}</td>  -->
                                       <td>{{ mark.created_at | date: 'dd/MM/yyyy' }}</td>
                                     </tr>
                                   </ng-container>
