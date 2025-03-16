@@ -55,10 +55,12 @@
               <td>{{ result.semester_name }}</td>
               <td>{{ result.subject_name }}</td>
               <td>{{ result.total_credits }}</td>
-              <td>{{ result.subject_grade }}</td>
+              <!-- <td>{{ result.earned_credits }}</td> -->
               <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
                 {{ result.result_status === 'Pass' ? result.earned_credits : result.earned_credits }}
               </td>
+              <td>{{ result.subject_grade ? result.subject_grade : "N/A" }}</td>
+
 
               <!-- <td [ngClass]="{'text-success': result.result_status === 'Pass', 'text-danger': result.result_status === 'Fail'}">
                 {{ result.result_status === 'Pass' ? result.earned_credits : 0 }}

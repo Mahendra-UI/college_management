@@ -66,15 +66,47 @@ onChangePassword() {
 
   this.apiSer.changePassword(this.username!, currentPassword, newPassword, confirmPassword).subscribe(
     (response) => {
-      Swal.fire('Success', response.message, 'success').then(() => {
-        this.router.navigate(['/login']); // ✅ Redirect to login
+      console.log('✅ Password changed successfully. Clearing session and redirecting to login...');
+      
+      Swal.fire({
+        title: 'Success',
+        text: response.message,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        localStorage.clear(); // ✅ Clear session storage
+        sessionStorage.clear(); // ✅ Ensure full logout
+        this.router.navigate(['/login'], { replaceUrl: true }); // ✅ Force redirection
       });
     },
     (error) => {
+      console.error('❌ Error changing password:', error);
       Swal.fire('Error', error.error.message || 'Failed to change password', 'error');
     }
   );
+  
+  
+
+  // this.apiSer.changePassword(this.username!, currentPassword, newPassword, confirmPassword).subscribe(
+  //   (response) => {
+  //     Swal.fire('Success', response.message, 'success').then(() => {
+  //       this.router.navigate(['/login']);    
+  //     });
+  //   },
+  //   (error) => {
+  //     Swal.fire('Error', error.error.message || 'Failed to change password', 'error');
+  //   }
+  // );
 }
+
+testRedirect() {
+  console.log('🔄 Logging out...');
+
+  sessionStorage.clear(); // ✅ Clear stored session values
+
+  this.router.navigate(['/login'], { replaceUrl: true }); // ✅ Redirect to login
+}
+
 
   /** ✅ Fetch Student Details by Username */
   getStudentDetails(username: string): void {

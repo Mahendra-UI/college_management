@@ -49,58 +49,79 @@
     </div>
 </section>
 
-<!-- Bootstrap 5 Modal for Editing SGPA -->
-
 <!-- Bootstrap 5 Modal for Editing SGPA & CGPA -->
-<div class="modal fade" id="sgpaModal" tabindex="-1" aria-labelledby="sgpaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="sgpaModal" tabindex="-1" aria-labelledby="sgpaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="sgpaModalLabel">Edit SGPA & CGPA</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x"></i>
+          </button>
         </div>
-        <form [formGroup]="sgpaForm" (ngSubmit)="updateSGPA()">
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" class="form-control" formControlName="username" readonly />
+        <div class="modal-body">
+          <div class="container">
+            <form [formGroup]="sgpaForm" (ngSubmit)="updateSGPA()">
+            <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" formControlName="username" readonly />
+              </div>
             </div>
   
-            <div class="mb-3">
-              <label class="form-label">Full Name</label>
-              <input type="text" class="form-control" formControlName="fullName" readonly />
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" formControlName="fullName" readonly />
+              </div>
             </div>
   
-            <div class="mb-3">
-              <label class="form-label">First Semester SGPA</label>
-              <input type="number" class="form-control" formControlName="firstSemesterSGPA" step="0.01" min="0" max="10" />
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">First Semester SGPA</label>
+                <input type="number" class="form-control" formControlName="firstSemesterSGPA" step="0.01" min="0" max="10" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Second Semester SGPA</label>
+                <input type="number" class="form-control" formControlName="secondSemesterSGPA" step="0.01" min="0" max="10" />
+              </div>
             </div>
   
-            <div class="mb-3">
-              <label class="form-label">Second Semester SGPA</label>
-              <input type="number" class="form-control" formControlName="secondSemesterSGPA" step="0.01" min="0" max="10" />
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Third Semester SGPA</label>
+                <input type="number" class="form-control" formControlName="thirdSemesterSGPA" step="0.01" min="0" max="10" />
+              </div>
             </div>
   
-            <div class="mb-3">
-              <label class="form-label">Third Semester SGPA</label>
-              <input type="number" class="form-control" formControlName="thirdSemesterSGPA" step="0.01" min="0" max="10" />
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Fourth Semester SGPA</label>
+                <input type="number" class="form-control" formControlName="fourthSemesterSGPA" step="0.01" min="0" max="10" />
+              </div>
             </div>
   
-            <div class="mb-3">
-              <label class="form-label">Fourth Semester SGPA</label>
-              <input type="number" class="form-control" formControlName="fourthSemesterSGPA" step="0.01" min="0" max="10" />
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">CGPA</label>
+                <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" />
+              </div>
             </div>
-  
-            <div class="mb-3">
-              <label class="form-label">CGPA</label>
-              <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" />
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" [disabled]="sgpaForm.invalid">Update SGPA & CGPA</button>
-          </div>
+            <div class="row">
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" [disabled]="sgpaForm.invalid">Update SGPA & CGPA</button>
+              </div>
+            </div>
         </form>
+        </div>
+          </div>
+        <!-- </div>
+      </div> -->
       </div>
     </div>
   </div>

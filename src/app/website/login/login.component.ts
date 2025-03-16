@@ -78,12 +78,11 @@ onSubmit() {
               }, 1500);
 
               if (response.success) {
-                  // ✅ Store user details in sessionStorage
+                  // ✅ Store authentication details in sessionStorage only
                   sessionStorage.setItem('userType', userType);
                   sessionStorage.setItem('username', response.username || username);
                   sessionStorage.setItem('fullName', response.full_name || "User");
 
-                  // ✅ Ensure student_id is stored for Student users
                   if (userType === 'Student') {
                       sessionStorage.setItem('student_id', response.student_id?.toString() || '');
                       sessionStorage.setItem('course_name', response.course_name || '');
@@ -91,14 +90,12 @@ onSubmit() {
                       sessionStorage.setItem('academic_course_year_id', response.academic_course_year_id?.toString() || '');
                       sessionStorage.setItem('academic_course_year_name', response.academic_course_year_name || '');
                   } else {
-                      // ✅ Remove Student-specific data for non-students
                       sessionStorage.removeItem('student_id');
                       sessionStorage.removeItem('course_name');
                       sessionStorage.removeItem('courseId');
                       sessionStorage.removeItem('academic_course_year_id');
                       sessionStorage.removeItem('academic_course_year_name');
 
-                      // ✅ Store email & mobile for Admin/Hostel Admin users
                       sessionStorage.setItem('email', response.email || '');
                       sessionStorage.setItem('mobile', response.mobile || '');
                   }
@@ -108,7 +105,6 @@ onSubmit() {
                       this.redirectUser(userType);
                   }, 1500);
               } else {
-                  // ✅ Show error message if login fails
                   this.showError(response.message || "Invalid credentials!");
               }
           },
@@ -119,7 +115,6 @@ onSubmit() {
           }
       );
   } else {
-      // ✅ Alert for incomplete form fields
       Swal.fire({
           icon: 'warning',
           title: '⚠ Fill all fields!',

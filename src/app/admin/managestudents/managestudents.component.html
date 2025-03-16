@@ -553,12 +553,18 @@ Submit
                             </div>
                           <div class="col-md-12">
 
+                            <div class="hstack justify-content-between">
+
                             <!-- Modal Buttons -->
-                            <div class="text-end pb-2">
+                            <div class="pb-2">
+                              CGPA : {{studentDetails.cgpa ? studentDetails.cgpa : "N\A"}}
+                            </div>
+                            <div class="pb-2">
                               <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentresults')">
                                 Edit Student Results
                               </button>
                             </div>
+                          </div>
                             <!-- <button class="btn btn-primary" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentfees')">
                               Go to Student Fees
                             </button> -->

@@ -46,8 +46,15 @@ export class AdminheaderComponent implements OnInit {
   
 
   signOut() {
-    sessionStorage.clear();
-    this.router.navigate(['/login']);
+
+    console.log('🔄 Logging out...');
+
+    sessionStorage.clear(); // ✅ Clear stored session values
+  
+    this.router.navigate(['/login'], { replaceUrl: true }); // ✅ Redirect to login
+
+    // sessionStorage.clear();
+    // this.router.navigate(['/login']);
   }
     
 

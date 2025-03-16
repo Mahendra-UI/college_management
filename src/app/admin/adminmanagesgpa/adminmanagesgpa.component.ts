@@ -42,6 +42,8 @@ export class AdminmanagesgpaComponent implements OnInit {
 
   // ✅ Open Edit Modal
   openEditModal(username: string) {
+    console.log("opened modal");
+    
     this.apiSer.getStudentByUsername(username).subscribe({
       next: (response) => {
         if (response.success) {

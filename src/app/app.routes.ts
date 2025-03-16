@@ -1,31 +1,30 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './website/login/login.component';
-// import { AuthGuard } from './auth.guard';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '', component: LoginComponent },
-
   { path: 'login', component: LoginComponent },
+
   {
     path: 'home',
     loadChildren: () => import('./website/website.routes').then(m => m.websiteRoutes),
-    // canActivate: [AuthGuard],
+    canActivate: [authGuard], // ✅ Protect route
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes),
-    // canActivate: [AuthGuard],
+    canActivate: [authGuard], // ✅ Protect route
   },
   {
     path: 'student',
     loadChildren: () => import('./student/student.routes').then(m => m.studentRoutes),
-    // canActivate: [AuthGuard],
+    canActivate: [authGuard], // ✅ Protect route
   },
   {
     path: 'hostel',
     loadChildren: () => import('./hostel/hostel.routes').then(m => m.hostelRoutes),
-    // canActivate: [AuthGuard],
+    canActivate: [authGuard], // ✅ Protect route
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
