@@ -197,7 +197,7 @@
   
       <!-- ✅ Bootstrap Modal for Room Request Details -->
 <div class="modal fade common_modal_popup" id="roomRequestModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="roomRequestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="roomRequestModalLabel">Room Request Details</h5>
@@ -207,13 +207,19 @@
       </div>
       <div class="modal-body">
         <div *ngIf="selectedRequest">
-          <p><strong>Request ID:</strong> {{ selectedRequest.request_id }}</p>
+          <p><strong>Request ID:</strong> {{ selectedRequest?.request_id }}</p>
+          <p><strong>Requested By:</strong> {{ selectedRequest?.username }}</p>
+          <p><strong>Academic Year:</strong> {{ selectedRequest?.academic_course_year_id }}</p>
+          <p><strong>Status:</strong> {{ selectedRequest?.status }}</p>
+          <p><strong>Requested For:</strong> {{ selectedRequest?.requested_for?.length ? selectedRequest.requested_for.join(', ') : 'N/A' }}</p>
+          <p><strong>Requested At:</strong> {{ selectedRequest?.requested_at | date: 'short' }}</p>
+          <p><strong>Remarks:</strong> {{ selectedRequest?.remarks ? selectedRequest.remarks : 'No remarks' }}</p>
+          <!-- <p><strong>Request ID:</strong> {{ selectedRequest.request_id }}</p>
           <p><strong>Requested By:</strong> {{ selectedRequest.username }}</p>
           <p><strong>Academic Year:</strong> {{ selectedRequest.academic_course_year_id }}</p>
-          <!-- <p><strong>Selected Students:</strong> {{ selectedRequest.selected_students.join(', ') }}</p> -->
           <p><strong>Status:</strong> {{ selectedRequest.status }}</p>
           <p><strong>Requested For:</strong>{{ selectedRequest.requested_for.join(', ') }}</p>
-          <p><strong>Requested At:</strong> {{ selectedRequest.requested_at | date: 'short' }}</p>
+          <p><strong>Requested At:</strong> {{ selectedRequest.requested_at | date: 'short' }}</p> -->
         </div>
         <div *ngIf="!selectedRequest">
           <p class="text-center text-muted">No details available</p>

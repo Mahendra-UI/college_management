@@ -128,26 +128,6 @@ export class StudentroomrequstComponent implements OnInit {
 }
 
 
-  getStudentsold(): void {
-    if (!this.academicYearId) return;
-
-    this.apiService.getStudentsByAcademicCourseYear(this.academicYearId).subscribe(
-      (res) => {
-        if (res.success) {
-          this.students = res.students;
-
-          console.log("✅ Loaded students:", this.students);
-        } else {
-          this.students = [];
-          console.error("❌ No students found for this academic year");
-        }
-      },
-      (error) => {
-        console.error("❌ Error fetching students:", error);
-      }
-    );
-  }
-
   /** ✅ Submit Room Request */
 
   submitRequest(): void {
@@ -220,7 +200,7 @@ export class StudentroomrequstComponent implements OnInit {
                     text: "Your request has been successfully submitted. Please wait for approval.",
                     confirmButtonText: "OK",
                 });
-
+                this.roomRequestForm.reset();
                 this.getStudentRequests();
             } else {
                 this.handleErrorResponse(res.message);

@@ -15,6 +15,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
   styleUrl: './roomsavailability.component.scss'
 })
 export class RoomsavailabilityComponent implements OnInit {
+
+ // ✅ Add missing properties
+ totalRooms: number = 0;
+ totalAllocatedRooms: number = 0;
+ totalAvailableRooms: number = 0;
+
   roomsList: any[] = []; // ✅ Original data
   filteredRooms: any[] = []; // ✅ Filtered data for search
   searchQuery: string = ''; // ✅ Stores search input
@@ -37,16 +43,40 @@ export class RoomsavailabilityComponent implements OnInit {
     this.spinner.show();
     this.apiSer.getAvailableRooms().subscribe(
       (res) => {
-        this.roomsList = res.rooms;
-        this.filteredRooms = res.rooms; // ✅ Initialize filtered list
+        if (res.success) {
+          this.roomsList = res.rooms;
+
+          // ✅ Correct calculations
+          this.totalRooms = this.roomsList.length;
+          this.totalAllocatedRooms = this.roomsList.reduce(
+            (sum, room) => sum + (room.total_seats - room.available_seats), 0
+          );
+          this.totalAvailableRooms = this.roomsList.reduce(
+            (sum, room) => sum + room.available_seats, 0
+          );
+
+          this.filteredRooms = [...this.roomsList]; // ✅ Initialize filtered list
+        } else {
+          this.toastr.warning('No rooms data found.', 'Warning');
+          this.roomsList = [];
+          this.totalRooms = 0;
+          this.totalAllocatedRooms = 0;
+          this.totalAvailableRooms = 0;
+        }
         this.spinner.hide();
       },
       () => {
         this.toastr.error('Failed to fetch available rooms!', 'Error');
+        this.roomsList = [];
+        this.totalRooms = 0;
+        this.totalAllocatedRooms = 0;
+        this.totalAvailableRooms = 0;
         this.spinner.hide();
       }
     );
   }
+
+  
 
   // ✅ Filtering Function
   filterRooms() {

@@ -13,8 +13,93 @@
             </div>
             <hr>
         </div>
-    
-        <div class="row align-items-center">
+        
+        <div class="row d-none">
+            <!-- Total Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 rounded-3 bg-primary text-white">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-house-door fs-4"></i>
+                        <div>
+                            <h6 class="mb-1">Total Rooms</h6>
+                            <p class="fw-bold fs-4 mb-0 text-end">{{ totalRooms }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Allocated Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 rounded-3 bg-warning text-dark">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-person-check fs-4"></i>
+                        <div>
+                            <h6 class="mb-1">Allocated Rooms</h6>
+                            <p class="fw-bold fs-4 mb-0 text-end">{{ totalAllocatedRooms }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Available Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 rounded-3 bg-success text-white">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-door-open fs-4"></i>
+                        <div>
+                            <h6 class="mb-1">Available Rooms</h6>
+                            <p class="fw-bold fs-4 mb-0 text-end">{{ totalAvailableRooms }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                  
+        <div class="row">
+            <!-- Total Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 rounded-3 p-2" style="background: #EAF2FD;">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-house-door fs-1 text-primary"></i>
+                        <div class="text-end">
+                            <p class="fw-bold fs-3 mb-1 text-primary">{{ totalRooms }}</p>
+                            <h6 class="text-muted">Total Rooms</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Allocated Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 rounded-3 p-2" style="background: #FFF4DB;">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-person-check fs-1 text-warning"></i>
+                        <div class="text-end">
+                            <p class="fw-bold fs-3 mb-1 text-warning">{{ totalAllocatedRooms }}</p>
+                            <h6 class="text-muted">Allocated Rooms</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Available Rooms Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 rounded-3 p-2" style="background: #E8F6EA;">
+                    <div class="card-body p-2 hstack gap-3 justify-content-between">
+                        <i class="bi bi-door-open fs-1 text-success"></i>
+                        <div class="text-end">
+                            <p class="fw-bold fs-3 mb-1 text-success">{{ totalAvailableRooms }}</p>
+                            <h6 class="text-muted">Available Rooms</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+          
+
+
+        <div class="row align-items-center pt-3">
             <div class="col-md-3">
                 <!-- ✅ Total Records Count with Displayed Count -->
                 <p class="text-muted mb-0">

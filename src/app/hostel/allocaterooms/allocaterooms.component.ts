@@ -7,11 +7,12 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-allocaterooms',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgMultiSelectDropDownModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgMultiSelectDropDownModule, NgxPaginationModule],
   templateUrl: './allocaterooms.component.html',
   styleUrl: './allocaterooms.component.scss'
 })
@@ -30,6 +31,11 @@ export class AllocateroomsComponent implements OnInit {
   isLoading = false; // ✅ Spinner flag
 
 
+  filteredAllocatedRooms: any[] = [];
+  searchText: string = '';
+  itemsPerPage: number = 25; // Number of records per page
+  currentPage: number = 1;
+  totalRecords: number = 0;
 
   selectedUsernames: string = '';
 
@@ -166,8 +172,41 @@ getRooms() {
   getAllocatedRooms() {
     this.apiSer.getAllocatedRooms().subscribe(res => {
       this.allocatedRooms = res.allocatedRooms;
+      this.filteredAllocatedRooms = [...this.allocatedRooms]; // Initialize filtered list
+      this.totalRecords = this.allocatedRooms.length;
     });
   }
+
+ /**
+   * Search Function - Filters all object properties dynamically
+   */
+ filterAllocatedRooms(): void {
+  if (!this.searchText) {
+    this.filteredAllocatedRooms = this.allocatedRooms;
+  } else {
+    const searchTerm = this.searchText.toLowerCase();
+    this.filteredAllocatedRooms = this.allocatedRooms.filter(allocation =>
+      Object.values(allocation).some(value =>
+        value && value.toString().toLowerCase().includes(searchTerm)
+      )
+    );
+  }
+  this.currentPage = 1; // Reset pagination to the first page after filtering
+}
+
+/**
+ * Display count of currently visible records
+ */
+displayedRecordsCount(): number {
+  return Math.min(this.itemsPerPage, this.filteredAllocatedRooms.length - (this.currentPage - 1) * this.itemsPerPage);
+}
+
+/**
+ * Handle Page Change
+ */
+onPageChange(event: number) {
+  this.currentPage = event;
+}
 
   /** ✅ Allocate Students */
 

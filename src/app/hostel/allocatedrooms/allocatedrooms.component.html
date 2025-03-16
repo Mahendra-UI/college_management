@@ -2,25 +2,31 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-          <div class="main_heading">
-            <h5>Allocated Rooms to Students</h5>
-          </div>
+        <div class="main_heading">
+          <h5>Allocated Rooms to Students</h5>
+        </div>
       </div>
       <div class="col-md-6">
-          <div class="common_home_icon">
-              <i class="bi bi-house-door" routerLink="/hostel/home"></i>
-          </div>
+        <div class="common_home_icon">
+          <i class="bi bi-house-door" routerLink="/hostel/home"></i>
+        </div>
       </div>
       <hr>
-  </div>
+    </div>
+
     <div class="row">
       <div class="col-md-12">
         <div class="table-responsive">
+          <!-- Search and Count Display -->
+          <div class="d-flex justify-content-between mb-2">
+            <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterAllocatedRooms()" placeholder="Search Allocations...">
+            <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredAllocatedRooms.length }} records</span>
+          </div>
+
           <table class="table table-bordered w-100 common_table">
             <thead>
               <tr>
-                <th>Allocation ID</th>
-                <!-- <th>Student ID</th> -->
+                <th>S.No</th>
                 <th>Username</th>
                 <th>Full Name</th>
                 <th>Hostel</th>
@@ -31,12 +37,12 @@
                 <th>Academic Year</th>
                 <th>Status</th>
                 <th>Allocated At</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let room of allocatedRooms">
-                <td>{{ room.allocation_id }}</td>
-                <!-- <td>{{ room.student_id }}</td> -->
+              <tr *ngFor="let room of filteredAllocatedRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'allocations' }; let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                 <td>{{ room.username }}</td>
                 <td>{{ room.full_name }}</td>
                 <td>{{ room.hostel_name }}</td>
@@ -46,7 +52,6 @@
                 <td>{{ room.requested_by }}</td>
                 <td>{{ room.academic_course_year_id }}</td>
                 <td>
-                  <!-- {{ room.status }} -->
                   <span class="badge"
                   [ngClass]="{
                     'badge-light-success': room.status === 'Approved',
@@ -59,14 +64,72 @@
                 </span>
                 </td>
                 <td>{{ room.allocated_at | date: 'short' }}</td>
+                <td>
+                  <button class="btn btn-info btn-sm"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#roomRequestHistoryModal"
+                  (click)="loadRequestHistory(room.request_id)">
+                  <i class="bi bi-clock-history"></i>
+                  </button>
+                </td>
               </tr>
-              <tr *ngIf="allocatedRooms.length === 0">
-                <td colspan="9" class="text-center">No Allocated Rooms Found</td>
+              <tr *ngIf="filteredAllocatedRooms.length === 0">
+                <td colspan="12" class="text-center">No Allocated Rooms Found</td>
               </tr>
             </tbody>
           </table>
+
+          <!-- Pagination Controls -->
+          <pagination-controls id="allocations" (pageChange)="onPageChange($event)"></pagination-controls>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
+<!-- ✅ Request History Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="roomRequestHistoryModal" tabindex="-1" aria-labelledby="roomRequestHistoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roomRequestHistoryModalLabel">Room Request History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="requestHistory && requestHistory.length > 0">
+          <div class="table-responsive">
+            <table class="table table-bordered w-100 common_table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Action</th>
+                  <th>Performed By</th>
+                  <th>Remarks</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let history of requestHistory; let i = index">
+                  <td>{{ i+1 }}</td>
+                  <td>{{ history.action }}</td>
+                  <td>{{ history.performed_by }}</td>
+                  <td>{{ history.remarks }}</td>
+                  <td>{{ history.action_timestamp | date: 'short' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="requestHistory.length === 0">
+          <p class="text-muted text-center">No history found for this request because it was directly allocated by the Hostel Admin</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

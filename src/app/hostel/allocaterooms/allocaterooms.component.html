@@ -119,12 +119,19 @@
       <div class="row">
         <div class="col-md-12">
           <div class="table-responsive">
-            <table class="table table-bordered w-100 common_table">
+            <!-- Search and Count Display -->
+            <div class="d-flex justify-content-between mb-2">
+              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterAllocatedRooms()" placeholder="Search Allocation...">
+              <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredAllocatedRooms.length }} records</span>
+            </div>
+        
+            <table class="table-bordered table w-100 common_table">
               <thead>
                 <tr>
-                  <th>Allocation ID</th>
+                  <th>S.No</th>
                   <th>Student Name</th>
                   <th>Username</th>
+                  <th>Academic Year</th>
                   <th>Hostel</th>
                   <th>Block</th>
                   <th>Floor</th>
@@ -134,35 +141,39 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let allocation of allocatedRooms">
-                  <td>{{ allocation.allocation_id }}</td>
+                <tr *ngFor="let allocation of filteredAllocatedRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'allocations' }; let i = index">
+                  <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   <td>{{ allocation.full_name }}</td>
                   <td>{{ allocation.username }}</td>
+                  <td>{{ allocation.academic_course_year_id }}</td>
                   <td>{{ allocation.hostel_name }}</td>
                   <td>{{ allocation.block_name }}</td>
                   <td>{{ allocation.floor_name }}</td>
                   <td>{{ allocation.room_name }}</td>
                   <td>
                     <span class="badge"
-                    [ngClass]="{
-                      'badge-light-success': allocation.status === 'Approved',
-                      'badge-light-warning': allocation.status === 'Pending',
-                      'badge-light-danger': allocation.status === 'Rejected',
-                      'badge-light-info': allocation.status === 'Allocated',
-                      'badge-light-dark': allocation.status === 'Inactive'
-                    }">
-                    {{ allocation.status }}
-                  </span>
+                      [ngClass]="{
+                        'badge-light-success': allocation.status === 'Approved',
+                        'badge-light-warning': allocation.status === 'Pending',
+                        'badge-light-danger': allocation.status === 'Rejected',
+                        'badge-light-info': allocation.status === 'Allocated',
+                        'badge-light-dark': allocation.status === 'Inactive'
+                      }">
+                      {{ allocation.status }}
+                    </span>
                   </td>
                   <td>{{ allocation.allocated_at | date: 'short' }}</td>
                 </tr>
-                <tr *ngIf="allocatedRooms.length === 0">
-                  <td class="text-center" colspan="8">No Records Found</td>
+                <tr *ngIf="filteredAllocatedRooms.length === 0">
+                  <td class="text-center" colspan="9">No Records Found</td>
                 </tr>
               </tbody>
             </table>
+        
+            <!-- Pagination Controls -->
+            <pagination-controls id="allocations" (pageChange)="onPageChange($event)"></pagination-controls>
           </div>
-        </div>
+        </div>        
       </div>
   </div>
   

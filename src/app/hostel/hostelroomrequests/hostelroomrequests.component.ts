@@ -108,6 +108,7 @@ export class HostelroomrequestsComponent implements OnInit {
 
             Swal.fire('✅ Success', `Room request ${actionData.status} successfully!`, 'success');
             this.toastr.success(`Room request ${actionData.status} successfully!`, "Success");
+            this.actionForm.reset();
             this.loadRoomRequests(); // Refresh requests
             this.loadRequestHistory(this.selectedRequest.request_id); // Reload history
         },
