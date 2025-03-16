@@ -48,6 +48,11 @@ export class ManagestudentsComponent implements OnInit {
 
   roomRequests: any[] = [];
 
+
+  feeLedgersList: any[] = [];
+
+
+
   constructor(private apiSer: ApiService, private fb: FormBuilder, private spinner: NgxSpinnerService, private toastr: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
@@ -458,6 +463,7 @@ editStudentold(student: any): void {
           this.getStudentSubjects();
           this.loadHostelAllocations();
           this.loadStudentPromotions(username);
+          this.loadFeeLedgers(username);
   
           // ✅ Open View Modal after data is fully loaded
           setTimeout(() => {
@@ -581,6 +587,23 @@ loadHostelAllocations(): void {
       console.error("❌ Error fetching student room requests:", error);
     }
   );
+}
+
+
+loadFeeLedgers(username : string) {
+  if (!username) {
+    console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  this.apiSer.getFeeLedgerByUsername(username).subscribe((res: any) => {
+    if (res.success) {
+      this.feeLedgersList = res.feeLedgers;
+    } else {
+      console.error('No Fee Ledgers found:', res.message);
+    }
+  });
 }
 
    // ✅ Load Student Promotion History
@@ -762,4 +785,5 @@ loadHostelAllocations(): void {
       }, 100);
     }
   }
+  
 }

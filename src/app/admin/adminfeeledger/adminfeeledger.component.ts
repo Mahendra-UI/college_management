@@ -65,7 +65,7 @@ onFeeTypeSelect() {
   this.feeForm.controls['semester_id'].disable(); // Disable semester until course is selected
 
   this.apiSer.getCourses().subscribe(res => {
-    this.coursesList = res;
+    this.coursesList = res.courses;
     console.log("✅ Courses Loaded");
     this.feeForm.controls['course_id'].enable();
   });

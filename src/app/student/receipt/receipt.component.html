@@ -9,6 +9,7 @@
         <p><strong>Year:</strong> {{ receiptData.year }}</p>
         <p><strong>Fee Amount:</strong> ₹{{ receiptData.amount_paid }}</p>
         <p><strong>Status:</strong> {{ receiptData.payment_status }}</p>
+        <p><strong>Payment Date:</strong> {{ receiptData.payment_date | date: 'dd/MM/yyyy HH:mm' }}</p>
         <button class="btn btn-success" (click)="downloadReceipt()">Download Receipt</button>
     </div>
     <p *ngIf="!receiptData">Loading receipt...</p>

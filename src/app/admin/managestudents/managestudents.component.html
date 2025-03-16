@@ -547,6 +547,63 @@ Submit
                                   </div>
                               </div>
                           </div>
+
+                          <div class="row">
+                            <div class="col-md-12 mx-auto">
+                              <h4 class="print form-heading">Students Fee Status</h4>
+                            </div>
+                            <div class="col-md-12">
+                              <div class="table-responsive">
+                                <table class="table table-bordered w-100 common_table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Fee Type</th>
+                                            <th>Course</th>
+                                            <th>Semester</th>
+                                            <th>Year</th>
+                                            <th>Fee Amount</th>
+                                            <th>Fee Description</th>
+                                            <th>Status</th> <!-- New Column -->
+                                            <th>Transaction ID</th>
+                                            <th>Amount Paid</th>
+                                            <th>Payment Date</th>
+                                            <th>Updated At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let record of feeLedgersList; let i = index;">
+                                            <td>{{ i+1 }}</td>
+                                            <td>{{ record.fee_type_name }}</td>
+                                            <td>{{ record.course_name }}</td>
+                                            <td>{{ record.semester_name }}</td>
+                                            <td>{{ record.year }}</td>
+                                            <td>{{ record.fee_amount }}</td>
+                                            <td>{{ record.fee_ledger_description }}</td>
+                                            <!-- <td>{{ record.fee_status }}</td> -->
+                                            <td>
+                                              <span class="badge"
+                                              [ngClass]="{
+                                                'badge-light-success': record.fee_status === 'Completed',
+                                                'badge-light-warning': record.fee_status === 'Pending',
+                                              }">
+                                              {{ record.fee_status }}
+                                            </span>
+                                            </td>
+                                            <td>{{ record.transaction_id }}</td>
+                                            <td>{{ record.amount_paid }}</td>
+                                            <td>{{ record.payment_date ? (record.payment_date | date: 'short') : 'N/A' }}</td>
+                                            <td>{{ record.updated_at | date: 'short' }}</td>
+                                          </tr>                              
+                                        <tr *ngIf="feeLedgersList.length === 0">
+                                            <td colspan="10" class="text-center">No Records Found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                          </div>
+
                           <div class="row">
                             <div class="col-md-12 mx-auto">
                               <h4 class="print form-heading">Students Marks</h4>
@@ -646,42 +703,44 @@ Submit
                               <div class="col-md-12 mx-auto">
                                 <h4 class="print form-heading">Student Promotions History</h4>
                             </div>
-                            
+                            <div class="col-md-12">
                             <!-- ✅ Table to Show Promotions -->
-                            <div class="table-responsive mt-3">
-                              <div class="text-end pb-2">
-                                <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentpromotion')">
-                                  Edit Student Promotions
-                                </button>
+                              <div class="table-responsive mt-3">
+                                <div class="text-end pb-2">
+                                  <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentpromotion')">
+                                    Edit Student Promotions
+                                  </button>
+                                </div>
+                                <table class="table table-bordered w-100 common_table">
+                                  <thead>
+                                      <tr>
+                                          <th>#</th>
+                                          <th>Previous Year</th>
+                                          <th>Updated Year</th>
+                                          <!-- <th>Created At</th> -->
+                                          <th>Updated At</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr *ngFor="let history of promotionHistory; let i = index;">
+                                          <td>{{ i + 1 }}</td>
+                                          <td>{{ history.previous_year }}</td>
+                                          <td>{{ history.updated_year === 'Course Completed' ? '🎓 Course Completed' : history.updated_year }}</td>
+                                          <!-- <td>{{ history.created_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td> -->
+                                          <td>{{ history.updated_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
+                                      </tr>
+                                      <tr *ngIf="promotionHistory.length === 0">
+                                          <td colspan="5" class="text-center text-muted">No history available.</td>
+                                      </tr>
+                                  </tbody>                    
+                              </table>
                               </div>
-                              <table class="table table-bordered w-100 common_table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Previous Year</th>
-                                        <th>Updated Year</th>
-                                        <!-- <th>Created At</th> -->
-                                        <th>Updated At</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let history of promotionHistory; let i = index;">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ history.previous_year }}</td>
-                                        <td>{{ history.updated_year === 'Course Completed' ? '🎓 Course Completed' : history.updated_year }}</td>
-                                        <!-- <td>{{ history.created_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td> -->
-                                        <td>{{ history.updated_at | date:'dd-MM-yyyy, h:mm:ss a' }}</td>
-                                    </tr>
-                                    <tr *ngIf="promotionHistory.length === 0">
-                                        <td colspan="5" class="text-center text-muted">No history available.</td>
-                                    </tr>
-                                </tbody>                    
-                            </table>
-                            </div>     
-                            
+                            </div>
                             <div class="row">
+                              <div class="col-md-12 mx-auto">
+                                <h4 class="print form-heading">Room Requests</h4>
+                              </div>
                               <div class="col-md-12">
-                                <h5>My Room Requests</h5>
                                 <div class="table-responsive">
                                   <table class="table table-bordered common_table">
                                       <thead>
