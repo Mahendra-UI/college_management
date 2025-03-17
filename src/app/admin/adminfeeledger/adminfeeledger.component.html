@@ -46,8 +46,8 @@
                   <td>{{ record.year }}</td>
                   <td>{{ record.fee_amount }}</td>
                   <td>{{ record.fee_ledger_description }}</td>
-                  <td>{{ record.created_at | date: 'short' }}</td>
-                  <td>{{ record.updated_at | date: 'short' }}</td>
+                  <td>{{ record.created_at | date: 'dd-MM-yyyy HH:mm' }}</td>
+                  <td>{{ record.updated_at | date: 'dd-MM-yyyy HH:mm' }}</td>
                   <td>
                     <div class="hstack gap-2">
                     
@@ -84,17 +84,20 @@
         <div class="modal-body">
           <form [formGroup]="feeForm" (ngSubmit)="onSubmit()">
             <label class="form-label">Fee Type:</label>
-            <select class="form-select" formControlName="fee_type_id" (change)="onFeeTypeSelect()">
+            <select class="form-select" formControlName="fee_type_id" (change)="onFeeTypeSelect()" [attr.disabled]="editingFeeId ? true : null">
+              <option value="" selected disabled>--Select--</option>
               <option *ngFor="let type of feeTypes" [value]="type.fee_type_id">{{ type.fee_type_name }}</option>
             </select>
   
             <label class="form-label">Course:</label>
-            <select class="form-select" formControlName="course_id" (change)="onCourseSelect()" [disabled]="!feeForm.controls['course_id'].enabled">
+            <select class="form-select" formControlName="course_id" (change)="onCourseSelect()">
+              <option value="" selected disabled>--Select--</option>
               <option *ngFor="let course of coursesList" [value]="course.course_id">{{ course.course_name }}</option>
             </select>
   
             <label class="form-label">Semester:</label>
-            <select class="form-select" formControlName="semester_id" [disabled]="!feeForm.controls['semester_id'].enabled">
+            <select class="form-select" formControlName="semester_id">
+              <option value="" selected disabled>--Select--</option>
               <option *ngFor="let sem of semesters" [value]="sem.semester_id">{{ sem.semester_name }}</option>
             </select>
   

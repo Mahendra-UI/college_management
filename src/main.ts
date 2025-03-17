@@ -6,38 +6,72 @@
 //   .catch((err) => console.error(err));
 
 
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AppComponent } from './app/app.component';
-import { routes } from './app/app.routes'; // Import the defined routes
+// import { bootstrapApplication } from '@angular/platform-browser';
+// import { provideRouter } from '@angular/router';
+// import { provideHttpClient, withInterceptors } from '@angular/common/http';
+// import { AppComponent } from './app/app.component';
+// import { routes } from './app/app.routes'; // Import the defined routes
 
+// import { provideAnimations } from '@angular/platform-browser/animations';
+// import { authInterceptor } from './app/auth.interceptor';
+// import { provideToastr } from 'ngx-toastr';
+// import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+// import { importProvidersFrom } from '@angular/core';
+
+// import { NgxPaginationModule } from 'ngx-pagination';
+// import { ChartModule } from 'primeng/chart';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
+// // Bootstrap the Angular application
+// bootstrapApplication(AppComponent, {
+//   providers: [
+//     provideRouter(routes), // Provide the router with the defined routes
+//     // provideHttpClient(), // Provide HTTP client for API calls
+//     provideHttpClient(
+//       // withInterceptors([authInterceptor]) // Use the correct interceptor reference
+//     ),
+//     provideAnimations(),
+//     provideToastr(), // ✅ Register Toastr globally
+//     importProvidersFrom(NgxSpinnerModule.forRoot(), ChartModule, NgMultiSelectDropDownModule.forRoot()),
+//     NgxPaginationModule,
+//     NgxSpinnerService // ✅ Add NgxSpinner Provider
+//   ]
+// })
+//   .catch((err) => console.error(err));
+
+
+// new starts
+
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter, RouteReuseStrategy } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authInterceptor } from './app/auth.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { importProvidersFrom } from '@angular/core';
-
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ChartModule } from 'primeng/chart';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { CustomRouteReuseStrategy } from './app/custom-route-reuse.strategy';
 
-// Bootstrap the Angular application
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes), // Provide the router with the defined routes
-    // provideHttpClient(), // Provide HTTP client for API calls
-    provideHttpClient(
-      // withInterceptors([authInterceptor]) // Use the correct interceptor reference
-    ),
+    provideRouter(routes),
+    provideHttpClient(),
     provideAnimations(),
-    provideToastr(), // ✅ Register Toastr globally
+    provideToastr(),
     importProvidersFrom(NgxSpinnerModule.forRoot(), ChartModule, NgMultiSelectDropDownModule.forRoot()),
     NgxPaginationModule,
-    NgxSpinnerService // ✅ Add NgxSpinner Provider
-  ]
-})
-  .catch((err) => console.error(err));
+    NgxSpinnerService,
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy } // ✅ Apply Custom Route Strategy
+    // { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+    // { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
+  ],
+}).catch((err) => console.error(err));
+
 
 
 

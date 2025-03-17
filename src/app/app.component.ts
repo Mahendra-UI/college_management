@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { Tooltip } from 'bootstrap';
@@ -45,6 +45,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     
    }
+
+// ✅ Detect Browser Back and Ensure Session Check
+@HostListener('window:popstate', ['$event'])
+onPopState(event: Event) {
+  console.log('🔄 Browser Back Button Clicked!');
+  if (!sessionStorage.getItem('userType')) {
+    console.log('🚨 Session Expired! Redirecting to Login...');
+    window.location.href = '/login'; // ✅ Force Full Page Reload
+  }
+}
 
    private initTooltips() {
     setTimeout(() => {

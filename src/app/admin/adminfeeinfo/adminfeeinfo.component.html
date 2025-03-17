@@ -46,7 +46,7 @@
                                     {{ record.fee_status }}
                                 </td>
                                 <td>{{ record.transaction_id || 'N/A' }}</td>
-                                <td>{{ record.payment_date ? (record.payment_date | date: 'short') : 'N/A' }}</td>
+                                <td>{{ record.payment_date ? (record.payment_date | date:'dd-MM-yyyy HH:mm') : 'N/A' }}</td>
                             </tr>
                             <tr *ngIf="feeStatusList.length === 0">
                                 <td colspan="11" class="text-center">No Records Found</td>

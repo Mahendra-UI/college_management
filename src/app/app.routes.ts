@@ -9,22 +9,26 @@ export const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./website/website.routes').then(m => m.websiteRoutes),
-    canActivate: [authGuard], // ✅ Protect route
+    canActivate: [authGuard],
+    data: { role: 'Student' },
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes),
-    canActivate: [authGuard], // ✅ Protect route
+    canActivate: [authGuard],
+    data: { role: 'Admin' },
   },
   {
     path: 'student',
     loadChildren: () => import('./student/student.routes').then(m => m.studentRoutes),
-    canActivate: [authGuard], // ✅ Protect route
+    canActivate: [authGuard],
+    data: { role: 'Student' },
   },
   {
     path: 'hostel',
     loadChildren: () => import('./hostel/hostel.routes').then(m => m.hostelRoutes),
-    canActivate: [authGuard], // ✅ Protect route
+    canActivate: [authGuard],
+    data: { role: 'Hostel Admin' },
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
