@@ -19,7 +19,11 @@ export class AllocatedroomslistsComponent implements OnInit {
   selectedUsername: string | null = null; // ✅ Stores username from sessionStorage
 
   currentPage = 1;
-  itemsPerPage = 7;
+  itemsPerPage = 25;
+  searchQuery: string = ''; // ✅ Search input
+
+
+
   isLoading = false;
 
   constructor(private toastr: ToastrService, private apiSer: ApiService) {}
@@ -37,6 +41,52 @@ export class AllocatedroomslistsComponent implements OnInit {
   }
 
   fetchAllocatedRooms() {
+    this.isLoading = true;
+    this.apiSer.getAllocatedRoomsByUsername(this.selectedUsername!).subscribe(
+      (res) => {
+        this.isLoading = false;
+        if (res.success) {
+          this.allocatedRooms = res.allocatedRooms;
+          this.filteredRooms = [...this.allocatedRooms]; // ✅ Initialize filtered list
+
+          if (this.allocatedRooms.length === 0) {
+            this.toastr.info("No allocated rooms found!", "Info");
+          }
+        }
+      },
+      (err) => {
+        this.isLoading = false;
+        console.error('❌ Failed to fetch allocated rooms:', err);
+        this.toastr.error('Failed to load allocated rooms!', 'Error');
+      }
+    );
+  }
+
+  // ✅ Search Functionality
+  filterAllocatedRooms() {
+    this.filteredRooms = this.allocatedRooms.filter(room =>
+      Object.values(room).some((value: any) =>
+        value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
+    );
+    this.currentPage = 1; // ✅ Reset to first page on new search
+  }
+
+  // ✅ Get Displayed Records Count
+  displayedRecordsCount(): number {
+    return Math.min(
+      this.filteredRooms.length - (this.currentPage - 1) * this.itemsPerPage,
+      this.itemsPerPage
+    );
+  }
+
+  // ✅ Handle pagination page change
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+
+  fetchAllocatedRoomsold() {
     this.apiSer.getAllocatedRoomsByUsername(this.selectedUsername!).subscribe(
       (res) => {
         if (res.success) {
@@ -54,10 +104,4 @@ export class AllocatedroomslistsComponent implements OnInit {
       }
     );
 }
-
-
-  // ✅ Handle pagination page change
-  onPageChange(pageNumber: number) {
-    this.currentPage = pageNumber;
-  }
 }

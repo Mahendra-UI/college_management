@@ -23,16 +23,26 @@
             <p>Loading allocated rooms...</p>
         </div>
 
-        <!-- ✅ Pagination and record count -->
+        <!-- ✅ Search and Pagination Section -->
         <div *ngIf="!isLoading" class="row align-items-center">
-            <div class="col-md-6">
-                <p class="text-muted mb-0">Showing {{ filteredRooms.length }} records</p>
+            <div class="col-md-3">
+                <p class="text-muted mb-0">
+                    Showing {{ displayedRecordsCount() }} of {{ filteredRooms.length }} records
+                </p>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <div class="form-group mb-3">
+                    <input type="text" class="form-control" [(ngModel)]="searchQuery" (input)="filterAllocatedRooms()" placeholder="Search...">
+                </div>
             </div>
         </div>
 
+        <!-- ✅ Allocated Rooms Table -->
         <table *ngIf="!isLoading" class="table table-bordered w-100 common_table">
             <thead>
                 <tr>
+                    <th>#</th> <!-- Added Serial Number Column -->
                     <th>Username</th>
                     <th>Full Name</th>
                     <th>Hostel</th>
@@ -43,7 +53,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let room of filteredRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <tr *ngFor="let room of filteredRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
+                    <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td> <!-- ✅ Pagination-aware numbering -->
                     <td>{{ room.username }}</td>
                     <td>{{ room.full_name }}</td>
                     <td>{{ room.hostel_name }}</td>
@@ -53,10 +64,11 @@
                     <td>{{ room.allocated_at | date:'short' }}</td>
                 </tr>
                 <tr *ngIf="filteredRooms.length === 0">
-                    <td colspan="7" class="text-center">No Allocated Rooms Found</td>
+                    <td colspan="8" class="text-center">No Allocated Rooms Found</td>
                 </tr>
             </tbody>
         </table>
+        
 
         <!-- ✅ Pagination Controls -->
         <pagination-controls *ngIf="filteredRooms.length > 0" (pageChange)="onPageChange($event)"></pagination-controls>

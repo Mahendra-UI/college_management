@@ -1,22 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { Tooltip } from 'bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-allocateroomforrequest',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './allocateroomforrequest.component.html',
   styleUrl: './allocateroomforrequest.component.scss'
 })
 export class AllocateroomforrequestComponent implements OnInit  {
+
+  filteredRequests: any[] = []; // Filtered requests for search
+  searchQuery: string = ''; // Search input
+
+  // ✅ Pagination Variables
+  currentPage: number = 1;
+  itemsPerPage: number = 50;
+
 
   // @ViewChild('tooltipButton', { static: false }) tooltipButton!: ElementRef;
 
@@ -168,10 +177,49 @@ export class AllocateroomforrequestComponent implements OnInit  {
 }
 
 
+/** ✅ Fetch All Room Requests */
+loadRoomRequests(): void {
+  this.spinner.show();
+  this.apiSer.getRoomRequests().subscribe(
+    (res) => {
+      this.spinner.hide();
+      if (res.success) {
+        this.roomRequests = res.requests;
+        this.filteredRequests = [...this.roomRequests]; // ✅ Initialize filtered list
+      } else {
+        this.toastr.info("No room requests found.", "Info");
+        this.roomRequests = [];
+        this.filteredRequests = [];
+      }
+    },
+    (error) => {
+      this.spinner.hide();
+      console.error("❌ Error fetching room requests:", error);
+      this.toastr.error("Failed to load requests.", "Error");
+    }
+  );
+}
 
+/** ✅ Filtering Function */
+filterRequests() {
+  this.filteredRequests = this.roomRequests.filter(req =>
+    Object.values(req).some((value: any) =>
+      value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
+  );
+  this.currentPage = 1; // ✅ Reset to first page on new search
+}
+
+/** ✅ Get Displayed Records Count */
+displayedRecordsCount(): number {
+  return Math.min(
+    this.filteredRequests.length - (this.currentPage - 1) * this.itemsPerPage,
+    this.itemsPerPage
+  );
+}
 
   
-  loadRoomRequests(): void {
+  loadRoomRequestsold(): void {
     this.spinner.show();
     this.apiSer.getRoomRequests().subscribe(
       (res) => {

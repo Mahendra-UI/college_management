@@ -1,20 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-hostelroomrequests',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxPaginationModule, FormsModule],
   templateUrl: './hostelroomrequests.component.html',
   styleUrl: './hostelroomrequests.component.scss'
 })
 export class HostelroomrequestsComponent implements OnInit {
+
+  filteredRequests: any[] = []; // Filtered data for search
+  searchQuery: string = ''; // Stores search input
+
+  // ✅ Pagination Variables
+  currentPage: number = 1; 
+  itemsPerPage: number = 50; 
 
 
   full_name: string | null = null;
@@ -49,8 +57,52 @@ export class HostelroomrequestsComponent implements OnInit {
     });
   }
 
+ /** ✅ Fetch All Room Requests */
+ loadRoomRequests(): void {
+  this.spinner.show();
+  this.apiSer.getRoomRequests().subscribe(
+    (res) => {
+      this.spinner.hide();
+      if (res.success) {
+        this.roomRequests = res.requests;
+        this.filteredRequests = [...this.roomRequests]; // ✅ Initialize filtered list
+      } else {
+        this.toastr.info("No room requests found.", "Info");
+        this.roomRequests = [];
+        this.filteredRequests = [];
+      }
+    },
+    (error) => {
+      this.spinner.hide();
+      console.error("❌ Error fetching room requests:", error);
+      this.toastr.error("Failed to load requests.", "Error");
+    }
+  );
+}
+
+
+/** ✅ Filtering Function */
+filterRequests() {
+  this.filteredRequests = this.roomRequests.filter(req =>
+    Object.values(req).some((value: any) =>
+      value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+    )
+  );
+  this.currentPage = 1; // ✅ Reset to first page on new search
+}
+
+/** ✅ Get Displayed Records Count */
+displayedRecordsCount(): number {
+  return Math.min(
+    this.filteredRequests.length - (this.currentPage - 1) * this.itemsPerPage,
+    this.itemsPerPage
+  );
+}
+
+
+
   /** ✅ Fetch All Room Requests */
-  loadRoomRequests(): void {
+  loadRoomRequestsold(): void {
     this.spinner.show();
     this.apiSer.getRoomRequests().subscribe(
       (res) => {

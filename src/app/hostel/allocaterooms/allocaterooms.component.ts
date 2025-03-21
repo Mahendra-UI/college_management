@@ -33,7 +33,7 @@ export class AllocateroomsComponent implements OnInit {
 
   filteredAllocatedRooms: any[] = [];
   searchText: string = '';
-  itemsPerPage: number = 25; // Number of records per page
+  itemsPerPage: number = 5; // Number of records per page
   currentPage: number = 1;
   totalRecords: number = 0;
 

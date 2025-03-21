@@ -14,112 +14,95 @@
         <hr>
       </div>
   
-      <div class="row">
-        <div class="col-md-12">
-          <div class="table-responsive">
-            <table class="table table-bordered w-100 common_table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Request ID</th>
-                  <th>Requested By</th>
-                  <th>Requestd For</th>
-                  <th>Academic Year</th>
-                  <!-- <th>Selected Students</th> -->
-                  <th>Status</th>
-                  <th>Requested At</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let request of roomRequests; let i = index;">
-                  <td>{{ i+1 }}</td>
-                  <td>{{ request.request_id }}</td>
-                  <td>{{ request.requested_by }}</td>
-                  <td>
-                    <span *ngFor="let student of request.requested_for; let i = index">
-                      {{ student }}<span *ngIf="i < request.requested_for.length - 1">, </span>
-                    </span>
-                  </td>
-                  <td>{{ request.academic_course_year_id }}</td>
-                  <!-- <td>
-                    <span *ngFor="let student of request.selected_students; let i = index">
-                      {{ student }}<span *ngIf="i < request.selected_students.length - 1">, </span>
-                    </span>
-                  </td> -->
-                  <td>
-                    <span class="badge badge-circle badge-outline badge-lg"
-                      [ngClass]="{
-                        'badge-light-success': request.status === 'Approved',
-                        'badge-light-warning': request.status === 'Pending',
-                        'badge-light-danger': request.status === 'Rejected',
-                        'badge-light-info': request.status === 'Allocated',
-                        'badge-light-dark': request.status === 'Inactive'
-                      }">
-                      {{ request.status }}
-                    </span>
-
-                    <!-- <span class="badge"
-                    [ngClass]="{
-                      'badge-light-success': request.status === 'Approved',
-                      'badge-light-warning': request.status === 'Pending',
-                      'badge-light-danger': request.status === 'Rejected',
-                      'badge-light-info': request.status === 'Allocated'
-                    }">
-                    {{ request.status }}
-                    </span> -->
-                    <!-- <span [ngClass]="{'text-success': request.status === 'Approved', 'text-warning': request.status === 'Pending', 'text-danger': request.status === 'Rejected'}">
-                      {{ request.status }}
-                    </span> -->
-                  </td>
-                  <td>{{ request.requested_at | date: 'short' }}</td>
-                  <td>
-                    <!-- Bootstrap 5 Modal Trigger (No TypeScript Needed) -->
-                    <div class="hstack gap-2">
-                      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roomRequestModal"
-                      (click)="loadRoomRequestDetails(request.request_id)">
-                      <!-- data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="View Info" data-tooltip-class="tooltip-primary" -->
-                      <i class="bi bi-eye"></i>
-                    </button>
-                      <button *ngIf="request.status === 'Approved'" class="btn btn-primary btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#actionModal"
-                      (click)="openActionModal(request.request_id)">
-                      Take Action
-                    </button>
-                    <button class="btn btn-info btn-sm"
-                    data-bs-toggle="modal" 
-                    data-bs-target="#roomRequestHistoryModal"
-                    (click)="loadRequestHistory(request.request_id)">
-                    <!-- data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="View History" data-tooltip-class="tooltip-info" -->
-                <i class="bi bi-clock-history"></i>
-            </button>
-            
-            
-
-                    <!-- <button class="btn btn-info btn-sm" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#roomRequestHistoryModal"
-                    (click)="loadRequestHistory(request.request_id)" data-bs-toggle="tooltip" 
-                    data-bs-placement="top" 
-                    title="View History">
-                    <i class="bi bi-clock-history"></i>
-                  </button> -->
-                    </div>
-                  </td>
-                </tr>
-                <tr *ngIf="roomRequests.length === 0">
-                  <td colspan="7" class="text-center">No Requests Found</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div class="row align-items-center pt-3">
+        <div class="col-md-3">
+            <p class="text-muted mb-0">
+                Showing {{ displayedRecordsCount() }} of {{ filteredRequests.length }} requests
+            </p>
         </div>
-      </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-3">
+            <div class="form-group mb-3">
+                <input type="text" class="form-control" [(ngModel)]="searchQuery" (input)="filterRequests()" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered w-100 common_table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Request ID</th>
+                            <th>Requested By</th>
+                            <th>Requested For</th>
+                            <th>Academic Year</th>
+                            <th>Status</th>
+                            <th>Requested At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let request of filteredRequests | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
+                        <!-- ✅ Update serial number calculation -->
+                        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                            <td>{{ request.request_id }}</td>
+                            <td>{{ request.requested_by }}</td>
+                            <td>
+                              <span *ngFor="let student of request.requested_for; let i = index">
+                                {{ student }}<span *ngIf="i < request.requested_for.length - 1">, </span>
+                              </span>
+                            </td>
+                            <td>{{ request.academic_course_year_id }}</td>
+                            <td>
+                              <span class="badge"
+                                [ngClass]="{
+                                  'badge-light-success': request.status === 'Approved',
+                                  'badge-light-warning': request.status === 'Pending',
+                                  'badge-light-danger': request.status === 'Rejected',
+                                  'badge-light-info': request.status === 'Allocated',
+                                  'badge-light-dark': request.status === 'Inactive'
+                                }">
+                                {{ request.status }}
+                              </span> 
+                            </td>
+                            <td>{{ request.requested_at | date: 'short' }}</td>
+                            <td>
+                              <div class="hstack gap-2">
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roomRequestModal"
+                                (click)="loadRoomRequestDetails(request.request_id)">
+                                <i class="bi bi-eye"></i>
+                                </button>
+                                <button *ngIf="request.status === 'Approved'" class="btn btn-primary btn-sm"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#actionModal"
+                                  (click)="openActionModal(request.request_id)">
+                                  Take Action
+                                </button>
+                                <button class="btn btn-info btn-sm" 
+                                  data-bs-toggle="modal" 
+                                  data-bs-target="#roomRequestHistoryModal"
+                                  (click)="loadRequestHistory(request.request_id)">
+                                  <i class="bi bi-clock-history"></i>
+                                </button>
+                              </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="filteredRequests.length === 0">
+                            <td colspan="8" class="text-center">No Requests Found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <!-- ✅ Pagination Controls -->
+                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+    
+
     </div>
   
     <!-- Bootstrap 5 Modal for Room Allocation -->

@@ -1,21 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-studentroomrequest',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgMultiSelectDropDownModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgMultiSelectDropDownModule, FormsModule, NgxPaginationModule],
   templateUrl: './studentroomrequst.component.html',
   styleUrl: './studentroomrequst.component.scss'
 })
 export class StudentroomrequstComponent implements OnInit {
+
+
+  filteredRequests: any[] = []; // Filtered requests for search
+  searchQuery: string = ''; // Search input
+
+  // ✅ Pagination Variables
+  currentPage: number = 1;
+  itemsPerPage: number = 25;
+
 
   selectedRequest: any = null;
   selectedRequestId: number | null = null;
@@ -132,13 +142,11 @@ export class StudentroomrequstComponent implements OnInit {
 
   submitRequest(): void {
     console.log("🚀 Submitting Room Request...");
-  
-    // ✅ Validate sessionStorage before submitting
+
     this.selectedusername = sessionStorage.getItem('username') || null;
-    this.selectedStudentId = Number(sessionStorage.getItem('student_id') || 0);  
+    this.selectedStudentId = Number(sessionStorage.getItem('student_id') || 0);
 
     if (!this.selectedusername || !this.selectedStudentId) {
-        console.error("❌ No logged-in user detected. Preventing submission.");
         this.spinner.hide();
         this.isLoading = false;
         this.handleErrorResponse("You must be logged in to request a room!");
@@ -153,53 +161,33 @@ export class StudentroomrequstComponent implements OnInit {
     this.spinner.show();
     this.isLoading = true;
 
-    let selectedStudents = [...this.roomRequestForm.value.selectedStudents];
+    let selectedStudents = this.roomRequestForm.value.selectedStudents.map((s: any) => Number(s.student_id));
 
-    console.log("DEBUG: Selected Students List:", selectedStudents);
+    console.log("DEBUG: Selected Students List Before Validation:", selectedStudents);
+    console.log("DEBUG: Logged-in Student ID:", this.selectedStudentId);
 
-    // ✅ Ensure student IDs are numbers
-    selectedStudents = selectedStudents.map(s => ({
-        ...s,
-        student_id: Number(s.student_id)
-    }));
-
-    // ✅ Ensure logged-in student is included
-    const isUserIncluded = selectedStudents.some(
-        (student) => student.student_id === this.selectedStudentId
-    );
-
-    if (!isUserIncluded) {
+    if (!selectedStudents.includes(this.selectedStudentId)) {
         this.spinner.hide();
         this.isLoading = false;
-        this.handleErrorResponse("You must include yourself in the selected students list before submitting.");
+        this.handleErrorResponse("❌ You must include yourself in the selected students list.");
         return;
     }
 
     const requestData = {
         academic_course_year_id: this.roomRequestForm.value.academic_course_year_id,
-        student_id: this.selectedStudentId,  
         username: this.selectedusername,
-        selected_students: selectedStudents.map(s => s.student_id),
-        requested_by: this.selectedStudentId,
-        requested_for: selectedStudents.map(s => s.student_id)
+        selected_students: selectedStudents
     };
 
-    console.log("DEBUG: Final Request Payload:", requestData);
+    console.log("DEBUG: Final Request Payload:", JSON.stringify(requestData));
 
     this.apiService.submitRoomRequest(requestData).subscribe(
         (res) => {
             this.spinner.hide();
             this.isLoading = false;
-
             if (res.success) {
                 this.toastr.success("✅ Room request submitted successfully!", "Success");
-
-                Swal.fire({
-                    icon: "success",
-                    title: "Room Request Submitted",
-                    text: "Your request has been successfully submitted. Please wait for approval.",
-                    confirmButtonText: "OK",
-                });
+                Swal.fire({ icon: "success", title: "Room Request Submitted", text: "Your request has been successfully submitted. Please wait for approval.", confirmButtonText: "OK" });
                 this.roomRequestForm.reset();
                 this.getStudentRequests();
             } else {
@@ -215,6 +203,7 @@ export class StudentroomrequstComponent implements OnInit {
     );
 }
 
+
 /** ✅ Handle API Error Messages */
 handleErrorResponse(errorMessage: string): void {
     this.toastr.error(errorMessage, "Error");
@@ -227,7 +216,6 @@ handleErrorResponse(errorMessage: string): void {
     });
 }
 
-   
 
   /** ✅ Prevent Removing Logged-in Student */
   preventRemovingLoggedInUser(event: any): void {
@@ -241,11 +229,63 @@ handleErrorResponse(errorMessage: string): void {
     }
   }
 
-  /** ✅ Fetch Room Requests */
+
+  getStudentRequests(): void {
+    if (!this.selectedusername) {
+      console.error("❌ No username found in session storage.");
+      return;
+    }
+  
+    console.log("📥 Fetching Room Requests for username:", this.selectedusername);
+  
+    this.apiService.getStudentRoomRequestsByUsername(this.selectedusername.trim()).subscribe(
+      (res) => {
+        console.log("📜 API Response for Room Requests:", res);
+  
+        if (res.success && Array.isArray(res.requests)) {
+          this.roomRequests = res.requests.map(request => ({
+            ...request,
+            requested_for: Array.isArray(request.requested_for) ? request.requested_for : []
+          }));
+  
+          this.filteredRequests = [...this.roomRequests]; // ✅ Initialize filtered list
+          console.log("✅ Loaded Room Requests:", this.roomRequests);
+        } else {
+          this.roomRequests = [];
+          this.filteredRequests = [];
+          console.warn("⚠️ No room requests found.");
+          this.toastr.info("No room requests found.", "Info");
+        }
+      },
+      (error) => {
+        console.error("❌ Error fetching student room requests:", error);
+        this.toastr.error("Failed to load room requests. Please try again later.", "Error");
+      }
+    );
+  }
+
+  filterRequests() {
+    this.filteredRequests = this.roomRequests.filter(req =>
+      Object.values(req).some((value: any) =>
+        value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
+    );
+    this.currentPage = 1; // ✅ Reset to first page on new search
+  }
+  
+
+  displayedRecordsCount(): number {
+    return Math.min(
+      this.filteredRequests.length - (this.currentPage - 1) * this.itemsPerPage,
+      this.itemsPerPage
+    );
+  }
+  
+
 
 /** ✅ Fetch Room Requests */
 
-getStudentRequests(): void {
+getStudentRequestsold(): void {
   if (!this.selectedusername) {
     console.error("❌ No username found in session storage.");
     return;
