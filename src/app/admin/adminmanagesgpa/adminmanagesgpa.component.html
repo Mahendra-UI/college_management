@@ -1,49 +1,82 @@
 <section class="common_section">
     <div class="container">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Manage SGPA/CGPA</h5>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="common_home_icon">
+            <i class="bi bi-house-door" routerLink="/hostel/home"></i>
+          </div>
+        </div>
+        <hr>
+      </div>
+
         <div class="row">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-12">
-                      <div class="table-responsive">
-                            <!-- Table to Display SGPA Records -->
-                            <table class="table table-bordered w-100 common_table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Username</th>
-                                        <th>Full Name</th>
-                                        <th>Course Name</th>
-                                        <th>Academic Course Year</th>
-                                        <th>Enrollment Date</th>
-                                        <th>Status</th>
-                                        <th>CGPA</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let student of allStudentsSGPACGPAList; let i = index;">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ student.username }}</td>
-                                        <td>{{ student.full_name }}</td>
-                                        <td>{{ student.course_name }}</td>
-                                        <td>{{ student.academic_course_year_name }}</td>
-                                        <td>{{ student.student_enrollment_date | date }}</td>
-                                        <td>{{ student.student_status }}</td>
-                                        <td><strong>{{ student.cgpa }}</strong></td>
-                                        <td>
-                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#sgpaModal" (click)="openEditModal(student.username)">
-                                                Edit SGPA
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="allStudentsSGPACGPAList.length === 0">
-                                        <td colspan="9" class="text-center">No SGPA records found.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                      </div>
-                    </div>
-                </div>
+              <!-- Search and Record Count -->
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredStudents.length }} records</span>
+                <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterStudents()" placeholder="Search Students...">
+              </div>
+              <div class="table-responsive">
+                    <!-- Table to Display SGPA Records -->
+                    <table class="table table-bordered w-100 common_table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Username</th>
+                          <th>Full Name</th>
+                          <th>Course Name</th>
+                          <th>Academic Course Year</th>
+                          <th>Enrollment Date</th>
+                          <th>Status</th>
+                          <th>1st Sem</th>
+                          <th>2nd Sem</th>
+                          <th>3rd Sem</th>
+                          <th>4th Sem</th>
+                          <th>5th Sem</th>
+                          <th>6th Sem</th>
+                          <th>7th Sem</th>
+                          <th>8th Sem</th>
+                          <th>CGPA</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'sgpaPagination' }; let i = index">
+                          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                          <td>{{ student.username }}</td>
+                          <td>{{ student.full_name }}</td>
+                          <td>{{ student.course_name }}</td>
+                          <td>{{ student.academic_course_year_name }}</td>
+                          <td>{{ student.student_enrollment_date | date }}</td>
+                          <td>{{ student.student_status }}</td>
+                          <td>{{ student.first_semester_sgpa }}</td>
+                          <td>{{ student.second_semester_sgpa }}</td>
+                          <td>{{ student.third_semester_sgpa }}</td>
+                          <td>{{ student.fourth_semester_sgpa }}</td>
+                          <td>{{ student.fifth_semester_sgpa }}</td>
+                          <td>{{ student.sixth_semester_sgpa }}</td>
+                          <td>{{ student.seventh_semester_sgpa }}</td>
+                          <td>{{ student.eighth_semester_sgpa }}</td>
+                          <td>{{ student.cgpa }}</td>
+                          <td>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#sgpaModal" (click)="openEditModal(student.username)">
+                              <i class="bi bi-pencil"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr *ngIf="filteredStudents.length === 0">
+                          <td colspan="17" class="text-center">No SGPA records found.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls id="sgpaPagination" (pageChange)="onPageChange($event)"></pagination-controls>
+              </div>
             </div>
         </div>
     </div>
@@ -62,63 +95,105 @@
         <div class="modal-body">
           <div class="container">
             <form [formGroup]="sgpaForm" (ngSubmit)="updateSGPA()">
-            <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">Username</label>
-                <input type="text" class="form-control" formControlName="username" readonly />
+              <div class="row">
+                <!-- Username -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" formControlName="username" readonly />
+                  </div>
+                </div>
+            
+                <!-- Full Name -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" formControlName="fullName" readonly />
+                  </div>
+                </div>
+            
+                <!-- First Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">First Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="firstSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Second Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Second Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="secondSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Third Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Third Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="thirdSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Fourth Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Fourth Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="fourthSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Fifth Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Fifth Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="fifthSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Sixth Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Sixth Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="sixthSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Seventh Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Seventh Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="seventhSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- Eighth Semester SGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">Eighth Semester SGPA</label>
+                    <input type="number" class="form-control" formControlName="eighthSemesterSGPA" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
+            
+                <!-- CGPA -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">CGPA</label>
+                    <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" />
+                  </div>
+                </div>
               </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <input type="text" class="form-control" formControlName="fullName" readonly />
+            
+              <!-- Submit/Close Buttons -->
+              <div class="row">
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success" [disabled]="sgpaForm.invalid">Update SGPA & CGPA</button>
+                </div>
               </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">First Semester SGPA</label>
-                <input type="number" class="form-control" formControlName="firstSemesterSGPA" step="0.01" min="0" max="10" />
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">Second Semester SGPA</label>
-                <input type="number" class="form-control" formControlName="secondSemesterSGPA" step="0.01" min="0" max="10" />
-              </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">Third Semester SGPA</label>
-                <input type="number" class="form-control" formControlName="thirdSemesterSGPA" step="0.01" min="0" max="10" />
-              </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">Fourth Semester SGPA</label>
-                <input type="number" class="form-control" formControlName="fourthSemesterSGPA" step="0.01" min="0" max="10" />
-              </div>
-            </div>
-  
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="form-label">CGPA</label>
-                <input type="number" class="form-control" formControlName="cgpa" step="0.01" min="0" max="10" />
-              </div>
-            </div>
-            </div>
-            <div class="row">
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success" [disabled]="sgpaForm.invalid">Update SGPA & CGPA</button>
-              </div>
-            </div>
-        </form>
-        </div>
+            </form>            
+          </div>
           </div>
         <!-- </div>
       </div> -->

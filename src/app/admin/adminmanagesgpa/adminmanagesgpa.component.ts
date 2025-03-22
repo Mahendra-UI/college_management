@@ -6,15 +6,23 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-adminmanagesgpa',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './adminmanagesgpa.component.html',
   styleUrl: './adminmanagesgpa.component.scss'
 })
 export class AdminmanagesgpaComponent implements OnInit {
+
+  searchText: string = '';
+  filteredStudents: any[] = [];
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+
+
   sgpaForm!: FormGroup;
   allStudentsSGPACGPAList: any[] = [];
   selectedStudentId: number | null = null; // ✅ Store student_id
@@ -34,9 +42,12 @@ export class AdminmanagesgpaComponent implements OnInit {
       secondSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
       thirdSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
       fourthSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
-      cgpa: ['', [Validators.min(0), Validators.max(10)]] // ✅ Added CGPA field
-    });
-
+      fifthSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
+      sixthSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
+      seventhSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
+      eighthSemesterSGPA: ['', [Validators.min(0), Validators.max(10)]],
+      cgpa: ['', [Validators.min(0), Validators.max(10)]]
+    });    
     this.loadStudentsSGPA();
   }
 
@@ -58,7 +69,11 @@ export class AdminmanagesgpaComponent implements OnInit {
             secondSemesterSGPA: studentData.second_semester_sgpa || '',
             thirdSemesterSGPA: studentData.third_semester_sgpa || '',
             fourthSemesterSGPA: studentData.fourth_semester_sgpa || '',
-            cgpa: studentData.cgpa || '' // ✅ Include CGPA
+            fifthSemesterSGPA: studentData.fifth_semester_sgpa || '',
+            sixthSemesterSGPA: studentData.sixth_semester_sgpa || '',
+            seventhSemesterSGPA: studentData.seventh_semester_sgpa || '',
+            eighthSemesterSGPA: studentData.eighth_semester_sgpa || '',
+            cgpa: studentData.cgpa || ''
           });
         } else {
           console.error("⚠ No student data found.");
@@ -75,13 +90,17 @@ export class AdminmanagesgpaComponent implements OnInit {
     if (this.sgpaForm.invalid) return;
 
     const updatedData = {
-      student_id: this.selectedStudentId,  // ✅ Include student_id
+      student_id: this.selectedStudentId,
       first_semester_sgpa: this.sgpaForm.value.firstSemesterSGPA || null,
       second_semester_sgpa: this.sgpaForm.value.secondSemesterSGPA || null,
       third_semester_sgpa: this.sgpaForm.value.thirdSemesterSGPA || null,
       fourth_semester_sgpa: this.sgpaForm.value.fourthSemesterSGPA || null,
-      cgpa: this.sgpaForm.value.cgpa || null  // ✅ Now includes CGPA update
-    };
+      fifth_semester_sgpa: this.sgpaForm.value.fifthSemesterSGPA || null,
+      sixth_semester_sgpa: this.sgpaForm.value.sixthSemesterSGPA || null,
+      seventh_semester_sgpa: this.sgpaForm.value.seventhSemesterSGPA || null,
+      eighth_semester_sgpa: this.sgpaForm.value.eighthSemesterSGPA || null,
+      cgpa: this.sgpaForm.value.cgpa || null
+    };    
 
     this.spinner.show();
 
@@ -127,7 +146,48 @@ export class AdminmanagesgpaComponent implements OnInit {
   }
 
   // ✅ Load Students with SGPA & CGPA
+
+
   loadStudentsSGPA(): void {
+    this.spinner.show();
+    this.apiSer.getAllStudentsSGPACGPA().subscribe({
+      next: (response) => {
+        const students = response.success ? response.students : [];
+        this.allStudentsSGPACGPAList = students;
+        this.filteredStudents = [...students];
+        this.spinner.hide();
+      },
+      error: (error) => {
+        console.error('❌ Error fetching SGPA & CGPA records:', error);
+        this.spinner.hide();
+      }
+    });
+  }
+  
+  filterStudents(): void {
+    if (!this.searchText.trim()) {
+      this.filteredStudents = [...this.allStudentsSGPACGPAList];
+    } else {
+      const term = this.searchText.toLowerCase();
+      this.filteredStudents = this.allStudentsSGPACGPAList.filter(student =>
+        Object.values(student).some(val =>
+          val && val.toString().toLowerCase().includes(term)
+        )
+      );
+    }
+    this.currentPage = 1;
+  }
+
+  displayedRecordsCount(): number {
+    return Math.min(this.itemsPerPage, this.filteredStudents.length - (this.currentPage - 1) * this.itemsPerPage);
+  }
+  onPageChange(page: number): void {
+    this.currentPage = page;
+  }
+    
+
+
+  loadStudentsSGPAold(): void {
     this.spinner.show();
     this.apiSer.getAllStudentsSGPACGPA().subscribe({
       next: (response) => {
