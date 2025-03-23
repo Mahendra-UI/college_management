@@ -81,7 +81,7 @@ onPageChange(event: number) {
     this.subjectForm = this.fb.group({
       courseId: ['', Validators.required],
       semesterId: ['', Validators.required],
-      subjectName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      subjectName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       subjectCredits: [1, [Validators.required, Validators.min(1), Validators.max(10)]]
     });
   }

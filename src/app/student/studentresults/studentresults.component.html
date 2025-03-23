@@ -16,8 +16,19 @@
         <!-- Semester Selection -->
         <div class="row align-items-end">
           <div class="col-md-9">
-            <h5><strong>Username:</strong> {{ username }}</h5>
-            <h5><strong>Course:</strong> {{ courseName || 'N/A' }} | <strong>Semester:</strong> {{ semesterName || 'N/A' }}</h5>
+
+            <h5>
+              <strong>Username:</strong> {{ username }} <br />
+              <strong>Course:</strong> {{ courseName || 'N/A' }} |
+              <strong>Semester:</strong> {{ semesterName || 'N/A' }} |
+              <strong>SGPA:</strong> {{ currentSGPA !== null ? currentSGPA : 'N/A' }} |
+              <strong>CGPA:</strong> {{ cgpa !== null ? cgpa : 'N/A' }}
+            </h5>
+           
+            
+
+            <!-- <h5><strong>Username:</strong> {{ username }}</h5>
+            <h5><strong>Course:</strong> {{ courseName || 'N/A' }} | <strong>Semester:</strong> {{ semesterName || 'N/A' }}</h5> -->
           </div>
           <div class="col-md-3">
             <div class="form-group">

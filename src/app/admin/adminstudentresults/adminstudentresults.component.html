@@ -30,9 +30,9 @@
                     <table class="table table-bordered w-100 common_table">
                       <thead>
                         <tr>
-                          <th>S.No</th>
-                          <th>Student ID</th>
-                          <th>Full Name</th>
+                          <th>#</th>
+                          <th>Username</th>
+                          <th>Name</th>
                           <th>Course</th>
                           <th>Semester</th>
                           <th>Subject</th>
@@ -213,8 +213,8 @@
             </div>
             <div class="modal-body">
                 <div *ngIf="selectedStudentResult">
-                    <p><strong>Student ID:</strong> {{ selectedStudentResult.username }}</p>
-                    <p><strong>Full Name:</strong> {{ selectedStudentResult.full_name }}</p>
+                    <p><strong>Username:</strong> {{ selectedStudentResult.username }}</p>
+                    <p><strong>Name:</strong> {{ selectedStudentResult.full_name }}</p>
                     <p><strong>Course:</strong> {{ selectedStudentResult.course_name }}</p>
                     <p><strong>Semester:</strong> {{ selectedStudentResult.semester_name }}</p>
                     <p><strong>Subject:</strong> {{ selectedStudentResult.subject_name }}</p>
