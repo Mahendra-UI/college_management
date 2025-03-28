@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { StudentprofileComponent } from '../studentprofile/studentprofile.component';
 
 @Component({
   selector: 'app-mypromotions',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, StudentprofileComponent],
   templateUrl: './mypromotions.component.html',
   styleUrl: './mypromotions.component.scss'
 })

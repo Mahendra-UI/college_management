@@ -5,11 +5,12 @@ import { ApiService } from '../../services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { MypromotionsComponent } from '../mypromotions/mypromotions.component';
 
 @Component({
   selector: 'app-studentprofile',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, MypromotionsComponent],
   templateUrl: './studentprofile.component.html',
   styleUrl: './studentprofile.component.scss'
 })

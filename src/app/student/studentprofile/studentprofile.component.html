@@ -1,6 +1,3 @@
-
-<button (click)="testRedirect()">Test Redirect</button>
-
 <section class="common_section">
     <div class="container">
         <div class="row">
@@ -16,74 +13,313 @@
             </div>
             <hr>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="nav nav-tabs d-none d-lg-flex" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="myprofile-tab" data-bs-toggle="tab" data-bs-target="#myprofile-tab-pane" type="button" role="tab" aria-controls="myprofile-tab-pane" aria-selected="true">My Profile</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="changepassword-tab" data-bs-toggle="tab" data-bs-target="#changepassword-tab-pane" type="button" role="tab" aria-controls="changepassword-tab-pane" aria-selected="false">Change Password</button>
+              </li>
+            </ul>
+            <div class="tab-content accordion" id="myTabContent">
+              <div class="tab-pane fade show active accordion-item" id="myprofile-tab-pane" role="tabpanel" aria-labelledby="myprofile-tab" tabindex="0">
+            
+                <h2 class="accordion-header d-lg-none" id="myprofileHeading">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#myprofileCollapse" aria-expanded="true" aria-controls="myprofileCollapse">Change Password</button>
+                </h2>
+                <div id="myprofileCollapse" class="accordion-collapse collapse show  d-lg-block" aria-labelledby="myprofileHeading" data-bs-parent="#myTabContent">
+                  <div class="accordion-body">
 
-        <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-6">
-                <div class="card p-4 shadow-sm">
-                  <h2 class="text-center">Change Password</h2>
-                  <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePassword()">
-                    <!-- Current Password -->
-                    <div class="mb-3">
-                      <label for="currentPassword" class="form-label">Current Password</label>
-                      <input type="password" class="form-control" id="currentPassword" formControlName="currentPassword">
-                      <div *ngIf="changePasswordForm.get('currentPassword')?.invalid && changePasswordForm.get('currentPassword')?.touched" class="text-danger">
-                        Current Password is required
-                      </div>
-                    </div>
-          
-                    <!-- New Password -->
-                    <div class="mb-3">
-                      <label for="newPassword" class="form-label">New Password</label>
-                      <input type="password" class="form-control" id="newPassword" formControlName="newPassword">
-                      <div *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched" class="text-danger">
-                        New Password is required (Min: 6 characters)
+
+
+                    <div class="container">
+                      <div id="" class="me-auto ms-auto px-2">
+                        <div id="firstPDFPrint">
+                            <div class="user-preview">
+                                <div class="row mt-3 user-preview">
+                                    <div class="col-md-12 ms-auto me-auto">
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <div class="text-end pb-3">
+                                              <button class="btn btn-success btn-sm" routerLink='/student/mypromotions'>Click For Hsitroy of Student Academic Years</button>
+                                            </div>
+                                          </div>
+                                            <!-- <div class="col-md-12 mx-auto">
+                                                <h4 class="print form-heading">Student Basic Info</h4>
+                                            </div> -->
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                            Username
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ studentDetails.username }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                            Full Name
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ studentDetails.full_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                            Father Name
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ studentDetails.father_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Mobile No.
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.mobile_no }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Email ID
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.email_id }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                <div class="d-none">
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Roll Number
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.roll_number }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Course
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.course_name }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                            Gender
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ studentDetails.student_gender }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                            Date of Birth
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ studentDetails.student_date_of_birth | date: 'dd-MM-yyyy' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Current Academic Year
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.academic_course_year_name }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Enrollment Date
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.student_enrollment_date | date: 'dd-MM-yyyy' }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Address
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.student_address }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                          Status
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ studentDetails.student_status }}
+                                                      </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                            </div>
+                          </div>
                       </div>
                     </div>
 
-                    <div class="mb-3">
-                      <label for="confirmPassword" class="form-label">New Password</label>
-                      <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
-                      <div *ngIf="changePasswordForm.get('confirmPassword')?.invalid && changePasswordForm.get('confirmPassword')?.touched" class="text-danger">
-                        Confirm Password is required (Min: 6 characters)
-                      </div>
+
+
+
+                    <div class="container d-none">
+                      <div class="row">
+                        <div class="col-md-12">
+                            <div *ngIf="studentDetails && studentDetails.full_name; else noData">
+                                <p><strong>Username:</strong> {{ studentDetails.username }}</p>
+                                <p><strong>Name:</strong> {{ studentDetails.full_name }}</p>
+                                <p><strong>Father Name:</strong> {{ studentDetails.father_name }}</p>
+                                <p><strong>Gender:</strong> {{ studentDetails.student_gender }}</p>
+                                <p><strong>Date of Birth:</strong> {{ studentDetails.student_date_of_birth | date: 'dd-MM-yyyy' }}</p>
+                                <p><strong>Mobile:</strong> {{ studentDetails.mobile_no }}</p>
+                                <p><strong>Email:</strong> {{ studentDetails.email_id }}</p>
+                                <p><strong>Roll Number:</strong> {{ studentDetails.roll_number }}</p>
+                                <p><strong>Course:</strong> {{ studentDetails.course_name }}</p>
+                                <p><strong>Current Academic Year:</strong> {{ studentDetails.academic_course_year_name }}</p>
+                                <p><strong>Enrollment Year:</strong> {{ studentDetails.student_enrollment_date | date: 'dd-MM-yyyy' }}</p>
+                                <p><strong>Address:</strong> {{ studentDetails.student_address }}</p>
+                                <p><strong>Status:</strong> {{ studentDetails.student_status }}</p>
+                            </div>
+                            <ng-template #noData>
+                                <p class="text-danger">⚠ No student data available.</p>
+                            </ng-template>
+                        </div>
                     </div>
+                    </div>
+                  </div>
+                </div>
+            
+              </div>
+              <div class="tab-pane fade accordion-item" id="changepassword-tab-pane" role="tabpanel" aria-labelledby="changepassword-tab" tabindex="0">
+                <h2 class="accordion-header d-lg-none" id="changepasswordHeading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#changepasswordCollapse" aria-expanded="false" aria-controls="changepasswordCollapse">
+                    Change Password
+                  </button>
+                </h2>
+                <div id="changepasswordCollapse" class="accordion-collapse collapse d-lg-block" aria-labelledby="changepasswordHeading" data-bs-parent="#myTabContent">
+                  <div class="accordion-body">
+                    <div class="container">
+                      <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePassword()">
+                      <div class="row">
+                              <!-- Current Password -->
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="currentPassword" class="form-label">Current Password</label>
+                                  <input type="password" class="form-control" id="currentPassword" formControlName="currentPassword">
+                                  <div *ngIf="changePasswordForm.get('currentPassword')?.invalid && changePasswordForm.get('currentPassword')?.touched" class="text-danger">
+                                    Current Password is required
+                                  </div>
+                                </div>
+                              </div>
+                    
+                              <!-- New Password -->
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="newPassword" class="form-label">New Password</label>
+                                  <input type="password" class="form-control" id="newPassword" formControlName="newPassword">
+                                  <div *ngIf="changePasswordForm.get('newPassword')?.invalid && changePasswordForm.get('newPassword')?.touched" class="text-danger">
+                                    New Password is required (Min: 6 characters)
+                                  </div>
+                                </div>
+                              </div>
           
-                    <!-- Change Password Button -->
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Change Password</button>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="confirmPassword" class="form-label">New Password</label>
+                                  <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword">
+                                  <div *ngIf="changePasswordForm.get('confirmPassword')?.invalid && changePasswordForm.get('confirmPassword')?.touched" class="text-danger">
+                                    Confirm Password is required (Min: 6 characters)
+                                  </div>
+                                </div>
+                              </div>
+                    
+                              <!-- Change Password Button -->
+                              <div class="col-md-3">
+                                <div class="text-center form-group">
+                                  <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Change Password</button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
-        
-
-        <div class="row">
-            <div class="col-md-12">
-                <div *ngIf="studentDetails && studentDetails.full_name; else noData">
-                    <p><strong>Username:</strong> {{ studentDetails.username }}</p>
-                    <p><strong>Name:</strong> {{ studentDetails.full_name }}</p>
-                    <p><strong>Father Name:</strong> {{ studentDetails.father_name }}</p>
-                    <p><strong>Gender:</strong> {{ studentDetails.student_gender }}</p>
-                    <p><strong>Date of Birth:</strong> {{ studentDetails.student_date_of_birth }}</p>
-                    <p><strong>Mobile:</strong> {{ studentDetails.mobile_no }}</p>
-                    <p><strong>Email:</strong> {{ studentDetails.email_id }}</p>
-                    <p><strong>Roll Number:</strong> {{ studentDetails.roll_number }}</p>
-                    <p><strong>Course:</strong> {{ studentDetails.course_name }}</p>
-                    <p><strong>Course Year:</strong> {{ studentDetails.course_year }}</p>
-                    <p><strong>Enrollment Year:</strong> {{ studentDetails.enrollment_year }}</p>
-                    <p><strong>Address:</strong> {{ studentDetails.student_address }}</p>
-                    <p><strong>Status:</strong> {{ studentDetails.student_status }}</p>
-                </div>
-                <ng-template #noData>
-                    <p class="text-danger">⚠ No student data available.</p>
-                </ng-template>
-            </div>
         </div>
     </div>
 </section>
-<br><br>

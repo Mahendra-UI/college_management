@@ -1,11 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { StudentprofileComponent } from '../studentprofile/studentprofile.component';
 
 @Component({
   selector: 'app-studentheader',
   standalone: true,
-  imports: [],
+  imports: [RouterModule, CommonModule, StudentprofileComponent],
   templateUrl: './studentheader.component.html',
   styleUrl: './studentheader.component.scss'
 })

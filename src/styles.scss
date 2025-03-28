@@ -105,7 +105,12 @@ $font-weight-extra-bold: 800;
   font-size: $font-size-large;
 }
 
-.previewLabelName, .previewLabelValue {
+.previewLabelName {
+  font-weight: $font-weight-extra-bold;
+  font-size: $font-size-small;
+}
+
+.previewLabelValue {
   font-weight: $font-weight-bold;
   font-size: $font-size-small;
 }
