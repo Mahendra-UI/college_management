@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-adminfeeinfo',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './adminfeeinfo.component.html',
   styleUrl: './adminfeeinfo.component.scss'
 })
@@ -16,6 +18,12 @@ export class AdminfeeinfoComponent implements OnInit {
 
   feeStatusList: any[] = [];
 
+
+  filteredFeeStatusList: any[] = [];
+  searchText: string = '';
+  itemsPerPage: number = 50; // Number of records per page
+  currentPage: number = 1;
+  totalRecords: number = 0;
 
   constructor(private apiSer: ApiService, private spinner: NgxSpinnerService, private toaster: ToastrService) {
 
@@ -29,10 +37,33 @@ loadFeeStatus() {
   this.apiSer.getAllStudentsFeeStatus().subscribe((res: any) => {
     if (res.success) {
       this.feeStatusList = res.feeStatus;
+      this.filteredFeeStatusList = [...this.feeStatusList]; // Initialize filtered list
+      this.totalRecords = this.feeStatusList.length;
     } else {
       console.error('No Fee Status found:', res.message);
     }
   });
 }
 
+filterFeeList(): void {
+  if (!this.searchText) {
+    this.filteredFeeStatusList = this.feeStatusList;
+  } else {
+    const searchTerm = this.searchText.toLowerCase();
+    this.filteredFeeStatusList = this.feeStatusList.filter(fee =>
+      Object.values(fee).some(value =>
+        value && value.toString().toLowerCase().includes(searchTerm)
+      )
+    );
+  }
+  this.currentPage = 1; // Reset pagination to the first page after filtering
+}
+
+displayedRecordsCount(): number {
+  return Math.min(this.itemsPerPage, this.filteredFeeStatusList.length - (this.currentPage - 1) * this.itemsPerPage);
+}
+
+onPageChange(event: number) {
+  this.currentPage = event;
+}
 }

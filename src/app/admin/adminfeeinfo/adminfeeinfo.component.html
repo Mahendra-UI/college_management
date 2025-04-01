@@ -16,6 +16,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
+                    <div class="d-flex justify-content-between mb-2">
+                        <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterFeeList()" placeholder="Search Fee Status List...">
+                        <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredFeeStatusList.length }} records</span>
+                      </div>
                     <table class="table table-bordered w-100 common_table">
                         <thead>
                             <tr>
@@ -33,8 +37,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let record of feeStatusList; let i = index;">
-                                <td>{{ i+1 }}</td>
+                            <!-- <tr *ngFor="let record of feeStatusList; let i = index;">
+                                <td>{{ i+1 }}</td> -->
+                            <tr *ngFor="let record of filteredFeeStatusList | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'feestatuses' }; let i = index">
+                                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                                 <td>{{ record.student_name }}</td>
                                 <td>{{ record.student_username }}</td>
                                 <td>{{ record.course_name }}</td>
@@ -48,11 +54,12 @@
                                 <td>{{ record.transaction_id || 'N/A' }}</td>
                                 <td>{{ record.payment_date ? (record.payment_date | date:'dd-MM-yyyy HH:mm') : 'N/A' }}</td>
                             </tr>
-                            <tr *ngIf="feeStatusList.length === 0">
+                            <tr *ngIf="filteredFeeStatusList.length === 0">
                                 <td colspan="11" class="text-center">No Records Found</td>
                             </tr>
                         </tbody>
                     </table>
+                    <pagination-controls id="feestatuses" (pageChange)="onPageChange($event)"></pagination-controls>
                 </div>
             </div>
         </div>

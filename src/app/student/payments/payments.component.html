@@ -1,9 +1,34 @@
 <section class="common_section">
     <div class="container">
-      <h3>Complete Payment</h3>
-      <p>Fee Ledger ID: {{ feeLedgerId }}</p>
-      <p>Amount: ₹ <input type="number" [(ngModel)]="amount" required></p>
-      <button class="btn btn-success" (click)="processPayment()">Submit Payment</button>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="main_heading">
+              <h5>Complete Payment</h5>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="common_home_icon">
+                <i class="bi bi-house-door" routerLink="/student/home"></i>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="row align-items-center">
+      <!-- <div class="col-md-3">
+        <p>Fee Ledger ID: {{ feeLedgerId }}</p>
+      </div> -->
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="">Amount: ₹</label>
+          <input type="number" class="form-control" [(ngModel)]="amount" required readonly disabled>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <button class="btn btn-success" (click)="processPayment()">Submit Payment</button>
+        </div>
+      </div>
+    </div>
     </div>
   </section>
   

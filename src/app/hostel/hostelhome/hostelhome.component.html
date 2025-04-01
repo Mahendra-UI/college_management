@@ -1,1 +1,92 @@
-<p>hostelhome works!</p>
+<section class="common_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main_heading">
+            <h5>Hostel Admin Dashboard</h5>
+        </div>
+        <hr>
+      </div>
+      </div>
+      <div class="row" data-aos="fade-down" data-aos-delay="200">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{roomsList.length}}</h3>
+  
+              <p>Total Rooms</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-bag"></i>
+            </div>
+            <a routerLink="/hostel/roomsavailability" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{totalAllocatedRooms + totalAvailableRooms}}
+                <!-- <sup style="font-size: 20px">%</sup> -->
+            </h3>
+  
+              <p>Total Seats in Hostels</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+            <a routerLink="/hostel/roomsavailability" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{allocatedRooms.length}}</h3>
+  
+              <p>Allocated Rooms</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-person-add"></i>
+            </div>
+            <a routerLink="/hostel/allocatedrooms" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <h3>{{roomRequests.length}}</h3>
+  
+              <p>Room Requests Pending for Approval</p>
+            </div>
+            <div class="icon">
+              <i class="bi bi-pie-chart"></i>
+            </div>
+            <a routerLink="/hostel/hostelroomrequests" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{roomRequestsAllocations.length}}</h3>
+    
+                <p>Room Requests Pending for Allocations</p>
+              </div>
+              <div class="icon">
+                <i class="bi bi-person-add"></i>
+              </div>
+              <a routerLink="/hostel/allocateroomforrequest" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+            </div>
+          </div>
+
+      </div>    
+    </div>
+  </section>

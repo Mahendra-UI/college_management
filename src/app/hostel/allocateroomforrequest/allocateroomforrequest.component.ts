@@ -184,7 +184,7 @@ loadRoomRequests(): void {
     (res) => {
       this.spinner.hide();
       if (res.success) {
-        this.roomRequests = res.requests;
+        this.roomRequests = res.requests.sort().reverse();
         this.filteredRequests = [...this.roomRequests]; // ✅ Initialize filtered list
       } else {
         this.toastr.info("No room requests found.", "Info");

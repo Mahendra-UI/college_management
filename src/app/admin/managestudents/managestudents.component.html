@@ -608,13 +608,123 @@ Submit
                             <div class="col-md-12 mx-auto">
                               <h4 class="print form-heading">Students Marks</h4>
                             </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          First Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                          {{ studentDetails.first_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          Second Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                          {{ studentDetails.second_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          Third Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                          {{ studentDetails.third_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                         Fourth Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                      {{ studentDetails.fourth_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          Firth Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                          {{ studentDetails.fifth_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          Sixth Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                          {{ studentDetails.sixth_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                         Seventh Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                      {{ studentDetails.seventh_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                  <div class="col-md-5 col-12 col-sm-4">
+                                      <div class="previewLabelName">
+                                          Eighth Semester SGPA
+                                      </div>
+                                  </div>
+                                  <div class="col-md-1">:</div>
+                                  <div class="col-md-6 col-12 col-sm-7">
+                                      <div class="previewLabelValue">
+                                      {{ studentDetails.eighth_semester_sgpa }}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
                           <div class="col-md-12">
 
                             <div class="hstack justify-content-between">
 
                             <!-- Modal Buttons -->
-                            <div class="pb-2">
-                              CGPA : {{studentDetails.cgpa ? studentDetails.cgpa : "N\A"}}
+                            <div class="pb-2 previewLabelName">
+                              CGPA : <span class="previewLabelValue"> {{studentDetails.cgpa ? studentDetails.cgpa : "N\A"}} </span>
                             </div>
                             <div class="pb-2">
                               <button class="btn btn-success btn-sm" (click)="navigateAndCloseModal('studentModal', 'focusElement', '/admin/adminstudentresults')">
@@ -764,9 +874,16 @@ Submit
                                             </span>
                                           </td>
                                           <td>
-                                            <span [ngClass]="{'text-success': request.status === 'Approved', 'text-warning': request.status === 'Pending', 'text-danger': request.status === 'Rejected'}">
+                                            <span class="badge"
+                                              [ngClass]="{
+                                                'badge-light-success': request.status === 'Approved',
+                                                'badge-light-warning': request.status === 'Pending',
+                                                'badge-light-danger': request.status === 'Rejected',
+                                                'badge-light-info': request.status === 'Allocated',
+                                                'badge-light-dark': request.status === 'Inactive'
+                                              }">
                                               {{ request.status }}
-                                            </span>
+                                            </span> 
                                           </td>
                                           <td>{{ request.requested_at | date: 'short' }}</td>
                                         </tr>

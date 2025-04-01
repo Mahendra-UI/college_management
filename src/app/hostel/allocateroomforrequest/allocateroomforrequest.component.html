@@ -35,7 +35,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Request ID</th>
+                            <!-- <th>Request ID</th> -->
                             <th>Requested By</th>
                             <th>Requested For</th>
                             <th>Academic Year</th>
@@ -48,7 +48,7 @@
                       <tr *ngFor="let request of filteredRequests | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
                         <!-- ✅ Update serial number calculation -->
                         <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                            <td>{{ request.request_id }}</td>
+                            <!-- <td>{{ request.request_id }}</td> -->
                             <td>{{ request.requested_by }}</td>
                             <td>
                               <span *ngFor="let student of request.requested_for; let i = index">
@@ -221,13 +221,13 @@
   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="roomRequestHistoryModalLabel">Room Request History - ID {{ selectedRequest?.request_id }}</h5>
+        <h5 class="modal-title" id="roomRequestHistoryModalLabel">Room Request History</h5>
+        <!-- - ID {{ selectedRequest?.request_id }} -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <i class="bi bi-x"></i>
         </button>
       </div>
       <div class="modal-body">
-        <h6>Request History</h6>
         <div *ngIf="requestHistory && requestHistory.length > 0">
           <div class="table-responsive">
             <table class="table table-bordered w-100 common_table">
