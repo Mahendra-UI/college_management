@@ -71,7 +71,7 @@
 <!-- ✅ Promotion Details Modal -->
 <div class="modal fade common_modal_popup" id="promotionDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="promotionDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="promotionDetailsModalLabel">Promotion Details</h5>
@@ -81,15 +81,113 @@
             </div>
             <div class="modal-body">
                 <div *ngIf="selectedPromotion; else noData">
-                    <p><strong>Promotion ID:</strong> {{ selectedPromotion.promotion_id }}</p>
-                    <p><strong>Student Name:</strong> {{ selectedPromotion.full_name }}</p>
-                    <p><strong>Username:</strong> {{ selectedPromotion.username }}</p>
-                    <p><strong>Course:</strong> {{ selectedPromotion.course_name }}</p>
-                    <p><strong>Previous Year:</strong> {{ selectedPromotion.previous_year }}</p>
-                    <p><strong>Updated Year:</strong> {{ selectedPromotion.updated_year === 'Course Completed' ? '🎓 Course Completed' : selectedPromotion.updated_year }}</p>
-                    <p><strong>Enrollment Year:</strong> {{ selectedPromotion.enrollment_year | date:'dd-MM-yyyy' }}</p>
-                    <p><strong>Created At:</strong> {{ selectedPromotion.created_at | date:'short' }}</p>
-                    <p><strong>Updated At:</strong> {{ selectedPromotion.updated_at | date:'short' }}</p>
+
+                    <div id="" class="me-auto ms-auto border px-2">
+                        <div id="firstPDFPrint">
+                            <div class="user-preview">
+                                <div class="row mt-3 user-preview">
+                                    <div class="col-md-12 ms-auto me-auto">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                          Student Name
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ selectedPromotion.full_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                          Username
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ selectedPromotion.username }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                          Course
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ selectedPromotion.course_name }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                          Previous Year
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ selectedPromotion.previous_year }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                    <div class="col-md-5 col-12 col-sm-4">
+                                                        <div class="previewLabelName">
+                                                          Updated Year
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">:</div>
+                                                    <div class="col-md-6 col-12 col-sm-7">
+                                                        <div class="previewLabelValue">
+                                                          {{ selectedPromotion.updated_year === 'Course Completed' ? '🎓 Course Completed' : selectedPromotion.updated_year }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                                  <div class="col-md-5 col-12 col-sm-4">
+                                                      <div class="previewLabelName">
+                                                        Enrollment Year
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-1">:</div>
+                                                  <div class="col-md-6 col-12 col-sm-7">
+                                                      <div class="previewLabelValue">
+                                                        {{ selectedPromotion.enrollment_year | date:'dd-MM-yyyy' }}
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+
+                    <div class="d-none">
+                        <p><strong>Promotion ID:</strong> {{ selectedPromotion.promotion_id }}</p>
+                        <p><strong>Student Name:</strong> {{ selectedPromotion.full_name }}</p>
+                        <p><strong>Username:</strong> {{ selectedPromotion.username }}</p>
+                        <p><strong>Course:</strong> {{ selectedPromotion.course_name }}</p>
+                        <p><strong>Previous Year:</strong> {{ selectedPromotion.previous_year }}</p>
+                        <p><strong>Updated Year:</strong> {{ selectedPromotion.updated_year === 'Course Completed' ? '🎓 Course Completed' : selectedPromotion.updated_year }}</p>
+                        <p><strong>Enrollment Year:</strong> {{ selectedPromotion.enrollment_year | date:'dd-MM-yyyy' }}</p>
+                        <p><strong>Created At:</strong> {{ selectedPromotion.created_at | date:'short' }}</p>
+                        <p><strong>Updated At:</strong> {{ selectedPromotion.updated_at | date:'short' }}</p>
+                    </div>
                 </div>
                 <ng-template #noData>
                     <p class="text-center text-muted">No promotion details available.</p>

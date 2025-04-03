@@ -16,9 +16,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <div class="d-flex justify-content-between mb-2">
-                        <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterFeeList()" placeholder="Search Fee Status List...">
+                    <div class="d-flex justify-content-between mb-2 align-items-center">
                         <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredFeeStatusList.length }} records</span>
+                        <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterFeeList()" placeholder="Search Fee Status List...">
                       </div>
                     <table class="table table-bordered w-100 common_table">
                         <thead>

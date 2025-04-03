@@ -24,8 +24,8 @@
                 <div class="table-responsive">
                     <!-- Search and Count Display -->
                     <div class="d-flex justify-content-between mb-2">
-                      <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterNotifications()" placeholder="Search Notification...">
                       <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredNotifications.length }} records</span>
+                      <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterNotifications()" placeholder="Search Notification...">
                     </div>
                   
                     <!-- ✅ Notifications Table -->
@@ -128,11 +128,11 @@
           </button>
         </div>
         <div class="modal-body" *ngIf="selectedNotification">
-            <p><strong>Notification ID:</strong> {{ selectedNotification.subject_id }}</p>
-            <p><strong>Title:</strong> {{ selectedNotification.title }}</p>
-            <p><strong>Subject Credits:</strong> {{ selectedNotification.title_description }}</p>
-            <p><strong>Created At:</strong> {{ selectedNotification.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
-            <p><strong>Updated At:</strong> {{ selectedNotification.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            <!-- <p><strong>Notification ID:</strong> {{ selectedNotification.notification_id }}</p> -->
+            <p><strong>Title :</strong> {{ selectedNotification.title }}</p>
+            <p><strong>Description :</strong> {{ selectedNotification.title_description }}</p>
+            <!-- <p><strong>Created At:</strong> {{ selectedNotification.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Updated At:</strong> {{ selectedNotification.updated_at | date:'dd/MM/yyyy HH:mm' }}</p> -->
         </div>
         <div class="modal-body" *ngIf="!selectedNotification">
             <p>Loading Notification details...</p>

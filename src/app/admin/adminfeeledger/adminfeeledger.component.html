@@ -121,7 +121,7 @@
     
   <!-- Bootstrap Modal for Viewing Fee Record -->
   <div class="modal fade common_modal_popup" id="viewFeeModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewFeeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="viewFeeModalLabel">Fee Record Details</h5>
@@ -130,16 +130,112 @@
         </button>
         </div>
         <div class="modal-body">
-          <p><strong>Fee Type:</strong> {{ selectedFee?.fee_type_name }}</p>
-          <p><strong>Course:</strong> {{ selectedFee?.course_name }}</p>
-          <p><strong>Semester:</strong> {{ selectedFee?.semester_name }}</p>
-          <p><strong>Year:</strong> {{ selectedFee?.year }}</p>
-          <p><strong>Fee Amount:</strong> {{ selectedFee?.fee_amount }}</p>
-          <p><strong>Fee Description:</strong> {{ selectedFee?.fee_ledger_description }}</p>
+          <div id="" class="me-auto ms-auto border px-2">
+            <div id="firstPDFPrint">
+                <div class="user-preview">
+                    <div class="row mt-3 user-preview">
+                        <div class="col-md-12 ms-auto me-auto">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Fee Type
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ selectedFee?.fee_type_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Course
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ selectedFee?.course_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Semester
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ selectedFee?.semester_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Year
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ selectedFee?.year }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Fee Amount
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ selectedFee?.fee_amount }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                      <div class="col-md-5 col-12 col-sm-4">
+                                          <div class="previewLabelName">
+                                            Fee Description
+                                          </div>
+                                      </div>
+                                      <div class="col-md-1">:</div>
+                                      <div class="col-md-6 col-12 col-sm-7">
+                                          <div class="previewLabelValue">
+                                            {{ selectedFee?.fee_ledger_description }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="d-none">
+            <p><strong>Fee Type:</strong> {{ selectedFee?.fee_type_name }}</p>
+            <p><strong>Course:</strong> {{ selectedFee?.course_name }}</p>
+            <p><strong>Semester:</strong> {{ selectedFee?.semester_name }}</p>
+            <p><strong>Year:</strong> {{ selectedFee?.year }}</p>
+            <p><strong>Fee Amount:</strong> {{ selectedFee?.fee_amount }}</p>
+            <p><strong>Fee Description:</strong> {{ selectedFee?.fee_ledger_description }}</p>
 
-          <p><strong>Created At:</strong> {{ selectedFee?.created_at }}</p>
+            <p><strong>Created At:</strong> {{ selectedFee?.created_at }}</p>
 
-          <p><strong>Updated At:</strong> {{ selectedFee?.updated_at }}</p>
+            <p><strong>Updated At:</strong> {{ selectedFee?.updated_at }}</p>
+          </div>
         </div>
       </div>
     </div>

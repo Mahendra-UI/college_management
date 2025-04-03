@@ -25,8 +25,8 @@
                 <div class="table-responsive">
                     <!-- Search and Count Display -->
                     <div class="d-flex justify-content-between mb-2">
-                      <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterSubjects()" placeholder="Search Subject...">
-                      <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredSubjects.length }} records</span>
+                        <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredSubjects.length }} records</span>
+                        <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterSubjects()" placeholder="Search Subject...">
                     </div>
                   
                     <table class="table table-bordered w-100 common_table">
@@ -155,7 +155,7 @@
 
 <!-- Student Details Modal -->
 <div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="subjectDetailsModal" tabindex="-1" aria-labelledby="subjectDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="subjectDetailsModalLabel">Subject Details</h5>
@@ -164,13 +164,98 @@
           </button>
         </div>
         <div class="modal-body" *ngIf="subjectDetails">
-            <p><strong>Subject ID:</strong> {{ subjectDetails.subject_id }}</p>
-            <p><strong>Subject Name:</strong> {{ subjectDetails.subject_name }}</p>
-            <p><strong>Subject Credits:</strong> {{ subjectDetails.subject_credits }}</p>
-            <p><strong>Course Name:</strong> {{ subjectDetails.course_name }}</p>
-            <p><strong>Semester Name:</strong> {{ subjectDetails.semester_name }}</p>
-            <p><strong>Created At:</strong> {{ subjectDetails.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
-            <p><strong>Updated At:</strong> {{ subjectDetails.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+
+            <div id="" class="me-auto ms-auto border px-2">
+                <div id="firstPDFPrint">
+                    <div class="user-preview">
+                        <div class="row mt-3 user-preview">
+                            <div class="col-md-12 ms-auto me-auto">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                            <div class="col-md-5 col-12 col-sm-4">
+                                                <div class="previewLabelName">
+                                                  Subject ID
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">:</div>
+                                            <div class="col-md-6 col-12 col-sm-7">
+                                                <div class="previewLabelValue">
+                                                  {{ subjectDetails.subject_id }}
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                            <div class="col-md-5 col-12 col-sm-4">
+                                                <div class="previewLabelName">
+                                                  Subject Name
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">:</div>
+                                            <div class="col-md-6 col-12 col-sm-7">
+                                                <div class="previewLabelValue">
+                                                  {{ subjectDetails.subject_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                            <div class="col-md-5 col-12 col-sm-4">
+                                                <div class="previewLabelName">
+                                                  Subject Credits
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">:</div>
+                                            <div class="col-md-6 col-12 col-sm-7">
+                                                <div class="previewLabelValue">
+                                                  {{ subjectDetails.subject_credits }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                            <div class="col-md-5 col-12 col-sm-4">
+                                                <div class="previewLabelName">
+                                                  Course Name
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">:</div>
+                                            <div class="col-md-6 col-12 col-sm-7">
+                                                <div class="previewLabelValue">
+                                                  {{ subjectDetails.course_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                            <div class="col-md-5 col-12 col-sm-4">
+                                                <div class="previewLabelName">
+                                                  Semester Name
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">:</div>
+                                            <div class="col-md-6 col-12 col-sm-7">
+                                                <div class="previewLabelValue">
+                                                  {{ subjectDetails.semester_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+            <div class="d-none">
+                <p><strong>Subject ID:</strong> {{ subjectDetails.subject_id }}</p>
+                <p><strong>Subject Name:</strong> {{ subjectDetails.subject_name }}</p>
+                <p><strong>Subject Credits:</strong> {{ subjectDetails.subject_credits }}</p>
+                <p><strong>Course Name:</strong> {{ subjectDetails.course_name }}</p>
+                <p><strong>Semester Name:</strong> {{ subjectDetails.semester_name }}</p>
+                <p><strong>Created At:</strong> {{ subjectDetails.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+                <p><strong>Updated At:</strong> {{ subjectDetails.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
         </div>
         <div class="modal-body" *ngIf="!subjectDetails">
             <p>Loading subject details...</p>

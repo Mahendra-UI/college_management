@@ -14,16 +14,16 @@
           <hr>
       </div>
       <div class="row align-items-center">
-        <div class="col-md-5">
+        <!-- <div class="col-md-5">
           <div>
             <p class="mb-0"><strong>Total Students:</strong> <span class="badge text-bg-success fs-6">{{ studentsList.length }}</span></p>
           </div>
-        </div>
-        <div class="col-md-7">
+        </div> -->
+        <div class="col-md-12">
           <div class="hstack gap-2 justify-content-end align-items-end pb-2">
-            <div>
+            <!-- <div>
               <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search students..." (input)="filterStudents()">
-            </div>
+            </div> -->
             <div>
             <a class="btn common_add_record_btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#studentModal" (click)="resetForm()">
               <i class="bi bi-plus-circle"></i> Add New Student
@@ -47,8 +47,8 @@
           <div class="table-responsive">
             <!-- Search and Count Display -->
             <div class="d-flex justify-content-between mb-2">
-              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterStudents()" placeholder="Search Student...">
               <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredStudents.length }} records</span>
+              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterStudents()" placeholder="Search Student...">
             </div>
           
             <table class="table-bordered table w-100 common_table">
@@ -84,9 +84,22 @@
                       <a class="btn btn-success btn-sm" id="viewDetailsBtn" (click)="getStudentDetails(student.username)" data-bs-toggle="modal" data-bs-target="#studentDetailsModal">
                           <i class="bi bi-eye"></i>
                       </a>
-                      <a class="btn btn-primary btn-sm" *ngIf="student.academic_course_year_id != 5" (click)="openEditStudentModal(student.username)">
+
+
+                      <!-- <a class="btn btn-primary btn-sm" *ngIf="student.academic_course_year_id != 5" (click)="openEditStudentModal(student.username)">
                         <i class="bi bi-pencil"></i>
+                      </a> -->
+
+                      <!-- Add Bootstrap trigger attributes and call your method -->
+                      <a class="btn btn-primary btn-sm"
+                      *ngIf="student.academic_course_year_id != 5"
+                      (click)="openEditStudentModal(student.username)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#studentModal">
+                      <i class="bi bi-pencil"></i>
                       </a>
+
+
                     </div>
                   </td>
                 </tr>
@@ -568,7 +581,7 @@ Submit
                                             <th>Transaction ID</th>
                                             <th>Amount Paid</th>
                                             <th>Payment Date</th>
-                                            <th>Updated At</th>
+                                            <!-- <th>Updated At</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -593,7 +606,7 @@ Submit
                                             <td>{{ record.transaction_id }}</td>
                                             <td>{{ record.amount_paid }}</td>
                                             <td>{{ record.payment_date ? (record.payment_date | date: 'short') : 'N/A' }}</td>
-                                            <td>{{ record.updated_at | date: 'short' }}</td>
+                                            <!-- <td>{{ record.updated_at | date: 'short' }}</td> -->
                                           </tr>                              
                                         <tr *ngIf="feeLedgersList.length === 0">
                                             <td colspan="10" class="text-center">No Records Found</td>
@@ -858,7 +871,7 @@ Submit
                                           <th>Request ID</th>
                                           <th>Requested By</th>
                                           <th>Academic Year</th>
-                                          <th>Selected Students</th>
+                                          <th>Requested For</th>
                                           <th>Status</th>
                                           <th>Requested At</th>
                                         </tr>
@@ -869,8 +882,8 @@ Submit
                                           <td>{{ request.requested_by }}</td>
                                           <td>{{ request.academic_course_year_id }}</td>
                                           <td>
-                                            <span *ngFor="let student of request.selected_students; let i = index">
-                                              {{ student }}<span *ngIf="i < request.selected_students.length - 1">, </span>
+                                            <span *ngFor="let student of request.requested_for; let i = index">
+                                              {{ student }}<span *ngIf="i < request.requested_for.length - 1">, </span>
                                             </span>
                                           </td>
                                           <td>
