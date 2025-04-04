@@ -42,14 +42,18 @@
         <table *ngIf="!isLoading" class="table table-bordered w-100 common_table">
             <thead>
                 <tr>
-                    <th>#</th> <!-- Added Serial Number Column -->
+                    <th>S.No</th>
                     <th>Username</th>
                     <th>Full Name</th>
                     <th>Hostel</th>
                     <th>Block</th>
                     <th>Floor</th>
-                    <th>Room No.</th>
+                    <th>Room</th>
+                    <th>Requested By</th>
+                    <th>Academic Year</th>
+                    <th>Status</th>
                     <th>Allocated At</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +65,29 @@
                     <td>{{ room.block_name }}</td>
                     <td>{{ room.floor_name }}</td>
                     <td>{{ room.room_name }}</td>
-                    <td>{{ room.allocated_at | date:'short' }}</td>
+                    <td>{{ room.requested_by }}</td>
+                    <td>{{ room.academic_course_year_id }}</td>
+                    <td>
+                      <span class="badge"
+                      [ngClass]="{
+                        'badge-light-success': room.status === 'Approved',
+                        'badge-light-warning': room.status === 'Pending',
+                        'badge-light-danger': room.status === 'Rejected',
+                        'badge-light-info': room.status === 'Allocated',
+                        'badge-light-dark': room.status === 'Inactive'
+                      }">
+                      {{ room.status }}
+                    </span>
+                    </td>
+                    <td>{{ room.allocated_at | date: 'short' }}</td>
+                    <td>
+                      <button class="btn btn-info btn-sm"
+                      data-bs-toggle="modal" 
+                      data-bs-target="#roomRequestHistoryModal"
+                      (click)="loadRequestHistory(room.request_id)">
+                      <i class="bi bi-clock-history"></i>
+                      </button>
+                    </td>
                 </tr>
                 <tr *ngIf="filteredRooms.length === 0">
                     <td colspan="8" class="text-center">No Allocated Rooms Found</td>
@@ -74,3 +100,50 @@
         <pagination-controls *ngIf="filteredRooms.length > 0" (pageChange)="onPageChange($event)"></pagination-controls>
     </div>
 </section>
+
+
+<!-- ✅ Request History Modal -->
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="roomRequestHistoryModal" tabindex="-1" aria-labelledby="roomRequestHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="roomRequestHistoryModalLabel">Room Request History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="requestHistory && requestHistory.length > 0">
+            <div class="table-responsive">
+              <table class="table table-bordered w-100 common_table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Action</th>
+                    <th>Performed By</th>
+                    <th>Remarks</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let history of requestHistory; let i = index">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ history.action }}</td>
+                    <td>{{ history.performed_by }}</td>
+                    <td>{{ history.remarks }}</td>
+                    <td>{{ history.action_timestamp | date: 'short' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="requestHistory.length === 0">
+            <p class="text-muted text-center">No history found for this request because it was directly allocated by the Hostel Admin</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

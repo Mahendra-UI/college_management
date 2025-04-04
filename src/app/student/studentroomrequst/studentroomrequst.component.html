@@ -71,7 +71,7 @@
                   <thead>
                       <tr>
                           <th>#</th>
-                          <th>Request ID</th>
+                          <!-- <th>Request ID</th> -->
                           <th>Requested By</th>
                           <th>Requested For</th>
                           <th>Academic Year</th>
@@ -85,7 +85,7 @@
                       <!-- ✅ Ensures numbering starts correctly across paginated pages -->
                       <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                   
-                          <td>{{ request.request_id }}</td>
+                          <!-- <td>{{ request.request_id }}</td> -->
                           <td>{{ request.requested_by }}</td>
                           <td>
                             <span *ngFor="let student of request.requested_for; let i = index">
@@ -148,12 +148,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <p><strong>Request ID:</strong> {{ selectedRequest?.request_id }}</p>
+        <!-- <p><strong>Request ID:</strong> {{ selectedRequest?.request_id }}</p> -->
         <p><strong>Requested By:</strong> {{ selectedRequest?.username }}</p>
         <p><strong>Academic Year:</strong> {{ selectedRequest?.academic_course_year_id }}</p>
         <p><strong>Status:</strong> {{ selectedRequest?.status }}</p>
         <p><strong>Requested For:</strong> {{ selectedRequest?.requested_for?.length ? selectedRequest.requested_for.join(', ') : 'N/A' }}</p>
-        <p><strong>Requested At:</strong> {{ selectedRequest?.requested_at | date: 'short' }}</p>
+        <!-- <p><strong>Requested At:</strong> {{ selectedRequest?.requested_at | date: 'short' }}</p> -->
         <p><strong>Remarks:</strong> {{ selectedRequest?.remarks ? selectedRequest.remarks : 'No remarks' }}</p>
       </div>
       <div class="modal-footer">

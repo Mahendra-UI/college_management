@@ -22,6 +22,11 @@ export class AllocatedroomslistsComponent implements OnInit {
   itemsPerPage = 25;
   searchQuery: string = ''; // ✅ Search input
 
+  selectedRequest: any = null; // Stores selected request for modal
+  roomRequests: any[] = []; // Store all room requests
+
+  requestHistory : any[] = [];
+
 
 
   isLoading = false;
@@ -104,4 +109,24 @@ export class AllocatedroomslistsComponent implements OnInit {
       }
     );
 }
+
+  loadRequestHistory(requestId: any) {
+    this.selectedRequest = this.allocatedRooms.find(req => req.request_id === requestId);
+    console.log(this.selectedRequest, "selected room request");
+    
+    this.apiSer.getRoomRequestHistory(requestId).subscribe(
+      (response: any) => {
+        if (response.success) {
+          this.requestHistory = response.history;
+        } else {
+          this.requestHistory = [];
+        }
+      },
+      (error) => {
+        console.error("Error fetching request history:", error);
+        this.requestHistory = [];
+      }
+    );
+  }
+
 }

@@ -13,14 +13,14 @@
         <!-- small box -->
         <div class="small-box bg-info">
           <div class="inner">
-            <h3>0</h3>
+            <h3>{{ filteredRequests.length }}</h3>
 
-            <p>Total Students</p>
+            <p>Total Room Requests</p>
           </div>
           <div class="icon">
             <i class="bi bi-bag"></i>
           </div>
-          <a routerLink="/student/totalstudents" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
+          <a routerLink="/student/studentroomrequst" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
         </div>
       </div>
       <!-- ./col -->
@@ -28,7 +28,7 @@
         <!-- small box -->
         <div class="small-box bg-success">
           <div class="inner">
-            <h3>1
+            <h3>{{subjectsList.length}}
               <!-- <sup style="font-size: 20px">%</sup> -->
             </h3>
 
@@ -45,7 +45,7 @@
         <!-- small box -->
         <div class="small-box bg-warning">
           <div class="inner">
-            <h3>1</h3>
+            <h3>{{ studentDetails.marks.length }}</h3>
 
             <p>Results</p>
           </div>
@@ -60,7 +60,7 @@
         <!-- small box -->
         <div class="small-box bg-danger">
           <div class="inner">
-            <h3>1</h3>
+            <h3>{{ notificationsList.length }}</h3>
 
             <p>Notifications</p>
           </div>
@@ -73,21 +73,6 @@
       <!-- ./col -->
     </div>
     <div class="row pt-4" data-aos="fade-down" data-aos-delay="600">
-
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
-          <div class="inner">
-            <h3>0</h3>
-
-            <p>Fees</p>
-          </div>
-          <div class="icon">
-            <i class="bi bi-bag"></i>
-          </div>
-          <a routerLink="/student/feeinfo" class="small-box-footer">More info <i class="bi bi-arrow-right-circle"></i></a>
-        </div>
-      </div>
       <!-- ./col -->
       <div class="col-lg-3 col-6">
         <!-- small box -->
