@@ -30,7 +30,7 @@ export class FeeinfoComponent implements OnInit {
   }
   
 
-  loadFeeLedgers() {
+  loadFeeLedgersold() {
     if (!this.username) {
       console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
       this.router.navigate(['/login']);
@@ -45,6 +45,69 @@ export class FeeinfoComponent implements OnInit {
       }
     });
   }
+
+
+  loadFeeLedgersoldnew() {
+    if (!this.username) {
+      console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
+      this.router.navigate(['/login']);
+      return;
+    }
+  
+    this.apiSer.getFeeLedgerByUsername(this.username).subscribe((res: any) => {
+      if (res.success) {
+        const uniqueSet = new Set<string>();
+        this.feeLedgersList = res.feeLedgers.filter((ledger: any) => {
+          const key = `${ledger.fee_type_name}-${ledger.semester_name}`;
+          if (uniqueSet.has(key)) {
+            return false;
+          } else {
+            uniqueSet.add(key);
+            return true;
+          }
+        });
+      } else {
+        console.error('No Fee Ledgers found:', res.message);
+      }
+    });
+  }
+  
+  loadFeeLedgers() {
+    if (!this.username) {
+      console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
+      this.router.navigate(['/login']);
+      return;
+    }
+  
+    this.apiSer.getFeeLedgerByUsername(this.username).subscribe((res: any) => {
+      if (res.success) {
+        const ledgerMap = new Map<string, any>();
+  
+        for (const ledger of res.feeLedgers) {
+          const key = `${ledger.fee_type_name}-${ledger.semester_name}`;
+  
+          if (!ledgerMap.has(key)) {
+            ledgerMap.set(key, ledger); // first entry
+          } else {
+            const existing = ledgerMap.get(key);
+            const currentTime = new Date(ledger.updated_at).getTime();
+            const existingTime = new Date(existing.updated_at).getTime();
+  
+            if (currentTime < existingTime) {
+              ledgerMap.set(key, ledger); // replace with older one
+            }
+          }
+        }
+  
+        this.feeLedgersList = Array.from(ledgerMap.values());
+        console.log("✅ Final Filtered Fee Ledgers (Oldest only):", this.feeLedgersList);
+      } else {
+        console.error('No Fee Ledgers found:', res.message);
+      }
+    });
+  }
+  
+  
   
   
 

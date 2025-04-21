@@ -26,8 +26,8 @@
                                 <th>Year</th>
                                 <th>Fee Amount</th>
                                 <th>Fee Description</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
+                                <!-- <th>Created At</th>
+                                <th>Updated At</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -39,11 +39,11 @@
                                 <td>{{ record.year }}</td>
                                 <td>{{ record.fee_amount }}</td>
                                 <td>{{ record.fee_ledger_description }}</td>
-                                <td>{{ record.created_at | date: 'short' }}</td>
-                                <td>{{ record.updated_at | date: 'short' }}</td>
+                                <!-- <td>{{ record.created_at | date: 'short' }}</td>
+                                <td>{{ record.updated_at | date: 'short' }}</td> -->
                             </tr>
                             <tr *ngIf="feeLedersList.length === 0">
-                                <td colspan="9" class="text-center">No Records Found</td>
+                                <td colspan="7" class="text-center">No Records Found</td>
                             </tr>
                         </tbody>
                     </table>
