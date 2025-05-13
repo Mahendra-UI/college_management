@@ -54,7 +54,7 @@
             </div>
     
             <div class="col-md-3">
-                <button type="submit" class="btn btn-primary" [disabled]="floorForm.invalid">{{ isUpdating ? 'Update Floor' : 'Add Floor' }}</button>
+                <button type="submit" class="btn btn-success" [disabled]="floorForm.invalid">{{ isUpdating ? 'Update Floor' : 'Add Floor' }}</button>
             
                 <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>
             </div>

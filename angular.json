@@ -42,7 +42,9 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/aos/dist/aos.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ag-grid-community/styles/ag-grid.css",
+              "node_modules/ag-grid-community/styles/ag-theme-alpine.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

@@ -1,16 +1,177 @@
-<section class="receipt-container">
-    <h2>Payment Receipt</h2>
-    <div *ngIf="receiptData">
-        <p><strong>Username:</strong> {{ receiptData.username }}</p>
-        <p><strong>Transaction ID:</strong> {{ receiptData.transaction_id }}</p>
-        <p><strong>Fee Type:</strong> {{ receiptData.fee_type_name }}</p>
-        <p><strong>Course:</strong> {{ receiptData.course_name }}</p>
-        <p><strong>Semester:</strong> {{ receiptData.semester_name }}</p>
-        <p><strong>Year:</strong> {{ receiptData.year }}</p>
-        <p><strong>Fee Amount:</strong> ₹{{ receiptData.amount_paid }}</p>
-        <p><strong>Status:</strong> {{ receiptData.payment_status }}</p>
-        <p><strong>Payment Date:</strong> {{ receiptData.payment_date | date: 'dd/MM/yyyy HH:mm' }}</p>
-        <button class="btn btn-success" (click)="downloadReceipt()">Download Receipt</button>
+<section class="common_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="main_heading">
+                  <h5>Payment Receipt</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="common_home_icon">
+                    <i class="bi bi-house-door" routerLink="/student/home"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        </div>
+        <div class="container">
+            <div id="" class="me-auto ms-auto px-2" *ngIf="receiptData">
+              <div id="firstPDFPrint">
+                  <div class="user-preview">
+                      <div class="row mt-3 user-preview">
+                          <div class="col-md-12 ms-auto me-auto">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="text-end pb-3">
+                                    <button class="btn btn-success btn-sm" (click)="downloadReceipt()">Download Receipt</button>
+                                  </div>
+                                </div>
+                                  <!-- <div class="col-md-12 mx-auto">
+                                      <h4 class="print form-heading">Student Basic Info</h4>
+                                  </div> -->
+                                  <div class="col-md-6">
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                          <div class="col-md-5 col-12 col-sm-4">
+                                              <div class="previewLabelName">
+                                                  Username
+                                              </div>
+                                          </div>
+                                          <div class="col-md-1">:</div>
+                                          <div class="col-md-6 col-12 col-sm-7">
+                                              <div class="previewLabelValue">
+                                                {{ receiptData.username }}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                          <div class="col-md-5 col-12 col-sm-4">
+                                              <div class="previewLabelName">
+                                                  Fee Type
+                                              </div>
+                                          </div>
+                                          <div class="col-md-1">:</div>
+                                          <div class="col-md-6 col-12 col-sm-7">
+                                              <div class="previewLabelValue">
+                                                {{ receiptData.fee_type_name }}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                                Course
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ receiptData.course_name }}
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Semester
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ receiptData.semester_name }}
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Year
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ receiptData.year }}
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Fee Amount
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              ₹{{ receiptData.amount_paid }}
+                                            </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                          <div class="col-md-5 col-12 col-sm-4">
+                                              <div class="previewLabelName">
+                                                  Status
+                                              </div>
+                                          </div>
+                                          <div class="col-md-1">:</div>
+                                          <div class="col-md-6 col-12 col-sm-7">
+                                              <div class="previewLabelValue">
+                                                {{ receiptData.payment_status }}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                        <div class="col-md-5 col-12 col-sm-4">
+                                            <div class="previewLabelName">
+                                              Transaction ID
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">:</div>
+                                        <div class="col-md-6 col-12 col-sm-7">
+                                            <div class="previewLabelValue">
+                                              {{ receiptData.transaction_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                      <div class="form-group d-flex flex-md-row flex-sm-row flex-wrap">
+                                          <div class="col-md-5 col-12 col-sm-4">
+                                              <div class="previewLabelName">
+                                                Payment Date
+                                              </div>
+                                          </div>
+                                          <div class="col-md-1">:</div>
+                                          <div class="col-md-6 col-12 col-sm-7">
+                                              <div class="previewLabelValue">
+                                                {{ receiptData.payment_date | date: 'dd/MM/yyyy HH:mm' }}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        <div class="row d-none">
+            <div class="col-md-12">
+                <div *ngIf="receiptData">
+                    <p><strong>Username:</strong> {{ receiptData.username }}</p>
+                    <p><strong>Transaction ID:</strong> {{ receiptData.transaction_id }}</p>
+                    <p><strong>Fee Type:</strong> {{ receiptData.fee_type_name }}</p>
+                    <p><strong>Course:</strong> {{ receiptData.course_name }}</p>
+                    <p><strong>Semester:</strong> {{ receiptData.semester_name }}</p>
+                    <p><strong>Year:</strong> {{ receiptData.year }}</p>
+                    <p><strong>Fee Amount:</strong> ₹{{ receiptData.amount_paid }}</p>
+                    <p><strong>Status:</strong> {{ receiptData.payment_status }}</p>
+                    <p><strong>Payment Date:</strong> {{ receiptData.payment_date | date: 'dd/MM/yyyy HH:mm' }}</p>
+                    <button class="btn btn-success" (click)="downloadReceipt()">Download Receipt</button>
+                </div>
+                <p *ngIf="!receiptData">Loading receipt...</p>
+            </div>
+        </div>
     </div>
-    <p *ngIf="!receiptData">Loading receipt...</p>
 </section>

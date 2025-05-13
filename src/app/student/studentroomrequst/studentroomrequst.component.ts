@@ -36,21 +36,20 @@ export class StudentroomrequstComponent implements OnInit {
   students: any[] = [];
   selectedusername: string | null = null;
   selectedStudentId: number | null = null;  // ✅ Store student ID
+  selectedGender: string | null = null;
+
   isLoading = false;
 
   academicYearId: number | null = null;
   academicYearName: string | null = null;
 
-  dropdownSettings = {
-    singleSelection: false,
-    idField: 'student_id',
-    textField: 'full_name',
-    selectAllText: 'Select All',
-    unSelectAllText: 'Unselect All',
-    itemsShowLimit: 3,
-    allowSearchFilter: true,
-    limitSelection: 3
-  };
+  dropdownSettings = {};
+
+
+  hostelsList: any[] = [];  // To store fetched hostel data
+
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -69,7 +68,16 @@ export class StudentroomrequstComponent implements OnInit {
     this.selectedStudentId = sessionStorage.getItem('student_id') ? Number(sessionStorage.getItem('student_id')) : null;
     this.academicYearId = sessionStorage.getItem('academic_course_year_id') ? Number(sessionStorage.getItem('academic_course_year_id')) : null;
     this.academicYearName = sessionStorage.getItem('academic_course_year_name') || '';
-  
+
+    this.selectedGender = sessionStorage.getItem('gender') || null;
+
+    console.log("sessionStorage Gender:", sessionStorage.getItem('gender'));
+
+// Log values to verify
+console.log("sessionStorage Gender nw:", this.selectedGender);
+console.log("sessionStorage Academic Year ID new:", this.academicYearId);
+
+
     console.log("sessionStorage fullName:", sessionStorage.getItem('fullName'));
     console.log("sessionStorage username:", this.selectedusername);
     console.log("sessionStorage student_id:", this.selectedStudentId);
@@ -92,6 +100,22 @@ export class StudentroomrequstComponent implements OnInit {
   
     // ✅ Load Students AFTER sessionStorage values are assigned
     this.getStudents();
+    this.getHostels();  // Fetch hostels
+
+
+ // Set dropdown settings dynamically
+ this.dropdownSettings = {
+  singleSelection: false,
+  idField: 'student_id',
+  textField: 'displayName',
+  selectAllText: 'Select All',
+  unSelectAllText: 'Unselect All',
+  itemsShowLimit: 4,
+  allowSearchFilter: true,
+  limitSelection: 4,
+};
+
+    this.loadStudents();
   
     // ✅ Load Room Requests AFTER username is assigned
     this.getStudentRequests();
@@ -103,7 +127,8 @@ export class StudentroomrequstComponent implements OnInit {
       academic_course_year_id: [null, Validators.required],
       academic_course_year_name: [{ value: '', disabled: true }, Validators.required],  // ✅ Add this line
       student_username: ['', Validators.required],
-      selectedStudents: [[], Validators.required]
+      selectedStudents: [[], Validators.required],
+      hostel_id: [null, Validators.required]  // Added form control for hostel selection
     });
   
     console.log("✅ Form Initialized:", this.roomRequestForm.value);
@@ -118,7 +143,13 @@ export class StudentroomrequstComponent implements OnInit {
   
   /** ✅ Fetch Students Automatically Based on Academic Year */
  /** ✅ Fetch Students Based on Academic Year */
- getStudents(): void {
+
+
+
+
+
+
+ getStudentsold(): void {
   if (!this.academicYearId) return;
 
   this.apiService.getStudentsByAcademicCourseYear(this.academicYearId).subscribe(
@@ -138,71 +169,140 @@ export class StudentroomrequstComponent implements OnInit {
 }
 
 
+getStudents(): void {
+  if (!this.academicYearId || !this.selectedGender) {
+    console.error("Academic Year ID or Gender is missing.");
+    return;
+  }
+
+  this.apiService.getStudentsByAcademicCourseYearandGender(this.academicYearId, this.selectedGender).subscribe(
+    (res) => {
+      if (res.success) {
+        this.students = res.students.map((student: any) => {
+          student.displayName = `${student.full_name} (${student.student_username})`;
+          return student;
+        });
+        console.log("✅ Loaded students:", this.students); // Verify that the students are loaded
+      } else {
+        this.students = [];
+        console.error("❌ No students found for this academic year and gender");
+      }
+    },
+    (error) => {
+      console.error("❌ Error fetching students:", error);
+    }
+  );
+}
+
+
+loadStudents(): void {
+  // Ensure both academicYearId and selectedGender are available
+  if (!this.academicYearId || !this.selectedGender) {
+    console.error("Academic Year ID or Gender is missing.");
+    return;
+  }
+
+  // Fetch students based on the academic course year and gender
+  this.apiService.getStudentsByAcademicCourseYearandGender(this.academicYearId, this.selectedGender).subscribe(
+    (res) => {
+      if (res.success) {
+        // Process students data
+        this.students = res.students.map((student: any) => {
+          student.displayName = `${student.full_name} (${student.username})`;
+          return student;
+        });
+        console.log("✅ Loaded students:", this.students);
+      } else {
+        this.students = [];
+        console.error("❌ No students found for this academic year and gender");
+      }
+    },
+    (error) => {
+      console.error("❌ Error fetching students:", error);
+    }
+  );
+}
+
+
+// Fetch hostels from the API
+getHostels(): void {
+  this.apiService.getHostels().subscribe((res: any) => {
+    if (res.success) {
+      this.hostelsList = res.hostels;
+      console.log("✅ Loaded hostels:", this.hostelsList);
+    } else {
+      this.hostelsList = [];
+      console.error("❌ No hostels found.");
+    }
+  }, (error) => {
+    console.error("❌ Error fetching hostels:", error);
+  });
+}
+
+
   /** ✅ Submit Room Request */
 
   submitRequest(): void {
     console.log("🚀 Submitting Room Request...");
-
+  
     this.selectedusername = sessionStorage.getItem('username') || null;
     this.selectedStudentId = Number(sessionStorage.getItem('student_id') || 0);
-
+  
     if (!this.selectedusername || !this.selectedStudentId) {
-        this.spinner.hide();
-        this.isLoading = false;
-        this.handleErrorResponse("You must be logged in to request a room!");
-        return;
+      this.spinner.hide();
+      this.isLoading = false;
+      this.handleErrorResponse("You must be logged in to request a room!");
+      return;
     }
-
+  
     if (this.roomRequestForm.invalid) {
-        this.toastr.warning("Please fill all required fields", "Warning");
-        return;
+      this.toastr.warning("Please fill all required fields", "Warning");
+      return;
     }
-
+  
     this.spinner.show();
     this.isLoading = true;
-
+  
     let selectedStudents = this.roomRequestForm.value.selectedStudents.map((s: any) => Number(s.student_id));
-
-    console.log("DEBUG: Selected Students List Before Validation:", selectedStudents);
-    console.log("DEBUG: Logged-in Student ID:", this.selectedStudentId);
-
+  
     if (!selectedStudents.includes(this.selectedStudentId)) {
+      this.spinner.hide();
+      this.isLoading = false;
+      this.handleErrorResponse("❌ You must include yourself in the selected students list.");
+      return;
+    }
+  
+    const requestData = {
+      academic_course_year_id: this.roomRequestForm.value.academic_course_year_id,
+      username: this.selectedusername,
+      selected_students: selectedStudents,
+      hostel_id: this.roomRequestForm.value.hostel_id  // Ensure hostel_id is included in the payload
+    };
+  
+    console.log("DEBUG: Final Request Payload:", JSON.stringify(requestData));
+  
+    this.apiService.submitRoomRequest(requestData).subscribe(
+      (res) => {
         this.spinner.hide();
         this.isLoading = false;
-        this.handleErrorResponse("❌ You must include yourself in the selected students list.");
-        return;
-    }
-
-    const requestData = {
-        academic_course_year_id: this.roomRequestForm.value.academic_course_year_id,
-        username: this.selectedusername,
-        selected_students: selectedStudents
-    };
-
-    console.log("DEBUG: Final Request Payload:", JSON.stringify(requestData));
-
-    this.apiService.submitRoomRequest(requestData).subscribe(
-        (res) => {
-            this.spinner.hide();
-            this.isLoading = false;
-            if (res.success) {
-                this.toastr.success("✅ Room request submitted successfully!", "Success");
-                Swal.fire({ icon: "success", title: "Room Request Submitted", text: "Your request has been successfully submitted. Please wait for approval.", confirmButtonText: "OK" });
-                this.roomRequestForm.reset();
-                this.getStudentRequests();
-            } else {
-                this.handleErrorResponse(res.message);
-            }
-        },
-        (error) => {
-            this.spinner.hide();
-            this.isLoading = false;
-            console.error("❌ Request Submission Error:", error);
-            this.handleErrorResponse(error?.error?.message || "Something went wrong while submitting your request.");
+        if (res.success) {
+          this.toastr.success("✅ Room request submitted successfully!", "Success");
+          Swal.fire({ icon: "success", title: "Room Request Submitted", text: "Your request has been successfully submitted. Please wait for approval.", confirmButtonText: "OK" });
+          this.roomRequestForm.reset();
+          this.getStudentRequests();
+        } else {
+          this.handleErrorResponse(res.message);
         }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.isLoading = false;
+        console.error("❌ Request Submission Error:", error);
+        this.handleErrorResponse(error?.error?.message || "Something went wrong while submitting your request.");
+      }
     );
-}
-
+  }
+  
 
 /** ✅ Handle API Error Messages */
 handleErrorResponse(errorMessage: string): void {

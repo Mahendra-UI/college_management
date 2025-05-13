@@ -590,7 +590,49 @@ loadHostelAllocations(): void {
 }
 
 
-loadFeeLedgers(username : string) {
+loadFeeLedgers(username: string) {
+  if (!username) {
+    console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  this.apiSer.getFeeLedgerByUsername(username).subscribe((res: any) => {
+    if (res.success) {
+      // Create a map to hold unique fee ledgers based on fee_type_name and semester_name
+      const ledgerMap = new Map<string, any>();
+
+      for (const ledger of res.feeLedgers) {
+        // Create a key using fee_type_name and semester_name
+        const key = `${ledger.fee_type_name}-${ledger.semester_name}`;
+
+        if (!ledgerMap.has(key)) {
+          // If key doesn't exist, add the ledger
+          ledgerMap.set(key, ledger);
+        } else {
+          // If key exists, compare the update time to store the oldest one
+          const existing = ledgerMap.get(key);
+          const currentTime = new Date(ledger.updated_at).getTime();
+          const existingTime = new Date(existing.updated_at).getTime();
+
+          if (currentTime < existingTime) {
+            // Replace with the older one if the current ledger is older
+            ledgerMap.set(key, ledger);
+          }
+        }
+      }
+
+      // Convert the map values to an array and assign it to feeLedgersList
+      this.feeLedgersList = Array.from(ledgerMap.values());
+      console.log("✅ Final Filtered Fee Ledgers (Oldest only):", this.feeLedgersList);
+    } else {
+      console.error('No Fee Ledgers found:', res.message);
+    }
+  });
+}
+
+
+loadFeeLedgersold(username : string) {
   if (!username) {
     console.error('⚠️ Error: Username is null, cannot fetch fee ledgers.');
     this.router.navigate(['/login']);

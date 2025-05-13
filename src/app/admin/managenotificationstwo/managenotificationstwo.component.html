@@ -1,0 +1,114 @@
+<section class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Manage Notifications</h5>
+    </div>
+    <button class="btn btn-outline-primary mb-3" (click)="exportToCSV()">Export to CSV</button>
+
+    <ag-grid-angular
+    class="ag-theme-alpine"
+    style="width: 100%; height: 400px;"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [pagination]="true"
+    [paginationPageSize]="paginationPageSize"
+    [context]="{ componentParent: this }"
+    [popupParent]="popupParent"
+    rowSelection="multiple"
+    [enableCellTextSelection]="true"
+    (gridReady)="onGridReady($event)"
+    [singleClickEdit]="true"
+    (cellValueChanged)="onCellValueChanged($event)">
+  </ag-grid-angular>
+  
+  <!-- <ag-grid-angular
+  class="ag-theme-alpine"
+  style="width: 100%; height: 400px;"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [pagination]="true"
+  [enableCellTextSelection]="true"
+  [rowSelection]="multiple"
+  [singleClickEdit]="true"
+  (cellValueChanged)="onCellValueChanged($event)"
+  [paginationPageSize]="paginationPageSize"
+    [context]="{ componentParent: this }"
+    (gridReady)="onGridReady($event)">
+</ag-grid-angular> -->
+  
+  
+  
+    <!-- ✅ View Notification Details -->
+    <div class="mt-4 p-3 border rounded" *ngIf="selectedNotification">
+      <h6>Notification Details</h6>
+      <p><strong>Title:</strong> {{ selectedNotification.title }}</p>
+      <p><strong>Description:</strong> {{ selectedNotification.title_description }}</p>
+      <p><strong>Created At:</strong> {{ selectedNotification.created_at | date:'short' }}</p>
+      <p><strong>Updated At:</strong> {{ selectedNotification.updated_at | date:'short' }}</p>
+    </div>
+  </section>
+  
+  <div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="addNotificationModal" tabindex="-1" aria-labelledby="addNotificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNotificationModalLabel">
+                    {{ isEditing ? 'Update Notification' : 'Add Notification' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                        <!-- ✅ Notification Form -->
+        <form [formGroup]="notificationForm">
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" formControlName="title" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea formControlName="title_description" class="form-control"></textarea>
+            </div>
+
+            <div class="hstack gap-2 justify-content-end">
+                <button type="submit" class="btn btn-success" 
+                (click)="onSubmit()" 
+                [disabled]="notificationForm.invalid || (!notificationForm.dirty && !isEditing)">
+                {{ isEditing ? 'Update Notification' : 'Submit Notification' }}
+            </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade common_modal_popup" data-bs-backdrop="static" data-bs-keyboard="false" id="viewNotificationModal" tabindex="-1" aria-labelledby="viewNotificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewNotificationModalLabel">Notification Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedNotification">
+            <!-- <p><strong>Notification ID:</strong> {{ selectedNotification.notification_id }}</p> -->
+            <p><strong>Title :</strong> {{ selectedNotification.title }}</p>
+            <p><strong>Description :</strong> {{ selectedNotification.title_description }}</p>
+            <!-- <p><strong>Created At:</strong> {{ selectedNotification.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Updated At:</strong> {{ selectedNotification.updated_at | date:'dd/MM/yyyy HH:mm' }}</p> -->
+        </div>
+        <div class="modal-body" *ngIf="!selectedNotification">
+            <p>Loading Notification details...</p>
+        </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

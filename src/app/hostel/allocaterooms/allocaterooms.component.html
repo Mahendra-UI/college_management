@@ -26,11 +26,24 @@
             </select>
           </div>
           </div>
+
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select class="form-control" formControlName="gender" (change)="getStudents()">
+                <option value="">-- Select Gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>              
+            </div>
+          </div>
+          
       
           <div class="col-md-3">
                     <!-- Students Selection (Using ng-multiselect-dropdown) -->
           <div class="form-group">
-            <label>Select Students (Max 3)</label>
+            <label>Select Students (Max 4)</label>
             <ng-multiselect-dropdown
             [placeholder]="'Select students'"
             [data]="students"
@@ -115,22 +128,22 @@
             </button> -->
           </div>
         </div>
-      </form>
+    </form>
       <div class="row">
         <div class="col-md-12">
           <div class="table-responsive">
             <!-- Search and Count Display -->
             <div class="d-flex justify-content-between mb-2">
-              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterAllocatedRooms()" placeholder="Search Allocation...">
               <span class="text-muted">Showing {{ displayedRecordsCount() }} of {{ filteredAllocatedRooms.length }} records</span>
+              <input type="text" class="form-control w-25" [(ngModel)]="searchText" (input)="filterAllocatedRooms()" placeholder="Search Allocation...">
             </div>
         
             <table class="table-bordered table w-100 common_table">
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Student Name</th>
-                  <th>Username</th>
+                  <th>Student</th>
+                  <th>Gender</th>
                   <th>Academic Year</th>
                   <th>Hostel</th>
                   <th>Block</th>
@@ -143,8 +156,8 @@
               <tbody>
                 <tr *ngFor="let allocation of filteredAllocatedRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, id: 'allocations' }; let i = index">
                   <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-                  <td>{{ allocation.full_name }}</td>
-                  <td>{{ allocation.username }}</td>
+                  <td>{{ allocation.full_name }} ({{ allocation.username }})</td>
+                  <td>{{ allocation.gender }}</td>
                   <td>{{ allocation.academic_course_year_id }}</td>
                   <td>{{ allocation.hostel_name }}</td>
                   <td>{{ allocation.block_name }}</td>

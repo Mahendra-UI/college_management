@@ -31,7 +31,7 @@
         </div>
         <div class="col-md-3">
           <div class="hstack gap-2">
-            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+            <button type="submit" class="btn btn-success" [disabled]="isLoading">
               {{ isUpdating ? 'Update Hostel' : 'Add Hostel' }}
             </button>
             <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="isUpdating">Cancel</button>

@@ -63,7 +63,74 @@ export class LoginComponent implements OnInit, AfterViewInit {
   /** ✅ Submit Login Form */
 
 /** ✅ Submit Login Form */
+
 onSubmit() {
+  if (this.loginForm.valid) {
+      const userType = this.selectedValue;
+      const username = this.loginForm.value.userName;
+      const password = this.loginForm.value.enterPassword;
+
+      this.spinner.show();
+
+      this.apiService.login(userType, username, password).subscribe(
+          (response: any) => {
+              setTimeout(() => {
+                  this.spinner.hide();
+              }, 1500);
+
+              if (response.success) {
+                  // ✅ Store authentication details in sessionStorage only
+                  sessionStorage.setItem('userType', userType);
+                  sessionStorage.setItem('username', response.username || username);
+                  sessionStorage.setItem('fullName', response.full_name || "User");
+
+                  // ✅ Store gender
+                  sessionStorage.setItem('gender', response.gender || ''); // Store gender here
+
+                  if (userType === 'Student') {
+                      sessionStorage.setItem('student_id', response.student_id?.toString() || '');
+                      sessionStorage.setItem('course_name', response.course_name || '');
+                      sessionStorage.setItem('courseId', response.courseId?.toString() || '');
+                      sessionStorage.setItem('academic_course_year_id', response.academic_course_year_id?.toString() || '');
+                      sessionStorage.setItem('academic_course_year_name', response.academic_course_year_name || '');
+                  } else {
+                      sessionStorage.removeItem('student_id');
+                      sessionStorage.removeItem('course_name');
+                      sessionStorage.removeItem('courseId');
+                      sessionStorage.removeItem('academic_course_year_id');
+                      sessionStorage.removeItem('academic_course_year_name');
+
+                      sessionStorage.setItem('email', response.email || '');
+                      sessionStorage.setItem('mobile', response.mobile || '');
+                  }
+
+                  setTimeout(() => {
+                      this.toastr.success('Login Successful ✅', 'Success');
+                      this.redirectUser(userType);
+                  }, 1500);
+              } else {
+                  this.showError(response.message || "Invalid credentials!");
+              }
+          },
+          (error) => {
+              this.spinner.hide();
+              console.error("❌ Login API Error:", error);
+              this.showError("Please check your username and password!");
+          }
+      );
+  } else {
+      Swal.fire({
+          icon: 'warning',
+          title: '⚠ Fill all fields!',
+          text: 'Please enter all required details.',
+          confirmButtonColor: '#f39c12',
+      });
+  }
+}
+
+
+
+onSubmitold() {
   if (this.loginForm.valid) {
       const userType = this.selectedValue;
       const username = this.loginForm.value.userName;

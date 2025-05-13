@@ -48,24 +48,26 @@ export class AllocateroomsComponent implements OnInit {
     this.allocationForm = this.fb.group({
       academic_course_year_id: ['', Validators.required],
       selectedStudents: [[], Validators.required],
+      gender: ['', Validators.required],
       hostel_id: ['', Validators.required],
       block_id: ['', Validators.required],
       floor_id: ['', Validators.required],
       room_id: ['', Validators.required]
-    });
+    });   
 
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'student_id', 
-      textField: 'full_name', 
+      textField: 'displayName', 
       selectAllText: 'Select All',
       unSelectAllText: 'Unselect All',
-      itemsShowLimit: 3,
+      itemsShowLimit: 4,
       allowSearchFilter: true,
-      limitSelection: 3
+      limitSelection: 4
     };    
 
     this.getAllocatedRooms();
+    
   }
 
 /**
@@ -96,22 +98,47 @@ loadAcademicCourseYears(): void {
   /** ✅ Fetch Students Based on Selected Academic Year */
   getStudents() {
     const yearId = this.allocationForm.value.academic_course_year_id;
-    if (!yearId) return;
-
-    this.apiSer.getStudentsByAcademicCourseYear(yearId).subscribe(
-      res => {
+    const gender = this.allocationForm.value.gender;
+  
+    if (!yearId || !gender) return;
+  
+    this.apiSer.getStudentsByAcademicCourseYearandGender(yearId, gender).subscribe(
+      (res: any) => {
         if (res.success && res.students) {
-          this.students = res.students;
-          console.log("✅ Current students array:", this.students);
+          this.students = res.students.map((student: any) => {
+            student.displayName = `${student.full_name} (${student.username})`;
+            return student;
+          });
         } else {
           this.students = [];
+          this.toastr.error('No students found for the selected criteria');
         }
       },
-      error => {
+      (error) => {
         console.error("❌ Error fetching students:", error);
+        this.students = [];
       }
     );
   }
+  
+  
+
+// Fetch the students from the API
+loadStudents() {
+  this.apiSer.getStudents().subscribe((res: any) => {
+    if (res.success) {
+      this.students = res.students.map((student: any) => {
+        // Combine full_name and student_username into displayName
+        student.displayName = `${student.full_name} (${student.username})`;
+        return student;
+      });
+    } else {
+      this.toastr.error('Failed to load students', 'Error');
+    }
+  }, error => {
+    this.toastr.error('Something went wrong', 'Error');
+  });
+}
 
   /** ✅ Fetch Hostels */
   getHostels() {
@@ -226,23 +253,26 @@ allocate() {
 
   this.spinner.show(); // ✅ Show Spinner
 
-  const allocationData = this.allocationForm.value.selectedStudents.map((selectedStudent: any) => {
-    const studentId = selectedStudent.student_id;
-    const student = this.students.find((s: any) => s.student_id === studentId);
+  const gender = this.allocationForm.value.gender; // ✅ Extract gender
 
-    if (!student) {
-      console.error("❌ Student not found:", selectedStudent);
-      return null;
-    }
+const allocationData = this.allocationForm.value.selectedStudents.map((selectedStudent: any) => {
+  const student = this.students.find((s: any) => s.student_id === selectedStudent.student_id);
 
-    return {
-      student_id: student.student_id,
-      username: student.username,
-      full_name: student.full_name,
-      room_id: this.allocationForm.value.room_id,
-      academic_course_year_id: this.allocationForm.value.academic_course_year_id
-    };
-  }).filter((data: any) => data !== null);
+  if (!student || !student.username) {
+    console.error("❌ Student or username not found for:", selectedStudent);
+    return null;
+  }
+
+  return {
+    student_id: student.student_id,
+    username: student.username,
+    full_name: student.full_name,
+    room_id: this.allocationForm.value.room_id,
+    academic_course_year_id: this.allocationForm.value.academic_course_year_id,
+    gender: this.allocationForm.value.gender
+  };
+});
+
 
   if (allocationData.length === 0) {
     this.spinner.hide();

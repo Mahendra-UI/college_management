@@ -1,0 +1,97 @@
+<section class="common_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="main_heading">
+            <h5>Manage Hostels</h5>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="common_home_icon">
+              <i class="bi bi-house-door" routerLink="/hostel/home"></i>
+          </div>
+      </div>
+      <hr>
+    </div>
+</div>
+    <div class="container" [formGroup]="academicYearStatusForm">
+        <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Select Year</label>
+        <select class="form-select" formControlName="academic_course_year_id" [attr.disabled]="editingStatusId ? true : null">
+          <option value="" disabled selected>-- Select --</option>
+          <option *ngFor="let year of academicCourseYearsList" [value]="year.academic_course_year_id">
+            {{ year.academic_course_year_name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+        <div class="col-md-3">
+      <div class="form-group">
+        <label>Select Gender</label>
+        <select class="form-select" formControlName="gender" [attr.disabled]="editingStatusId ? true : null">
+          <option value="" disabled selected>-- Select --</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Status</label>
+        <select class="form-select" formControlName="status">
+          <option value="" disabled selected>-- Select --</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group mt-4">
+        <button class="btn btn-success btn-sm" type="submit" (click)="onSubmit()">
+  {{ editingStatusId ? 'Update' : 'Submit' }}
+</button>
+
+        <!-- <button class="btn btn-success" type="submit" (click)="onSubmit()">Create</button> -->
+      </div>
+    </div>
+  </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered w-100 common_table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Year</th>
+                                <th>Gender</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of academicYearStatuses, let i = index;">
+                                <td>{{ i+1 }}</td>
+                                <td>{{data?.academic_course_year_name}}</td>
+                                <td>{{data?.gender}}</td>
+                                <td>{{data?.status}}</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm" (click)="onEdit(data?.status_id)">Edit</button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="academicYearStatuses.length === 0">
+                                <td colspan="4" class="text-center">No Records Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

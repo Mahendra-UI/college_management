@@ -104,7 +104,7 @@
                   </td>
                 </tr>
                 <tr *ngIf="filteredStudents.length === 0">
-                  <td class="text-center" colspan="9">No Records Found</td>
+                  <td class="text-center text-muted" colspan="9">No Records Found</td>
                 </tr>
               </tbody>
             </table>
@@ -609,7 +609,7 @@ Submit
                                             <!-- <td>{{ record.updated_at | date: 'short' }}</td> -->
                                           </tr>                              
                                         <tr *ngIf="feeLedgersList.length === 0">
-                                            <td colspan="10" class="text-center">No Records Found</td>
+                                            <td colspan="10" class="text-center text-muted">No Records Found</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -782,7 +782,7 @@ Submit
                                   <!-- If No Records, Show This -->
                                   <ng-template #noRecords>
                                     <tr>
-                                      <td colspan="5" class="text-center">No Records Found</td>
+                                      <td colspan="7" class="text-center text-muted">No Records Found</td>
                                     </tr>
                                   </ng-template>
                                 </tbody>
@@ -818,7 +818,7 @@ Submit
                                       <td>{{ subject.subject_credits }}</td>
                                     </tr>
                                     <tr *ngIf="subjectsList.length == 0">
-                                      <td colspan="5" class="text-center">No Record Found</td>
+                                      <td colspan="5" class="text-center text-muted">No Record Found</td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -901,7 +901,7 @@ Submit
                                           <td>{{ request.requested_at | date: 'short' }}</td>
                                         </tr>
                                         <tr *ngIf="roomRequests.length === 0">
-                                          <td colspan="6" class="text-center">No Requests Found</td>
+                                          <td colspan="6" class="text-center text-muted">No Requests Found</td>
                                         </tr>
                                       </tbody>
                                     </table>

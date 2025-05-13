@@ -112,6 +112,10 @@ export const hostelRoutes: Routes = [
         loadComponent: () => import('./addfloors/addfloors.component').then(m => m.AddfloorsComponent),
       },
       {
+        path: 'toggleroomrequeststatus',
+        loadComponent: () => import('./toggleroomrequeststatus/toggleroomrequeststatus.component').then(m => m.ToggleroomrequeststatusComponent),
+      },
+      {
         path: 'addroom',
         loadComponent: () => import('./addrooms/addrooms.component').then(m => m.AddroomsComponent),
       },

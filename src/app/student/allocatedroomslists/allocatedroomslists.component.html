@@ -43,7 +43,7 @@
             <thead>
                 <tr>
                     <th>S.No</th>
-                    <th>Username</th>
+                    <!-- <th>Username</th> -->
                     <th>Full Name</th>
                     <th>Hostel</th>
                     <th>Block</th>
@@ -59,8 +59,8 @@
             <tbody>
                 <tr *ngFor="let room of filteredRooms | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index;">
                     <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td> <!-- ✅ Pagination-aware numbering -->
-                    <td>{{ room.username }}</td>
-                    <td>{{ room.full_name }}</td>
+                    <!-- <td>{{ room.username }}</td> -->
+                    <td>{{ room.full_name }} ({{ room.username }})</td>
                     <td>{{ room.hostel_name }}</td>
                     <td>{{ room.block_name }}</td>
                     <td>{{ room.floor_name }}</td>

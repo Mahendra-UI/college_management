@@ -131,6 +131,26 @@ getAcademicCourseYears() {
   return this.http.get<any>(`${this.baseUrl}/getacademiccourseyears`);
 }
 
+toggleRoomRequestStatus(data: { academic_course_year_id: number; status: string }) {
+  return this.http.put<any>(`${this.baseUrl}/admin/toggleRoomRequests`, data);
+}
+// ✅ FRONTEND: Angular API Service Method
+getRoomRequestStatusesByAdmin() {
+  return this.http.get<any>(`${this.baseUrl}/admin/roomRequestForAcademicCourseStatuses`);
+}
+createRoomRequestStatus(data: { academic_course_year_id: number; status: string }) {
+  return this.http.post<any>(`${this.baseUrl}/roomRequestStatus`, data);
+}
+
+
+getRoomRequestStatusById(id: number) {
+  return this.http.get<any>(`${this.baseUrl}/roomRequestStatusByStatusId/${id}`);
+}
+
+updateRoomRequestStatusByAdmin(id: number, new_status: string) {
+  return this.http.put<any>(`${this.baseUrl}/admin/roomRequestStatusByStatusId/${id}`, { new_status });
+  // return this.http.put<any>(`${this.baseUrl}/admin/roomRequestStatusByStatusId/${id}`, { new_status });
+}
 
 saveStudent(studentData: any): Observable<any> {
   return this.http.post(`${this.baseUrl}/savestudents`, studentData);
@@ -506,6 +526,12 @@ getStudentsByAcademicCourseYear(academicCourseYearId: number): Observable<any> {
 }
 
 
+getStudentsByAcademicCourseYearandGender(academicCourseYearId: number, gender: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}/getstudentsbycourseyearandgender?academic_course_year_id=${academicCourseYearId}&gender=${gender}`);
+}
+
+
+
 // Get Available Rooms
 getAvailableRooms(): Observable<any> {
   return this.http.get(`${this.baseUrl}/getAvailableRooms`);
@@ -543,6 +569,14 @@ submitRoomRequest(requestData: any): Observable<{ success: boolean; message: str
     requestData
   );
 }
+
+toggleRoomRequestsStatus(yearId: number, status: 'Active' | 'Inactive') {
+  return this.http.put(`${this.baseUrl}/admin/toggleRoomRequests`, {
+    academic_course_year_id: yearId,
+    status: status
+  });
+}
+
 
 
  /** ✅ Get Room Requests for Logged-in Student */

@@ -308,6 +308,9 @@ h1, h2, h3, h4, h5, h6, p, span, div, label, a, td, th {
   font-size: $font-size-xs !important;
 }
 
+.multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+  max-width: fit-content !important;
+}
 
 .disabled-select .ng-select-container {
   pointer-events: none;

@@ -16,18 +16,18 @@
 
     <form [formGroup]="roomRequestForm" (ngSubmit)="submitRequest()">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!-- Academic Course Year Selection -->
           <div class="form-group">
-            <label for="academicCourseYear">Academic Course Year</label>
+            <label for="academicCourseYear">Academic Course Year <span class="mdandatory">*</span></label>
             <input type="text" class="form-control" formControlName="academic_course_year_name" readonly>
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!-- Students Selection -->
           <div class="form-group">
-            <label>Select Students (Max 3)</label>
+            <label>Select Students (Max 4) <span class="mdandatory">*</span></label>
             <ng-multiselect-dropdown
               [placeholder]="'Select students'"
               [data]="students"
@@ -36,8 +36,18 @@
             </ng-multiselect-dropdown>
           </div>
         </div>
+        <div class="col-md-3">
+          <!-- Hostel Selection -->
+          <div class="form-group">
+            <label for="hostel">Select Hostel <span class="mdandatory">*</span></label>
+            <select class="form-select" formControlName="hostel_id" required>
+              <option value="" disabled selected>-- Select Hostel --</option>
+              <option *ngFor="let hostel of hostelsList" [value]="hostel.hostel_id">{{ hostel.hostel_name }}</option>
+            </select>
+          </div>
+        </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!-- Submit Button with Spinner -->
           <button type="submit" class="btn btn-primary btn-block" [disabled]="isLoading || roomRequestForm.invalid">
             <span *ngIf="!isLoading">Submit Room Request</span>
@@ -73,7 +83,9 @@
                           <th>#</th>
                           <!-- <th>Request ID</th> -->
                           <th>Requested By</th>
+                          <th>Gender</th>
                           <th>Requested For</th>
+                          <th>Requested Hostel</th>
                           <th>Academic Year</th>
                           <th>Status</th>
                           <th>Requested At</th>
@@ -87,11 +99,13 @@
                   
                           <!-- <td>{{ request.request_id }}</td> -->
                           <td>{{ request.requested_by }}</td>
+                          <td>{{ request.gender }}</td>
                           <td>
                             <span *ngFor="let student of request.requested_for; let i = index">
                               {{ student }}<span *ngIf="i < request.requested_for.length - 1">, </span>
                             </span>
                           </td>
+                          <td>{{ request.hostel_name }}</td>
                           <td>{{ request.academic_course_year_id }}</td>
                           <td>
                             <span class="badge"

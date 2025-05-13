@@ -48,9 +48,21 @@
                                 <td>{{ record.year }}</td>
                                 <td>{{ record.fee_type_name }}</td>
                                 <td>₹{{ record.fee_amount }}</td>
-                                <td [ngClass]="{'text-danger': record.fee_status === 'Pending', 'text-success': record.fee_status === 'Completed'}">
+                                <td>
+                                    <span class="badge"
+                                    [ngClass]="{
+                                      'badge-light-success': record.fee_status === 'Completed',
+                                      'badge-light-warning': record.fee_status === 'Pending'
+                                    }">
+                                    <!-- 'badge-light-danger': record.status === 'Rejected',
+                                    'badge-light-info': record.status === 'Allocated',
+                                    'badge-light-dark': record.status === 'Inactive' -->
                                     {{ record.fee_status }}
+                                    </span>
                                 </td>
+                                <!-- <td [ngClass]="{'text-danger': record.fee_status === 'Pending', 'text-success': record.fee_status === 'Completed'}">
+                                    {{ record.fee_status }}
+                                </td> -->
                                 <td>{{ record.transaction_id || 'N/A' }}</td>
                                 <td>{{ record.payment_date ? (record.payment_date | date:'dd-MM-yyyy HH:mm') : 'N/A' }}</td>
                             </tr>

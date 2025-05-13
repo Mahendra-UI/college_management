@@ -44,7 +44,7 @@ export class AdminstudentpromotionComponent implements OnInit {
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'username', 
-      textField: 'full_name', 
+      textField: 'displayName', 
       selectAllText: 'Select All',
       unSelectAllText: 'Unselect All',
       itemsShowLimit: 3,
@@ -92,8 +92,41 @@ export class AdminstudentpromotionComponent implements OnInit {
     );
   }
 
+
+
   // ✅ Load Students by Selected Course & Year
   loadStudents() {
+    const courseId = this.addPromotionForm.value.courseId;
+    const yearId = this.addPromotionForm.value.currentYear;
+
+    if (!courseId || !yearId) {
+      console.warn("⚠️ Select both Course and Academic Year before loading students.");
+      return;
+    }
+
+    this.apiSer.getStudentsByCourseAndYear(courseId, yearId).subscribe(
+      (res: any) => {
+        if (res.success && res.students.length > 0) {
+          // Combine username and full_name into displayName for the dropdown
+          this.availableStudents = res.students.map((student: any) => {
+            student.displayName = `${student.full_name} (${student.username})`;  // Combine full_name and username
+            return student;
+          });
+          console.log("✅ Loaded Students:", this.availableStudents);
+        } else {
+          this.availableStudents = [];
+          console.warn("⚠️ No students found for the selected Course and Year.");
+        }
+      },
+      (error) => {
+        this.availableStudents = [];
+        console.error("❌ Error fetching students by Course and Year:", error);
+      }
+    );
+  }
+
+  // ✅ Load Students by Selected Course & Year
+  loadStudentsold() {
     const courseId = this.addPromotionForm.value.courseId;
     const yearId = this.addPromotionForm.value.currentYear; 
 
@@ -155,6 +188,7 @@ submitPromotion() {
     (res: any) => {
       if (res.success) {
         this.toastr.success('✅ Promotion added successfully!');
+        this.addPromotionForm.reset(); // Reset the form after successful submission
         this.loadPromotions();
       } else {
         this.toastr.error(res.message || '⚠️ Failed to add promotion.');

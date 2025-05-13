@@ -46,6 +46,7 @@ export class ReceiptComponent implements OnInit {
 
   downloadReceipt() {
     const receiptContent = `
+      Username: ${this.receiptData.username}
       Transaction ID: ${this.receiptData.transaction_id}
       Fee Type: ${this.receiptData.fee_type_name}
       Course: ${this.receiptData.course_name}
@@ -53,6 +54,7 @@ export class ReceiptComponent implements OnInit {
       Year: ${this.receiptData.year}
       Fee Amount: ₹${this.receiptData.amount_paid}
       Status: ${this.receiptData.payment_status}
+      Payment Date: ${this.receiptData.payment_date}
     `;
   
     const blob = new Blob([receiptContent], { type: 'text/plain' });

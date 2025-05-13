@@ -41,7 +41,18 @@
                                 <td>{{ record.year }}</td>
                                 <td>{{ record.fee_amount }}</td>
                                 <td>{{ record.fee_ledger_description }}</td>
-                                <td>{{ record.fee_status }}</td>
+                                <td>
+                                    <span class="badge"
+                                    [ngClass]="{
+                                      'badge-light-success': record.fee_status === 'Completed',
+                                      'badge-light-warning': record.fee_status === 'Pending'
+                                    }">
+                                    <!-- 'badge-light-danger': record.status === 'Rejected',
+                                    'badge-light-info': record.status === 'Allocated',
+                                    'badge-light-dark': record.status === 'Inactive' -->
+                                    {{ record.fee_status }}
+                                    </span>
+                                </td>
                                 <td>{{ record.created_at | date: 'short' }}</td>
                                 <td>{{ record.updated_at | date: 'short' }}</td>
                                 <td>

@@ -102,6 +102,8 @@ export const adminRoutes: Routes = [
       { path: 'adminstudentpromotion', loadComponent: () => import('./adminstudentpromotion/adminstudentpromotion.component').then(m => m.AdminstudentpromotionComponent) },
       { path: 'adminmanagecgpa', loadComponent: () => import('./adminmanagecgpa/adminmanagecgpa.component').then(m => m.AdminmanagecgpaComponent) },
       { path: 'adminmanagesgpa', loadComponent: () => import('./adminmanagesgpa/adminmanagesgpa.component').then(m => m.AdminmanagesgpaComponent) },
+      { path: 'managenotificationstwo', loadComponent: () => import('./managenotificationstwo/managenotificationstwo.component').then(m => m.ManagenotificationstwoComponent) },
+      { path: 'aggrid', loadComponent: () => import('./aggridtest/aggridtest.component').then(m => m.AggridtestComponent) },
       { path: '**', redirectTo: '/login', pathMatch: 'full' },
     ],
   },

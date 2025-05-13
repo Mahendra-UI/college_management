@@ -54,7 +54,10 @@
                           <td>{{ student.course_name }}</td>
                           <td>{{ student.academic_course_year_name }}</td>
                           <td>{{ student.student_enrollment_date | date }}</td>
-                          <td>{{ student.student_status }}</td>
+                          <!-- <td>{{ student.student_status }}</td> -->
+                           <td>
+                            <span class="badge badge-soft-{{ student.student_status === 'Active' ? 'success' : 'danger' }}">{{ student.student_status }}</span>
+                           </td>
                           <td>{{ student.first_semester_sgpa }}</td>
                           <td>{{ student.second_semester_sgpa }}</td>
                           <td>{{ student.third_semester_sgpa }}</td>
