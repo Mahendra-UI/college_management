@@ -115,8 +115,16 @@ onSubmit(): void {
         }
       },
       (error) => {
-        this.toastr.error(error?.error?.message || 'Something went wrong during creation.', 'Error');
-      }
+  const errMsg =
+    error?.error?.error ||
+    error?.message ||
+    'Something went wrong during update.';
+
+  this.toastr.error(errMsg, 'Error');
+}
+      // (error) => {
+      //   this.toastr.error(error?.error?.message || 'Something went wrong during creation.', 'Error');
+      // }
     );
   }
 }
