@@ -63,6 +63,9 @@
                   </div>
                   </td>
                 </tr>
+                <tr *ngIf="feeRecords.length === 0">
+                  <td class="text-center" colspan="10">No Records Found</td>
+                </tr>
               </tbody>
             </table>
           </div>

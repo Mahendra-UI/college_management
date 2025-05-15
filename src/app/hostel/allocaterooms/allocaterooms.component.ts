@@ -291,11 +291,17 @@ const allocationData = this.allocationForm.value.selectedStudents.map((selectedS
         Swal.fire('❌ Error', res.message, 'error');
       }
     },
-    (error) => {
-      this.spinner.hide();
-      console.error("❌ Allocation API Error:", error);
-      Swal.fire('❌ Error', error.error.message, 'error');
-    }
+(error) => {
+  this.spinner.hide();
+  console.error("❌ Allocation API Error:", error);
+
+  // Use error.error.error if available, else fallback
+  const detailedMessage =
+    error?.error?.error || error?.error?.message || 'Unexpected error occurred.';
+
+  Swal.fire('❌ Error', detailedMessage, 'error');
+}
+
   );
 }
 

@@ -400,7 +400,7 @@ debugFormValidity(): void {
 }
 
 
-openActionModal(requestId: number): void {
+openActionModaloldnew(requestId: number): void {
   this.apiSer.getRoomRequestById(requestId).subscribe(
     (res) => {
       if (res.success && res.request) {
@@ -445,6 +445,46 @@ openActionModal(requestId: number): void {
     }
   );
 }
+
+openActionModal(requestId: number): void {
+  this.apiSer.getRoomRequestById(requestId).subscribe(
+    (res) => {
+      if (res.success && res.request) {
+        this.selectedRequest = res.request;
+
+        // Set default hostel_id if missing
+        if (!this.selectedRequest.hostel_id) {
+          this.selectedRequest.hostel_id = 1;
+        }
+
+        this.allocateRoomForm.patchValue({
+          request_id: this.selectedRequest.request_id,
+          hostel_id: this.selectedRequest.hostel_id || '',
+          block_id: this.selectedRequest.block_id || '',
+          floor_id: this.selectedRequest.floor_id || '',
+          room_id: this.selectedRequest.room_id || ''
+        });
+        // this.allocateRoomForm.get('hostel_id')?.disable();
+
+
+        this.getBlocks();
+        this.getFloors();
+        this.getRooms();
+        this.allocateRoomForm.updateValueAndValidity();
+
+        // ✅ Log or use gender now
+        console.log("Gender of request:", this.selectedRequest.gender);
+      } else {
+        this.toastr.error("Request not found", "Error");
+      }
+    },
+    (error) => {
+      console.error("❌ API Error:", error);
+      this.toastr.error("Failed to fetch request", "Error");
+    }
+  );
+}
+
 
 
 
